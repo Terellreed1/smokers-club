@@ -13,7 +13,7 @@ const reviews = [
   },
   {
     name: "Devon R.",
-    text: "Fast delivery, incredible strains. Stay High understands the culture and the craft.",
+    text: "Fast delivery, incredible strains. Luxury Couriers understands the culture and the craft.",
     rating: 5,
   },
 ];

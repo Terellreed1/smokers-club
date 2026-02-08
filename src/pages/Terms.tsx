@@ -28,7 +28,7 @@ const Terms = () => {
 
             <section>
               <h2 className="font-serif text-xl text-foreground mb-4">Limitation of Liability</h2>
-              <p>To the maximum extent permitted by law, Stay High shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
+              <p>To the maximum extent permitted by law, Luxury Couriers shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
             </section>
 
             <section>

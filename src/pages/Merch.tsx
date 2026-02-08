@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 
 const merchItems = [
-  { id: 1, name: "Stay High Hoodie", price: "$85", category: "Apparel" },
+  { id: 1, name: "LC Signature Hoodie", price: "$85", category: "Apparel" },
   { id: 2, name: "Gold Logo Tee", price: "$45", category: "Apparel" },
   { id: 3, name: "Luxury Rolling Tray", price: "$35", category: "Accessories" },
-  { id: 4, name: "Stay High Snapback", price: "$40", category: "Headwear" },
+  { id: 4, name: "LC Monogram Snapback", price: "$40", category: "Headwear" },
   { id: 5, name: "Premium Grinder", price: "$55", category: "Accessories" },
   { id: 6, name: "Members Joggers", price: "$75", category: "Apparel" },
 ];
