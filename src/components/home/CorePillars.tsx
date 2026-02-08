@@ -1,3 +1,5 @@
+import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
+
 const pillars = [
   {
     title: "Knowledge",
@@ -23,16 +25,19 @@ const CorePillars = () => {
   return (
     <section className="py-24 md:py-32 px-6 bg-secondary/50">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
             Our Foundation
           </p>
           <h2 className="font-serif text-3xl md:text-5xl text-foreground">
             Built on Principle
           </h2>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+        <StaggerContainer
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12"
+          staggerDelay={0.15}
+        >
           {pillars.map((pillar) => (
             <div
               key={pillar.title}
@@ -55,7 +60,7 @@ const CorePillars = () => {
               </div>
             </div>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

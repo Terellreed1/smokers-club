@@ -1,21 +1,46 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 const HERO_TEXT = "stay high, my friend";
-const TYPING_SPEED = 160; // ms per character
-const START_DELAY = 1200; // ms before typing begins
+const TYPING_SPEED = 160;
+const START_DELAY = 1200;
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedText, setDisplayedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
+  // Scroll-based parallax
   const { scrollY } = useScroll();
   const videoY = useTransform(scrollY, [0, 800], [0, 300]);
   const contentY = useTransform(scrollY, [0, 600], [0, -120]);
   const overlayOpacity = useTransform(scrollY, [0, 600], [0.65, 0.95]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+
+  // Cursor-reactive parallax
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springConfig = { stiffness: 50, damping: 30 };
+  const smoothMouseX = useSpring(mouseX, springConfig);
+  const smoothMouseY = useSpring(mouseY, springConfig);
+
+  // Deeper parallax for logo, lighter for text
+  const logoX = useTransform(smoothMouseX, [-0.5, 0.5], [-20, 20]);
+  const logoY = useTransform(smoothMouseY, [-0.5, 0.5], [-15, 15]);
+  const textX = useTransform(smoothMouseX, [-0.5, 0.5], [-8, 8]);
+  const textY = useTransform(smoothMouseY, [-0.5, 0.5], [-6, 6]);
+  const smokeX = useTransform(smoothMouseX, [-0.5, 0.5], [30, -30]);
+  const smokeY = useTransform(smoothMouseY, [-0.5, 0.5], [20, -20]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  }, [mouseX, mouseY]);
 
   // Typing animation
   useEffect(() => {
@@ -29,21 +54,19 @@ const HeroSection = () => {
         if (charIndex < HERO_TEXT.length) {
           timeout = setTimeout(typeNext, TYPING_SPEED);
         } else {
-          // Hide cursor after typing completes
           setTimeout(() => setShowCursor(false), 1200);
         }
       }, TYPING_SPEED);
     };
 
     const delayTimeout = setTimeout(startTyping, START_DELAY);
-
     return () => {
       clearTimeout(delayTimeout);
       clearTimeout(timeout);
     };
   }, []);
 
-  // YouTube video: loop 6:48 (408s) to 7:09 (429s)
+  // YouTube video: loop 6:49 (409s) to 7:09 (429s)
   useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -69,15 +92,13 @@ const HeroSection = () => {
         },
         events: {
           onReady: (event: any) => {
-                event.target.seekTo(409);
-                event.target.playVideo();
-
-            // Poll to loop the segment
+            event.target.seekTo(409);
+            event.target.playVideo();
             loopInterval = setInterval(() => {
               const currentTime = event.target.getCurrentTime?.();
               if (currentTime >= 428.5 || event.target.getPlayerState?.() === 0) {
-            event.target.seekTo(409);
-            event.target.playVideo();
+                event.target.seekTo(409);
+                event.target.playVideo();
               }
             }, 500);
           },
@@ -92,7 +113,11 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+    >
       {/* Video Background with parallax */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
         <div id="yt-player" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh]" />
@@ -104,8 +129,11 @@ const HeroSection = () => {
         style={{ opacity: overlayOpacity }}
       />
 
-      {/* Animated smoke/haze overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Animated smoke/haze overlay — reacts to cursor */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+        style={{ x: smokeX, y: smokeY }}
+      >
         <div
           className="absolute -inset-[50%] opacity-[0.07]"
           style={{
@@ -127,40 +155,42 @@ const HeroSection = () => {
             animation: "smokedrift2 25s ease-in-out infinite alternate",
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Hero Content with parallax */}
       <motion.div
         className="relative z-10 text-center px-6 max-w-4xl"
         style={{ y: contentY, opacity: contentOpacity }}
       >
-        {/* Logo watermark */}
-        <div
+        {/* Logo watermark — deeper mouse parallax */}
+        <motion.div
           className="mx-auto mb-8 opacity-0 animate-fade-in-up"
-          style={{ animationDelay: "0.1s" }}
+          style={{ x: logoX, y: logoY, animationDelay: "0.1s" }}
         >
           <img
             src={logo}
             alt="LC"
             className="h-24 md:h-32 w-auto mx-auto opacity-60 drop-shadow-lg"
           />
-        </div>
+        </motion.div>
 
-        <h1
+        {/* Headline — lighter mouse parallax */}
+        <motion.h1
           className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic"
+          style={{ x: textX, y: textY }}
         >
           {displayedText}
           {showCursor && (
             <span className="inline-block w-[3px] h-[0.8em] bg-background/70 ml-1 align-baseline animate-pulse" />
           )}
-        </h1>
+        </motion.h1>
 
-        <p
+        <motion.p
           className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 opacity-0 animate-fade-in-up mt-8"
-          style={{ animationDelay: "0.6s" }}
+          style={{ x: textX, animationDelay: "0.6s" }}
         >
           Street-born · Brand-backed · Premium THC delivered
-        </p>
+        </motion.p>
       </motion.div>
     </section>
   );
