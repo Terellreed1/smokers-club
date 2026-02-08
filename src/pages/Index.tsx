@@ -15,10 +15,10 @@ const Index = () => {
       <main>
         <HeroSection />
         <BrandCarousel />
+        <ProductsPreview />
         <DidYouKnow />
         <CorePillars />
         <BrandStory />
-        <ProductsPreview />
         <SocialProof />
       </main>
       <Footer />
