@@ -1,15 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import logo from "@/assets/logo.png";
 
-const HERO_TEXT = "stay high, my friend";
-const TYPING_SPEED = 160;
-const START_DELAY = 1200;
-
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [displayedText, setDisplayedText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
 
   // Scroll-based parallax
   const { scrollY } = useScroll();
@@ -25,7 +19,6 @@ const HeroSection = () => {
   const smoothMouseX = useSpring(mouseX, springConfig);
   const smoothMouseY = useSpring(mouseY, springConfig);
 
-  // Deeper parallax for logo, lighter for text
   const logoX = useTransform(smoothMouseX, [-0.5, 0.5], [-20, 20]);
   const logoY = useTransform(smoothMouseY, [-0.5, 0.5], [-15, 15]);
   const textX = useTransform(smoothMouseX, [-0.5, 0.5], [-8, 8]);
@@ -42,31 +35,7 @@ const HeroSection = () => {
     mouseY.set(y);
   }, [mouseX, mouseY]);
 
-  // Typing animation
-  useEffect(() => {
-    let charIndex = 0;
-    let timeout: ReturnType<typeof setTimeout>;
-
-    const startTyping = () => {
-      timeout = setTimeout(function typeNext() {
-        charIndex++;
-        setDisplayedText(HERO_TEXT.slice(0, charIndex));
-        if (charIndex < HERO_TEXT.length) {
-          timeout = setTimeout(typeNext, TYPING_SPEED);
-        } else {
-          setTimeout(() => setShowCursor(false), 1200);
-        }
-      }, TYPING_SPEED);
-    };
-
-    const delayTimeout = setTimeout(startTyping, START_DELAY);
-    return () => {
-      clearTimeout(delayTimeout);
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  // YouTube video: loop 6:49 (409s) to 7:09 (429s)
+  // YouTube video loop
   useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -112,24 +81,34 @@ const HeroSection = () => {
     };
   }, []);
 
+  // Smoke particle positions
+  const smokeParticles = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: 80 + Math.random() * 200,
+    delay: Math.random() * 3,
+    duration: 4 + Math.random() * 4,
+  }));
+
   return (
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="relative w-full h-screen overflow-hidden flex items-center justify-center"
     >
-      {/* Video Background with parallax */}
+      {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
         <div id="yt-player" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh]" />
       </motion.div>
 
-      {/* Dark Overlay — deepens on scroll */}
+      {/* Dark Overlay */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/60 to-foreground/80"
         style={{ opacity: overlayOpacity }}
       />
 
-      {/* Animated smoke/haze overlay — reacts to cursor */}
+      {/* Ambient smoke haze — cursor reactive */}
       <motion.div
         className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{ x: smokeX, y: smokeY }}
@@ -157,37 +136,74 @@ const HeroSection = () => {
         />
       </motion.div>
 
-      {/* Hero Content with parallax */}
+      {/* Hero Content */}
       <motion.div
         className="relative z-10 text-center px-6 max-w-4xl"
         style={{ y: contentY, opacity: contentOpacity }}
       >
-        {/* Logo watermark — deeper mouse parallax */}
+        {/* Logo */}
         <motion.div
-          className="mx-auto mb-8 opacity-0 animate-fade-in-up"
-          style={{ x: logoX, y: logoY, animationDelay: "0.1s" }}
+          className="mx-auto mb-8"
+          style={{ x: logoX, y: logoY }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.6, scale: 1 }}
+          transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
         >
           <img
             src={logo}
             alt="LC"
-            className="h-24 md:h-32 w-auto mx-auto opacity-60 drop-shadow-lg"
+            className="h-24 md:h-32 w-auto mx-auto drop-shadow-lg"
           />
         </motion.div>
 
-        {/* Headline — lighter mouse parallax */}
-        <motion.h1
-          className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic"
-          style={{ x: textX, y: textY }}
-        >
-          {displayedText}
-          {showCursor && (
-            <span className="inline-block w-[3px] h-[0.8em] bg-background/70 ml-1 align-baseline animate-pulse" />
-          )}
-        </motion.h1>
+        {/* Smoke reveal headline */}
+        <motion.div style={{ x: textX, y: textY }} className="relative">
+          {/* Smoke particles that dissipate to reveal text */}
+          <div className="absolute inset-0 pointer-events-none z-10">
+            {smokeParticles.map((p) => (
+              <motion.div
+                key={p.id}
+                className="absolute rounded-full"
+                style={{
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  width: p.size,
+                  height: p.size,
+                  background: `radial-gradient(circle, hsl(var(--foreground) / 0.8) 0%, transparent 70%)`,
+                  transform: "translate(-50%, -50%)",
+                }}
+                initial={{ opacity: 0.9, scale: 1 }}
+                animate={{
+                  opacity: 0,
+                  scale: 2.5,
+                  x: (Math.random() - 0.5) * 200,
+                  y: -100 - Math.random() * 150,
+                }}
+                transition={{
+                  duration: p.duration,
+                  delay: 0.8 + p.delay,
+                  ease: "easeOut",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* The headline — revealed from behind smoke */}
+          <motion.h1
+            className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic relative"
+            initial={{ opacity: 0, filter: "blur(20px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
+          >
+            stay high, my friend
+          </motion.h1>
+        </motion.div>
 
         <motion.p
-          className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 opacity-0 animate-fade-in-up mt-8"
-          style={{ x: textX, animationDelay: "0.6s" }}
+          className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 2.5, ease: "easeOut" }}
         >
           Street-born · Brand-backed · Premium THC delivered
         </motion.p>
