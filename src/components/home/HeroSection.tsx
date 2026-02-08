@@ -1,8 +1,15 @@
 import { useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollY } = useScroll();
+  const videoY = useTransform(scrollY, [0, 800], [0, 300]);
+  const contentY = useTransform(scrollY, [0, 600], [0, -120]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.65, 0.95]);
+  const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   useEffect(() => {
     // Load YouTube IFrame API
@@ -47,16 +54,47 @@ const HeroSection = () => {
 
   return (
     <section ref={containerRef} className="relative w-full h-screen overflow-hidden flex items-center justify-center">
-      {/* Video Background */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Video Background with parallax */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
         <div id="yt-player" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh]" />
+      </motion.div>
+
+      {/* Dark Overlay — deepens on scroll */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/60 to-foreground/80"
+        style={{ opacity: overlayOpacity }}
+      />
+
+      {/* Animated smoke/haze overlay */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute -inset-[50%] opacity-[0.07]"
+          style={{
+            background: `
+              radial-gradient(ellipse 600px 400px at 20% 50%, hsl(var(--background)), transparent),
+              radial-gradient(ellipse 500px 350px at 70% 30%, hsl(var(--background)), transparent),
+              radial-gradient(ellipse 400px 500px at 50% 80%, hsl(var(--background)), transparent)
+            `,
+            animation: "smokedrift 20s ease-in-out infinite alternate",
+          }}
+        />
+        <div
+          className="absolute -inset-[50%] opacity-[0.05]"
+          style={{
+            background: `
+              radial-gradient(ellipse 700px 300px at 80% 60%, hsl(var(--background)), transparent),
+              radial-gradient(ellipse 300px 600px at 30% 70%, hsl(var(--background)), transparent)
+            `,
+            animation: "smokedrift2 25s ease-in-out infinite alternate",
+          }}
+        />
       </div>
 
-      {/* Dark Overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/60 to-foreground/80" />
-
-      {/* Hero Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl">
+      {/* Hero Content with parallax */}
+      <motion.div
+        className="relative z-10 text-center px-6 max-w-4xl"
+        style={{ y: contentY, opacity: contentOpacity }}
+      >
         {/* Logo watermark */}
         <div
           className="mx-auto mb-8 opacity-0 animate-fade-in-up"
@@ -82,7 +120,7 @@ const HeroSection = () => {
         >
           Street-born · Brand-backed · Premium THC delivered
         </p>
-      </div>
+      </motion.div>
     </section>
   );
 };

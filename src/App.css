@@ -1,1 +1,25 @@
 /* Reset default Vite styles */
+
+@keyframes smokedrift {
+  0% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  50% {
+    transform: translate(10%, -5%) scale(1.1);
+  }
+  100% {
+    transform: translate(-5%, 8%) scale(1.05);
+  }
+}
+
+@keyframes smokedrift2 {
+  0% {
+    transform: translate(5%, 3%) scale(1.05);
+  }
+  50% {
+    transform: translate(-8%, 6%) scale(0.95);
+  }
+  100% {
+    transform: translate(3%, -4%) scale(1.1);
+  }
+}
