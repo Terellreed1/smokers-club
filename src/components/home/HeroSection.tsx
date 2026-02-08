@@ -3,8 +3,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 const HERO_TEXT = "stay high, my friend";
-const TYPING_SPEED = 80; // ms per character
-const START_DELAY = 800; // ms before typing begins
+const TYPING_SPEED = 160; // ms per character
+const START_DELAY = 1200; // ms before typing begins
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,20 +64,20 @@ const HeroSection = () => {
           loop: 0,
           modestbranding: 1,
           playsinline: 1,
-          start: 408,
+          start: 409,
           end: 429,
         },
         events: {
           onReady: (event: any) => {
-            event.target.seekTo(408);
-            event.target.playVideo();
+                event.target.seekTo(409);
+                event.target.playVideo();
 
             // Poll to loop the segment
             loopInterval = setInterval(() => {
               const currentTime = event.target.getCurrentTime?.();
               if (currentTime >= 428.5 || event.target.getPlayerState?.() === 0) {
-                event.target.seekTo(408);
-                event.target.playVideo();
+            event.target.seekTo(409);
+            event.target.playVideo();
               }
             }, 500);
           },
