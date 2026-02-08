@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Twitter } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   return (
@@ -8,9 +9,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-1">
-            <h3 className="font-serif text-2xl tracking-wider text-gold mb-4">STAY HIGH</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <img src={logo} alt="Luxury Couriers" className="h-10 w-10 object-contain opacity-80" />
+              <h3 className="font-serif text-xl tracking-wider text-gold">LUXURY COURIERS</h3>
+            </div>
             <p className="text-sm text-background/60 leading-relaxed font-sans">
-              Street-born. Brand-backed. Dropping premium THC for the culture.
+              Street-born. Brand-backed. Premium THC delivered to your door.
             </p>
           </div>
 
@@ -64,7 +68,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-xs text-background/40 font-sans">
-            © {new Date().getFullYear()} Stay High. All rights reserved.
+            © {new Date().getFullYear()} Luxury Couriers. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-background/40 hover:text-gold transition-colors duration-300" aria-label="Instagram">

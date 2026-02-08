@@ -19,7 +19,7 @@ const About = () => {
               </h2>
               <div className="w-12 h-px bg-gold mb-8" />
               <p className="text-base text-muted-foreground leading-loose font-sans">
-                Stay High was founded with a simple belief: cannabis is more than a product — it's a lifestyle, a community, and a movement. We emerged from the streets with a vision to elevate the experience, bringing together premium quality and authentic culture under one roof.
+                Luxury Couriers was founded with a simple belief: cannabis is more than a product — it's a lifestyle, a community, and a movement. We emerged from the streets with a vision to elevate the experience, bringing together premium quality and authentic culture under one roof.
               </p>
             </div>
 
