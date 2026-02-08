@@ -20,7 +20,7 @@ const brands = [
 const BrandCarousel = () => {
   return (
     <ScrollReveal>
-      <section className="py-12 bg-background border-y border-border/50 overflow-hidden">
+      <section className="py-10 bg-background overflow-hidden">
         <div className="relative">
           <div className="flex animate-scroll items-center">
             {[...brands, ...brands].map((brand, i) => (
@@ -32,7 +32,7 @@ const BrandCarousel = () => {
                 <img
                   src={brand.logo}
                   alt={brand.name}
-                  className="h-10 md:h-14 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+                  className="h-20 md:h-28 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500"
                 />
               </Link>
             ))}
