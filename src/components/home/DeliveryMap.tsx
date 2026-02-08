@@ -1,5 +1,5 @@
 import { useRef, useMemo, useState, useCallback } from "react";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Sphere, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
@@ -139,52 +139,73 @@ const zones: ZoneData[] = [
   },
 ];
 
-// Textured Earth sphere
+// Purple-tinted Earth — everything purple except DMV
 function Earth() {
   const texture = useLoader(THREE.TextureLoader, "/textures/earth.jpg");
   const bumpMap = useLoader(THREE.TextureLoader, "/textures/earth-bump.png");
 
+  // Create a purple-tinted version of the texture
+  const purpleTexture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    const img = texture.image as HTMLImageElement;
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d")!;
+
+    // Draw original
+    ctx.drawImage(img, 0, 0);
+
+    // Apply purple overlay
+    ctx.globalCompositeOperation = "color";
+    ctx.fillStyle = "rgba(120, 60, 180, 0.7)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Darken slightly
+    ctx.globalCompositeOperation = "multiply";
+    ctx.fillStyle = "rgba(40, 20, 60, 0.3)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const newTexture = new THREE.CanvasTexture(canvas);
+    newTexture.needsUpdate = true;
+    return newTexture;
+  }, [texture]);
+
   return (
     <Sphere args={[2, 64, 64]}>
       <meshStandardMaterial
-        map={texture}
+        map={purpleTexture}
         bumpMap={bumpMap}
         bumpScale={0.03}
-        roughness={0.8}
-        metalness={0.1}
+        roughness={0.7}
+        metalness={0.15}
       />
     </Sphere>
   );
 }
 
-// Green cannabis-themed atmosphere glow
+// Purple atmosphere glow
 function Atmosphere() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
   return (
     <>
-      {/* Inner glow */}
-      <Sphere args={[2.04, 64, 64]} ref={meshRef}>
+      <Sphere args={[2.04, 64, 64]}>
         <meshBasicMaterial
-          color="#22c55e"
+          color="#7c3aed"
           transparent
           opacity={0.06}
           side={THREE.BackSide}
         />
       </Sphere>
-      {/* Outer glow */}
       <Sphere args={[2.15, 64, 64]}>
         <meshBasicMaterial
-          color="#4ade80"
+          color="#a78bfa"
           transparent
           opacity={0.03}
           side={THREE.BackSide}
         />
       </Sphere>
-      {/* Haze ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <ringGeometry args={[2.02, 2.3, 64]} />
-        <meshBasicMaterial color="#22c55e" transparent opacity={0.02} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#7c3aed" transparent opacity={0.02} side={THREE.DoubleSide} />
       </mesh>
     </>
   );
@@ -230,7 +251,9 @@ function ZoneRegion({
     return geometry;
   }, [zone]);
 
-  const opacity = isActive ? 0.4 : isHovered ? 0.25 : 0.12;
+  const isDelivery = zone.type === "delivery";
+  const baseOpacity = isDelivery ? 0.3 : 0.15;
+  const opacity = isActive ? 0.55 : isHovered ? 0.4 : baseOpacity;
 
   return (
     <mesh
@@ -269,11 +292,7 @@ function ZoneLabel({ zone, isActive }: { zone: ZoneData; isActive: boolean }) {
 
   return (
     <Html position={pos} center style={{ pointerEvents: "none" }}>
-      <div
-        className={`text-center transition-all duration-300 ${
-          isActive ? "scale-110" : ""
-        }`}
-      >
+      <div className={`text-center transition-all duration-300 ${isActive ? "scale-110" : ""}`}>
         <span
           className="text-[10px] font-sans font-bold uppercase tracking-wider px-1.5 py-0.5"
           style={{
@@ -328,7 +347,7 @@ function CityDot({ lat, lng, delay = 0, label }: { lat: number; lng: number; del
   );
 }
 
-// Full globe scene
+// Globe scene — camera positioned to show east coast US on load
 function GlobeScene({
   activeZone,
   hoveredZone,
@@ -344,9 +363,10 @@ function GlobeScene({
 }) {
   return (
     <>
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[5, 3, 5]} intensity={1.2} />
-      <pointLight position={[-3, -2, 4]} intensity={0.3} color="#4ade80" />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 3, 5]} intensity={1.0} />
+      <pointLight position={[-3, -2, 4]} intensity={0.2} color="#7c3aed" />
+      <pointLight position={[2, 1, 3]} intensity={0.15} color="#4ade80" />
 
       <Earth />
       <Atmosphere />
@@ -379,10 +399,9 @@ function GlobeScene({
       <OrbitControls
         enableZoom={true}
         enablePan={false}
-        minDistance={3.5}
-        maxDistance={8}
-        autoRotate
-        autoRotateSpeed={0.3}
+        minDistance={2.8}
+        maxDistance={10}
+        autoRotate={false}
         dampingFactor={0.08}
         enableDamping
       />
@@ -401,6 +420,20 @@ const DeliveryMap = () => {
     setActiveZoneId((prev) => (prev === id ? null : id));
   }, []);
 
+  // Camera position: zoomed in on east coast US (DC area roughly lat 39, lng -77)
+  // Converted to 3D: the camera looks at the globe from the angle showing the US east coast
+  const cameraPosition = useMemo(() => {
+    const lat = 39;
+    const lng = -77;
+    const distance = 3.8;
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lng + 180) * (Math.PI / 180);
+    const x = -(distance * Math.sin(phi) * Math.cos(theta));
+    const z = distance * Math.sin(phi) * Math.sin(theta);
+    const y = distance * Math.cos(phi);
+    return [x, y, z] as [number, number, number];
+  }, []);
+
   return (
     <section className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
@@ -414,11 +447,11 @@ const DeliveryMap = () => {
         </ScrollReveal>
 
         <ScrollReveal delay={0.15}>
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-16">
             {/* 3D Globe */}
             <div className="relative w-full lg:w-3/5 aspect-square max-w-[520px] mx-auto lg:mx-0">
               <Canvas
-                camera={{ position: [-2, 1.5, 4], fov: 45 }}
+                camera={{ position: cameraPosition, fov: 40 }}
                 style={{ background: "transparent" }}
                 gl={{ antialias: true, alpha: true }}
               >
@@ -431,30 +464,31 @@ const DeliveryMap = () => {
                 />
               </Canvas>
 
-              {/* Ambient backdrop glow */}
+              {/* Ambient purple glow */}
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-green-500/[0.04] blur-[60px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-violet-500/[0.04] blur-[60px]" />
               </div>
             </div>
 
-            {/* Info panel */}
+            {/* Info panel + zone list */}
             <div className="w-full lg:w-2/5 min-h-[300px]">
               {/* Legend */}
-              <div className="flex gap-6 mb-8">
+              <div className="flex gap-6 mb-6">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#22c55e" }} />
                   <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
                     Delivery
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-violet-500" />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#8b5cf6" }} />
                   <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
                     Shipping
                   </span>
                 </div>
               </div>
 
+              {/* Active zone detail */}
               <AnimatePresence mode="wait">
                 {activeZone ? (
                   <motion.div
@@ -463,14 +497,14 @@ const DeliveryMap = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
+                    className="mb-8"
                   >
-                    {/* Zone type badge */}
                     <span
-                      className={`inline-block text-[10px] font-sans uppercase editorial-spacing px-3 py-1 mb-4 ${
-                        activeZone.type === "delivery"
-                          ? "bg-green-500/10 text-green-500"
-                          : "bg-violet-500/10 text-violet-400"
-                      }`}
+                      className="inline-block text-[10px] font-sans uppercase editorial-spacing px-3 py-1 mb-4"
+                      style={{
+                        backgroundColor: activeZone.type === "delivery" ? "rgba(34,197,94,0.1)" : "rgba(139,92,246,0.1)",
+                        color: activeZone.type === "delivery" ? "#22c55e" : "#a78bfa",
+                      }}
                     >
                       {activeZone.type === "delivery" ? "● Same-Day Delivery" : "○ Priority Shipping"}
                     </span>
@@ -484,73 +518,78 @@ const DeliveryMap = () => {
 
                     <div className="space-y-3 border-t border-border/30 pt-5">
                       <div className="flex justify-between">
-                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
-                          Service
-                        </span>
+                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">Service</span>
                         <span className="text-xs font-sans text-foreground/80">{activeZone.service}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
-                          ETA
-                        </span>
+                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">ETA</span>
                         <span className="text-xs font-sans text-foreground/80">{activeZone.eta}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
-                          Hours
-                        </span>
+                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">Hours</span>
                         <span className="text-xs font-sans text-foreground/80">{activeZone.hours}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
-                          ID Required
-                        </span>
+                        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">ID</span>
                         <span className="text-xs font-sans text-foreground/80">21+ Government ID</span>
                       </div>
                     </div>
                   </motion.div>
                 ) : (
                   <motion.div
-                    key="default"
+                    key="prompt"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    className="mb-8"
                   >
-                    <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-4">
-                      Select a Zone
-                    </h3>
-                    <p className="text-sm text-muted-foreground font-sans leading-relaxed mb-6">
-                      Drag the globe to explore. Click on a highlighted zone to view service type, delivery hours, and estimated arrival times.
+                    <p className="text-sm text-muted-foreground font-sans leading-relaxed">
+                      Click a zone on the globe or from the list below to see service details.
                     </p>
-                    <div className="space-y-2">
-                      {zones.map((z) => (
-                        <button
-                          key={z.id}
-                          onClick={() => setActiveZoneId(z.id)}
-                          className="w-full flex items-center justify-between py-2.5 px-3 text-left border border-border/30 hover:border-foreground/30 transition-all duration-300 group"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div
-                              className="w-2 h-2 rounded-full"
-                              style={{ backgroundColor: z.color }}
-                            />
-                            <span className="text-xs font-sans text-foreground/70 group-hover:text-foreground transition-colors">
-                              {z.name}
-                            </span>
-                          </div>
-                          <span
-                            className={`text-[9px] font-sans uppercase editorial-spacing ${
-                              z.type === "delivery" ? "text-green-500/70" : "text-violet-400/70"
-                            }`}
-                          >
-                            {z.type}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* Always-visible zone list */}
+              <div>
+                <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mb-3">
+                  All Zones
+                </p>
+                <div className="space-y-1.5">
+                  {zones.map((z) => (
+                    <button
+                      key={z.id}
+                      onClick={() => setActiveZoneId(activeZoneId === z.id ? null : z.id)}
+                      className={`w-full flex items-center justify-between py-2.5 px-3 text-left border transition-all duration-300 group ${
+                        activeZoneId === z.id
+                          ? "border-foreground/30 bg-foreground/5"
+                          : "border-border/20 hover:border-foreground/20"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: z.color }}
+                        />
+                        <span className={`text-xs font-sans transition-colors ${
+                          activeZoneId === z.id ? "text-foreground" : "text-foreground/60 group-hover:text-foreground"
+                        }`}>
+                          {z.name}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-[9px] font-sans text-muted-foreground/50">{z.eta}</span>
+                        <span
+                          className="text-[9px] font-sans uppercase editorial-spacing"
+                          style={{ color: z.type === "delivery" ? "#22c55e" : "#a78bfa", opacity: 0.7 }}
+                        >
+                          {z.type}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </ScrollReveal>
