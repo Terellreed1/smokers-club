@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
+import cannabisLeaf from "@/assets/cannabis-leaf.png";
 
 interface Question {
   question: string;
@@ -102,11 +103,26 @@ const StrainQuiz = () => {
   const progress = started ? ((currentQuestion + (showResult ? 1 : 0)) / questions.length) * 100 : 0;
 
   return (
-    <section className="py-24 md:py-32 px-6">
-      <div className="max-w-2xl mx-auto">
+    <section className="py-24 md:py-32 px-6 relative overflow-hidden">
+      {/* Left leaf */}
+      <img
+        src={cannabisLeaf}
+        alt=""
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-48 md:w-72 lg:w-96 opacity-10 pointer-events-none select-none -rotate-12"
+        aria-hidden="true"
+      />
+      {/* Right leaf — mirrored */}
+      <img
+        src={cannabisLeaf}
+        alt=""
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-48 md:w-72 lg:w-96 opacity-10 pointer-events-none select-none rotate-12 scale-x-[-1]"
+        aria-hidden="true"
+      />
+
+      <div className="max-w-2xl mx-auto relative z-10">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
+            <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
               Find Your Strain
             </p>
             <h2 className="font-serif text-3xl md:text-5xl text-foreground italic">
@@ -188,7 +204,7 @@ const StrainQuiz = () => {
                 className="text-center"
               >
                 <div className="text-6xl mb-6">{result.emoji}</div>
-                <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-3">
+                <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3">
                   Your Match
                 </p>
                 <h3 className="font-serif text-4xl md:text-5xl text-foreground italic mb-3">
