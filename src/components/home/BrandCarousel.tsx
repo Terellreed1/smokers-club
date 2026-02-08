@@ -10,10 +10,10 @@ import caliCloudsClub from "@/assets/brands/cali-clouds-club.png";
 
 const brands = [
   { name: "Kush Factory", slug: "kush-factory", logo: kushFactory },
-  { name: "Backpackboyz", slug: "backpackboyz", logo: backpackboyz, invert: true },
+  { name: "Backpackboyz", slug: "backpackboyz", logo: backpackboyz },
   { name: "Friday", slug: "friday", logo: friday },
   { name: "Super Candy Bros", slug: "super-candy-bros", logo: superCandyBros },
-  { name: "High Tolerance", slug: "high-tolerance", logo: highTolerance, invert: true },
+  { name: "High Tolerance", slug: "high-tolerance", logo: highTolerance },
   { name: "Cali Clouds Club", slug: "cali-clouds-club", logo: caliCloudsClub },
 ];
 
@@ -32,9 +32,7 @@ const BrandCarousel = () => {
                 <img
                   src={brand.logo}
                   alt={brand.name}
-                  className={`h-10 md:h-14 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-500 ${
-                    brand.invert ? "invert" : ""
-                  }`}
+                  className="h-10 md:h-14 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-500"
                 />
               </Link>
             ))}
