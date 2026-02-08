@@ -1,9 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import logo from "@/assets/logo.png";
 
+const HERO_TEXT = "stay high, my friend";
+const TYPING_SPEED = 80; // ms per character
+const START_DELAY = 800; // ms before typing begins
+
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [displayedText, setDisplayedText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
 
   const { scrollY } = useScroll();
   const videoY = useTransform(scrollY, [0, 800], [0, 300]);
@@ -11,13 +17,40 @@ const HeroSection = () => {
   const overlayOpacity = useTransform(scrollY, [0, 600], [0.65, 0.95]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
+  // Typing animation
   useEffect(() => {
-    // Load YouTube IFrame API
+    let charIndex = 0;
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const startTyping = () => {
+      timeout = setTimeout(function typeNext() {
+        charIndex++;
+        setDisplayedText(HERO_TEXT.slice(0, charIndex));
+        if (charIndex < HERO_TEXT.length) {
+          timeout = setTimeout(typeNext, TYPING_SPEED);
+        } else {
+          // Hide cursor after typing completes
+          setTimeout(() => setShowCursor(false), 1200);
+        }
+      }, TYPING_SPEED);
+    };
+
+    const delayTimeout = setTimeout(startTyping, START_DELAY);
+
+    return () => {
+      clearTimeout(delayTimeout);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  // YouTube video: loop 6:48 (408s) to 7:09 (429s)
+  useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
 
     let player: any;
+    let loopInterval: ReturnType<typeof setInterval>;
 
     (window as any).onYouTubeIframeAPIReady = () => {
       player = new (window as any).YT.Player("yt-player", {
@@ -28,26 +61,32 @@ const HeroSection = () => {
           controls: 0,
           showinfo: 0,
           rel: 0,
-          loop: 1,
+          loop: 0,
           modestbranding: 1,
-          playlist: "jfMmHXR0MRc",
           playsinline: 1,
+          start: 408,
+          end: 429,
         },
         events: {
           onReady: (event: any) => {
+            event.target.seekTo(408);
             event.target.playVideo();
-          },
-          onStateChange: (event: any) => {
-            if (event.data === (window as any).YT.PlayerState.ENDED) {
-              event.target.seekTo(0);
-              event.target.playVideo();
-            }
+
+            // Poll to loop the segment
+            loopInterval = setInterval(() => {
+              const currentTime = event.target.getCurrentTime?.();
+              if (currentTime >= 428.5 || event.target.getPlayerState?.() === 0) {
+                event.target.seekTo(408);
+                event.target.playVideo();
+              }
+            }, 500);
           },
         },
       });
     };
 
     return () => {
+      clearInterval(loopInterval);
       if (player?.destroy) player.destroy();
     };
   }, []);
@@ -108,10 +147,12 @@ const HeroSection = () => {
         </div>
 
         <h1
-          className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic opacity-0 animate-fade-in-up"
-          style={{ animationDelay: "0.3s" }}
+          className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic"
         >
-          stay high, my friend
+          {displayedText}
+          {showCursor && (
+            <span className="inline-block w-[3px] h-[0.8em] bg-background/70 ml-1 align-baseline animate-pulse" />
+          )}
         </h1>
 
         <p
