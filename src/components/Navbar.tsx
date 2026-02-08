@@ -153,12 +153,7 @@ const Navbar = () => {
         <div className="hidden md:block">
           <Button
             variant="outline"
-            className={cn(
-              "uppercase text-xs editorial-spacing rounded-none px-6 py-2 transition-all duration-300",
-              showSolid
-                ? "border-gold text-gold hover:bg-gold hover:text-primary-foreground"
-                : "border-background/40 text-background hover:bg-background hover:text-foreground"
-            )}
+            className="uppercase text-xs editorial-spacing rounded-none px-6 py-2 transition-all duration-300 border-foreground text-foreground hover:bg-foreground hover:text-background"
           >
             Login
           </Button>
