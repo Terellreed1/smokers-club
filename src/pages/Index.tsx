@@ -6,6 +6,7 @@ import DidYouKnow from "@/components/home/DidYouKnow";
 import CorePillars from "@/components/home/CorePillars";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
+import BrandStory from "@/components/home/BrandStory";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
         <BrandCarousel />
         <DidYouKnow />
         <CorePillars />
+        <BrandStory />
         <ProductsPreview />
         <SocialProof />
       </main>

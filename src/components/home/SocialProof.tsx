@@ -1,4 +1,5 @@
-import { Star, Instagram, Facebook, Twitter } from "lucide-react";
+import { Star } from "lucide-react";
+import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
 
 const reviews = [
   {
@@ -22,16 +23,19 @@ const SocialProof = () => {
   return (
     <section className="py-24 md:py-32 px-6 bg-secondary/50">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
             Testimonials
           </p>
           <h2 className="font-serif text-3xl md:text-5xl text-foreground">
             What They Say
           </h2>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <StaggerContainer
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+          staggerDelay={0.12}
+        >
           {reviews.map((review, i) => (
             <div
               key={i}
@@ -53,26 +57,25 @@ const SocialProof = () => {
               </p>
             </div>
           ))}
-        </div>
+        </StaggerContainer>
 
-        {/* Social Icons */}
-        <div className="text-center">
+        <ScrollReveal className="text-center">
           <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-6">
             Follow the Movement
           </p>
           <div className="flex justify-center gap-6">
-            {[Instagram, Facebook, Twitter].map((Icon, i) => (
+            {["Instagram", "Facebook", "Twitter"].map((platform, i) => (
               <a
                 key={i}
                 href="#"
                 className="w-12 h-12 border border-gold/30 flex items-center justify-center text-gold/60 hover:text-gold hover:border-gold transition-all duration-300"
-                aria-label="Social link"
+                aria-label={platform}
               >
-                <Icon size={18} />
+                <span className="text-xs font-sans uppercase">{platform.charAt(0)}</span>
               </a>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
