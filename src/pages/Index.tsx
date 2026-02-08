@@ -7,8 +7,6 @@ import CorePillars from "@/components/home/CorePillars";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
 import DeliveryMap from "@/components/home/DeliveryMap";
-import TerpenePassport from "@/components/home/TerpenePassport";
-import RitualAnimation from "@/components/home/RitualAnimation";
 
 const Index = () => {
   return (
@@ -19,8 +17,6 @@ const Index = () => {
         <BrandCarousel />
         <ProductsPreview />
         <StrainQuiz />
-        <TerpenePassport />
-        <RitualAnimation />
         <CorePillars />
         <DeliveryMap />
         <SocialProof />

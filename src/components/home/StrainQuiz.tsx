@@ -3,202 +3,105 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import cannabisLeaf from "@/assets/cannabis-leaf.png";
 
-type FilterMode = "simple" | "smart";
-
-const simpleMoods = [
-  {
-    id: "chill",
-    label: "Chill",
-    emoji: "🌙",
-    description: "Wind down, relax, melt into the couch",
-    color: "from-indigo-500/10 to-purple-500/10",
-    strainTypes: ["Indica"],
-  },
-  {
-    id: "creative",
-    label: "Creative",
-    emoji: "🎨",
-    description: "Spark ideas, flow state, artistic energy",
-    color: "from-amber-500/10 to-orange-500/10",
-    strainTypes: ["Sativa"],
-  },
-  {
-    id: "social",
-    label: "Social",
-    emoji: "🔥",
-    description: "Good vibes, laughs, and great conversation",
-    color: "from-pink-500/10 to-red-500/10",
-    strainTypes: ["Hybrid", "Sativa"],
-  },
-  {
-    id: "sleep",
-    label: "Sleep",
-    emoji: "😴",
-    description: "Deep rest, recovery, total shutdown",
-    color: "from-blue-500/10 to-slate-500/10",
-    strainTypes: ["Indica"],
-  },
-];
-
-const smartFilters = [
-  {
-    id: "indica",
-    label: "Indica",
-    description: "Body high, relaxation, pain relief",
-    icon: "🌙",
-  },
-  {
-    id: "sativa",
-    label: "Sativa",
-    description: "Head high, energy, creativity",
-    icon: "⚡",
-  },
-  {
-    id: "hybrid",
-    label: "Hybrid",
-    description: "Balanced effects, best of both",
-    icon: "🔥",
-  },
-];
-
-interface MoodFilterProps {
-  mode?: FilterMode;
-  showToggle?: boolean;
-  onMoodSelect?: (mood: string) => void;
-  onStrainSelect?: (strain: string) => void;
+interface Question {
+  question: string;
+  options: { label: string; scores: { indica: number; sativa: number; hybrid: number } }[];
 }
 
-const MoodFilter = ({
-  mode: initialMode = "simple",
-  showToggle = true,
-  onMoodSelect,
-  onStrainSelect,
-}: MoodFilterProps) => {
-  const [mode, setMode] = useState<FilterMode>(initialMode);
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
-  const [selectedStrain, setSelectedStrain] = useState<string | null>(null);
+const questions: Question[] = [
+  {
+    question: "What vibe are you chasing?",
+    options: [
+      { label: "Deep relaxation & sleep", scores: { indica: 3, sativa: 0, hybrid: 1 } },
+      { label: "Energy & creativity", scores: { indica: 0, sativa: 3, hybrid: 1 } },
+      { label: "A balanced, mellow flow", scores: { indica: 1, sativa: 1, hybrid: 3 } },
+    ],
+  },
+  {
+    question: "When do you usually light up?",
+    options: [
+      { label: "Nighttime wind-down", scores: { indica: 3, sativa: 0, hybrid: 1 } },
+      { label: "Daytime adventures", scores: { indica: 0, sativa: 3, hybrid: 1 } },
+      { label: "Whenever the mood hits", scores: { indica: 1, sativa: 1, hybrid: 3 } },
+    ],
+  },
+  {
+    question: "Pick your ideal setting:",
+    options: [
+      { label: "Couch, blanket, movie", scores: { indica: 3, sativa: 0, hybrid: 1 } },
+      { label: "Studio, hike, or party", scores: { indica: 0, sativa: 3, hybrid: 1 } },
+      { label: "Kickback with friends", scores: { indica: 1, sativa: 1, hybrid: 3 } },
+    ],
+  },
+  {
+    question: "What matters most to you?",
+    options: [
+      { label: "Pain relief & deep calm", scores: { indica: 3, sativa: 0, hybrid: 1 } },
+      { label: "Focus & uplifted mood", scores: { indica: 0, sativa: 3, hybrid: 1 } },
+      { label: "Best of both worlds", scores: { indica: 1, sativa: 1, hybrid: 3 } },
+    ],
+  },
+];
 
-  const handleMoodClick = (moodId: string) => {
-    const newValue = selectedMood === moodId ? null : moodId;
-    setSelectedMood(newValue);
-    onMoodSelect?.(newValue ?? "");
-  };
-
-  const handleStrainClick = (strainId: string) => {
-    const newValue = selectedStrain === strainId ? null : strainId;
-    setSelectedStrain(newValue);
-    onStrainSelect?.(newValue ?? "");
-  };
-
-  return (
-    <div>
-      {/* Mode toggle */}
-      {showToggle && (
-        <div className="flex items-center justify-center gap-1 mb-8">
-          <button
-            onClick={() => {
-              setMode("simple");
-              setSelectedStrain(null);
-            }}
-            className={`px-4 py-2 text-[10px] font-sans uppercase editorial-spacing border transition-all duration-300 ${
-              mode === "simple"
-                ? "border-foreground bg-foreground text-background"
-                : "border-border/30 text-muted-foreground hover:border-foreground/30"
-            }`}
-          >
-            Simple
-          </button>
-          <button
-            onClick={() => {
-              setMode("smart");
-              setSelectedMood(null);
-            }}
-            className={`px-4 py-2 text-[10px] font-sans uppercase editorial-spacing border transition-all duration-300 ${
-              mode === "smart"
-                ? "border-foreground bg-foreground text-background"
-                : "border-border/30 text-muted-foreground hover:border-foreground/30"
-            }`}
-          >
-            Smart
-          </button>
-        </div>
-      )}
-
-      <AnimatePresence mode="wait">
-        {mode === "simple" ? (
-          <motion.div
-            key="simple"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3"
-          >
-            {simpleMoods.map((mood) => (
-              <motion.button
-                key={mood.id}
-                onClick={() => handleMoodClick(mood.id)}
-                className={`relative text-center p-6 border transition-all duration-500 overflow-hidden group ${
-                  selectedMood === mood.id
-                    ? "border-foreground/40 bg-foreground/5"
-                    : "border-border/30 hover:border-foreground/20"
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {/* Mood gradient background */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${mood.color} transition-opacity duration-500 ${
-                    selectedMood === mood.id ? "opacity-100" : "opacity-0 group-hover:opacity-50"
-                  }`}
-                />
-                <div className="relative z-10">
-                  <span className="text-3xl block mb-3">{mood.emoji}</span>
-                  <h4 className="font-serif text-base text-foreground mb-1">{mood.label}</h4>
-                  <p className="text-[9px] font-sans text-muted-foreground/60 leading-relaxed">
-                    {mood.description}
-                  </p>
-                </div>
-              </motion.button>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="smart"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-3 gap-3"
-          >
-            {smartFilters.map((filter) => (
-              <motion.button
-                key={filter.id}
-                onClick={() => handleStrainClick(filter.id)}
-                className={`text-center p-6 border transition-all duration-500 ${
-                  selectedStrain === filter.id
-                    ? "border-foreground/40 bg-foreground/5"
-                    : "border-border/30 hover:border-foreground/20"
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span className="text-3xl block mb-3">{filter.icon}</span>
-                <h4 className="font-serif text-base text-foreground mb-1">{filter.label}</h4>
-                <p className="text-[9px] font-sans text-muted-foreground/60 leading-relaxed">
-                  {filter.description}
-                </p>
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+const strainResults = {
+  indica: {
+    name: "Indica",
+    tagline: "Sink into the couch. You've earned it.",
+    description: "You're wired for deep relaxation. Indica strains deliver full-body calm, perfect for unwinding after a long day or drifting into a restful sleep.",
+    emoji: "🌙",
+  },
+  sativa: {
+    name: "Sativa",
+    tagline: "Light up and level up.",
+    description: "You thrive on energy and inspiration. Sativa strains fuel creativity, social vibes, and keep your mind sharp throughout the day.",
+    emoji: "⚡",
+  },
+  hybrid: {
+    name: "Hybrid",
+    tagline: "Why choose? Get the best of everything.",
+    description: "You're versatile and open-minded. Hybrid strains blend the best of indica and sativa, giving you a balanced experience tailored to any moment.",
+    emoji: "🔥",
+  },
 };
 
-// Homepage version — Simple mode only with leaves
 const StrainQuiz = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [scores, setScores] = useState({ indica: 0, sativa: 0, hybrid: 0 });
+  const [showResult, setShowResult] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  const handleAnswer = (option: Question["options"][number]) => {
+    const newScores = {
+      indica: scores.indica + option.scores.indica,
+      sativa: scores.sativa + option.scores.sativa,
+      hybrid: scores.hybrid + option.scores.hybrid,
+    };
+    setScores(newScores);
+
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowResult(true);
+    }
+  };
+
+  const getResult = () => {
+    const max = Math.max(scores.indica, scores.sativa, scores.hybrid);
+    if (scores.indica === max) return strainResults.indica;
+    if (scores.sativa === max) return strainResults.sativa;
+    return strainResults.hybrid;
+  };
+
+  const reset = () => {
+    setCurrentQuestion(0);
+    setScores({ indica: 0, sativa: 0, hybrid: 0 });
+    setShowResult(false);
+    setStarted(false);
+  };
+
+  const result = getResult();
+  const progress = started ? ((currentQuestion + (showResult ? 1 : 0)) / questions.length) * 100 : 0;
+
   return (
     <section className="py-24 md:py-32 px-6 relative overflow-hidden">
       {/* Left leaf */}
@@ -208,7 +111,7 @@ const StrainQuiz = () => {
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-48 md:w-72 lg:w-96 opacity-10 pointer-events-none select-none -rotate-12"
         aria-hidden="true"
       />
-      {/* Right leaf */}
+      {/* Right leaf — mirrored */}
       <img
         src={cannabisLeaf}
         alt=""
@@ -216,7 +119,7 @@ const StrainQuiz = () => {
         aria-hidden="true"
       />
 
-      <div className="max-w-3xl mx-auto relative z-10">
+      <div className="max-w-2xl mx-auto relative z-10">
         <ScrollReveal>
           <div className="text-center mb-12">
             <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
@@ -225,28 +128,115 @@ const StrainQuiz = () => {
             <h2 className="font-serif text-3xl md:text-5xl text-foreground italic">
               What's your vibe?
             </h2>
-            <p className="text-sm font-sans text-muted-foreground mt-4 max-w-md mx-auto">
-              Pick a mood and we'll match you with the perfect strain.
-            </p>
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.15}>
-          <MoodFilter mode="simple" showToggle={false} />
+        <div className="relative min-h-[320px]">
+          <AnimatePresence mode="wait">
+            {!started && (
+              <motion.div
+                key="start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="text-center"
+              >
+                <p className="text-sm font-sans text-muted-foreground mb-8 max-w-md mx-auto leading-relaxed">
+                  Answer 4 quick questions and we'll match you with the perfect strain type — Indica, Sativa, or Hybrid.
+                </p>
+                <button
+                  onClick={() => setStarted(true)}
+                  className="font-sans text-xs uppercase editorial-spacing px-8 py-4 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+                >
+                  Take the Quiz
+                </button>
+              </motion.div>
+            )}
 
-          <div className="text-center mt-8">
-            <a
-              href="/shop"
-              className="inline-block text-xs font-sans uppercase editorial-spacing text-muted-foreground/50 border-b border-border/30 pb-1 hover:text-foreground hover:border-foreground transition-all duration-300"
-            >
-              Explore full catalog →
-            </a>
-          </div>
-        </ScrollReveal>
+            {started && !showResult && (
+              <motion.div
+                key={`q-${currentQuestion}`}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
+              >
+                {/* Progress bar */}
+                <div className="h-[2px] bg-border/50 mb-10 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-foreground"
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </div>
+
+                <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-2">
+                  {currentQuestion + 1} of {questions.length}
+                </p>
+                <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-8">
+                  {questions[currentQuestion].question}
+                </h3>
+
+                <div className="space-y-3">
+                  {questions[currentQuestion].options.map((option, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleAnswer(option)}
+                      className="w-full text-left px-6 py-4 border border-border/50 text-sm font-sans text-foreground hover:border-foreground hover:bg-foreground/5 transition-all duration-300 group"
+                    >
+                      <span className="text-muted-foreground/40 mr-3 group-hover:text-foreground transition-colors">
+                        {String.fromCharCode(65 + i)}.
+                      </span>
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {showResult && (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                className="text-center"
+              >
+                <div className="text-6xl mb-6">{result.emoji}</div>
+                <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3">
+                  Your Match
+                </p>
+                <h3 className="font-serif text-4xl md:text-5xl text-foreground italic mb-3">
+                  {result.name}
+                </h3>
+                <p className="font-serif text-lg text-foreground/70 italic mb-6">
+                  "{result.tagline}"
+                </p>
+                <p className="text-sm font-sans text-muted-foreground leading-relaxed max-w-md mx-auto mb-10">
+                  {result.description}
+                </p>
+                <div className="flex gap-4 justify-center">
+                  <a
+                    href={`/shop?type=${result.name.toLowerCase()}`}
+                    className="font-sans text-xs uppercase editorial-spacing px-8 py-4 bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
+                  >
+                    Shop {result.name}
+                  </a>
+                  <button
+                    onClick={reset}
+                    className="font-sans text-xs uppercase editorial-spacing px-8 py-4 border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-all duration-300"
+                  >
+                    Retake
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
 };
 
-export { MoodFilter };
 export default StrainQuiz;

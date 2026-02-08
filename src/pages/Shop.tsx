@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
-import { MoodFilter } from "@/components/home/StrainQuiz";
 
 const allProducts = [
   { id: 1, name: "Premium Flower", brand: "Cookies", type: "Indica", category: "Flower", price: "$55", deal: false },
@@ -15,38 +14,20 @@ const allProducts = [
 ];
 
 const categories = ["All", "Flower", "Vape", "Pre-Roll", "Concentrate", "Edible"];
+const strainTypes = ["All", "Indica", "Sativa", "Hybrid"];
 const brands = ["All", "Cookies", "Raw Garden", "Jeeter", "710 Labs", "STIIIZY", "Connected", "Alien Labs", "Heavy Hitters"];
-
-// Map simple moods to strain types
-const moodToStrains: Record<string, string[]> = {
-  chill: ["Indica"],
-  creative: ["Sativa"],
-  social: ["Hybrid", "Sativa"],
-  sleep: ["Indica"],
-};
 
 const Shop = () => {
   const [category, setCategory] = useState("All");
+  const [strain, setStrain] = useState("All");
   const [brand, setBrand] = useState("All");
   const [dealsOnly, setDealsOnly] = useState(false);
-  const [moodFilter, setMoodFilter] = useState("");
-  const [strainFilter, setStrainFilter] = useState("");
 
   const filtered = allProducts.filter((p) => {
     if (category !== "All" && p.category !== category) return false;
+    if (strain !== "All" && p.type !== strain) return false;
     if (brand !== "All" && p.brand !== brand) return false;
     if (dealsOnly && !p.deal) return false;
-
-    // Mood-based filtering (simple mode)
-    if (moodFilter && moodToStrains[moodFilter]) {
-      if (!moodToStrains[moodFilter].includes(p.type)) return false;
-    }
-
-    // Strain-based filtering (smart mode)
-    if (strainFilter) {
-      if (p.type.toLowerCase() !== strainFilter) return false;
-    }
-
     return true;
   });
 
@@ -75,31 +56,16 @@ const Shop = () => {
     <PageLayout>
       <div className="py-16 md:py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Curated Selection</p>
             <h1 className="font-serif text-4xl md:text-6xl text-foreground">The Shop</h1>
           </div>
 
-          {/* Mood/Strain filter with toggle */}
-          <div className="max-w-3xl mx-auto mb-16">
-            <MoodFilter
-              mode="simple"
-              showToggle={true}
-              onMoodSelect={(mood) => {
-                setMoodFilter(mood);
-                setStrainFilter("");
-              }}
-              onStrainSelect={(strain) => {
-                setStrainFilter(strain);
-                setMoodFilter("");
-              }}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-12">
-            {/* Sidebar filters */}
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
+            {/* Filters */}
             <aside>
               <FilterGroup label="Category" options={categories} value={category} onChange={setCategory} />
+              <FilterGroup label="Strain" options={strainTypes} value={strain} onChange={setStrain} />
               <FilterGroup label="Brand" options={brands} value={brand} onChange={setBrand} />
               <div className="mb-8">
                 <button
@@ -136,7 +102,6 @@ const Shop = () => {
               {filtered.length === 0 && (
                 <div className="col-span-full text-center py-20">
                   <p className="font-serif text-2xl text-muted-foreground">No products match your filters</p>
-                  <p className="text-sm text-muted-foreground/50 font-sans mt-2">Try adjusting your mood or category</p>
                 </div>
               )}
             </div>
