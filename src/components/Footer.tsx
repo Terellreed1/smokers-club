@@ -60,6 +60,12 @@ const Footer = () => {
               <p>Sunday: 11am – 7pm</p>
               <div className="pt-3 border-t border-background/10 mt-3">
                 <p>Delivering to MD, DC & VA</p>
+                <Link
+                  to="/delivery"
+                  className="text-gold hover:text-gold/80 transition-colors duration-300 inline-block mt-1"
+                >
+                  View Delivery Map →
+                </Link>
               </div>
             </div>
           </div>
