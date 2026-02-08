@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Merch from "./pages/Merch";
 import FAQ from "./pages/FAQ";
 import Delivery from "./pages/Delivery";
+import Points from "./pages/Points";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/merch" element={<Merch />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/delivery" element={<Delivery />} />
+          <Route path="/points" element={<Points />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />

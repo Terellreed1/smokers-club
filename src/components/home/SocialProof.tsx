@@ -75,23 +75,6 @@ const SocialProof = () => {
           ))}
         </StaggerContainer>
 
-        <ScrollReveal className="text-center">
-          <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-6">
-            Follow the Movement
-          </p>
-          <div className="flex justify-center gap-6">
-            {["Instagram", "Facebook", "Twitter"].map((platform, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-12 h-12 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300"
-                aria-label={platform}
-              >
-                <span className="text-xs font-sans uppercase">{platform.charAt(0)}</span>
-              </a>
-            ))}
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );

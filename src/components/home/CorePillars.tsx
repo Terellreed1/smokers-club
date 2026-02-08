@@ -31,31 +31,63 @@ const CorePillars = () => {
           </h2>
         </ScrollReveal>
 
-        {/* Pyramid — triangle shape with progressively wider rows */}
-        <div className="flex flex-col items-center gap-0">
-          {pillars.map((pillar, i) => {
-            // Each row gets progressively wider
-            const widths = ["max-w-xs", "max-w-md", "max-w-2xl"];
-            const delays = [0.1, 0.2, 0.3];
-            // Darker shade for top, lighter toward bottom
-            const bgOpacity = ["bg-foreground/95", "bg-foreground/85", "bg-foreground/75"];
+        {/* Actual pyramid shape using clip-path */}
+        <ScrollReveal delay={0.1}>
+          <div className="relative max-w-3xl mx-auto">
+            {/* Pyramid container with triangular clip */}
+            <div
+              className="relative w-full"
+              style={{
+                clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+              }}
+            >
+              {/* Gradient background */}
+              <div className="w-full bg-foreground" style={{ aspectRatio: "1.2 / 1" }}>
+                {/* Content positioned within the triangle */}
+                <div className="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
+                  {/* Top pillar */}
+                  <div className="text-center px-4 mb-auto mt-[28%]">
+                    <h3 className="font-serif text-sm md:text-lg text-background mb-1">
+                      {pillars[0].title}
+                    </h3>
+                    <p className="text-[9px] md:text-[10px] text-background/50 leading-relaxed font-sans max-w-[140px] md:max-w-[180px] mx-auto">
+                      {pillars[0].description}
+                    </p>
+                  </div>
 
-            return (
-              <ScrollReveal key={i} delay={delays[i]} className="w-full flex justify-center">
-                <div
-                  className={`w-full ${widths[i]} text-center px-8 py-8 ${bgOpacity[i]} transition-all duration-500`}
-                >
-                  <h3 className="font-serif text-lg md:text-xl mb-2 text-background">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-xs text-background/60 leading-relaxed font-sans">
-                    {pillar.description}
-                  </p>
+                  {/* Divider */}
+                  <div className="w-24 md:w-32 h-px bg-background/15 my-3 md:my-5" />
+
+                  {/* Middle pillar */}
+                  <div className="text-center px-4">
+                    <h3 className="font-serif text-sm md:text-lg text-background mb-1">
+                      {pillars[1].title}
+                    </h3>
+                    <p className="text-[9px] md:text-[10px] text-background/50 leading-relaxed font-sans max-w-[200px] md:max-w-[280px] mx-auto">
+                      {pillars[1].description}
+                    </p>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="w-40 md:w-56 h-px bg-background/15 my-3 md:my-5" />
+
+                  {/* Bottom pillar - widest */}
+                  <div className="text-center px-4">
+                    <h3 className="font-serif text-sm md:text-lg text-background mb-1">
+                      {pillars[2].title}
+                    </h3>
+                    <p className="text-[9px] md:text-[10px] text-background/50 leading-relaxed font-sans max-w-[280px] md:max-w-[400px] mx-auto">
+                      {pillars[2].description}
+                    </p>
+                  </div>
                 </div>
-              </ScrollReveal>
-            );
-          })}
-        </div>
+              </div>
+            </div>
+
+            {/* Subtle glow beneath pyramid */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-foreground/5 blur-3xl" />
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
