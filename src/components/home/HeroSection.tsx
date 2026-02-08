@@ -73,7 +73,7 @@ const HeroSection = () => {
           className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic opacity-0 animate-fade-in-up"
           style={{ animationDelay: "0.3s" }}
         >
-          luxury couriers
+          stay high, my friend
         </h1>
 
         <p
