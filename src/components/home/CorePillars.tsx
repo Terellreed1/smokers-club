@@ -1,32 +1,29 @@
-import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
+import ScrollReveal from "./ScrollReveal";
 
 const pillars = [
   {
     title: "Knowledge",
     description:
-      "We serve our community by educating on the many intersections cannabis has in our everyday lives including your health, rights, and culture.",
-    image: "https://images.unsplash.com/photo-1532187863486-abf4dbce2632?w=600&h=400&fit=crop",
+      "Educating our community on the intersections of cannabis with health, rights, and culture.",
   },
   {
     title: "Purpose",
     description:
-      "We are rooted in community impact through charitable involvement and cannabis education that furthers generations to come.",
-    image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&h=400&fit=crop",
+      "Rooted in community impact through charitable involvement and cannabis education.",
   },
   {
     title: "The Spirit of Family",
     description:
-      "We foster a sense of togetherness and human connection that ensures everyone feels comfortable exploring the vast world of cannabis.",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=400&fit=crop",
+      "Fostering togetherness and human connection in the vast world of cannabis.",
   },
 ];
 
 const CorePillars = () => {
   return (
-    <section className="py-24 md:py-32 px-6 bg-secondary/50">
-      <div className="max-w-6xl mx-auto">
-        <ScrollReveal className="text-center mb-16">
-          <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
+    <section className="py-24 md:py-32 px-6">
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal className="text-center mb-20">
+          <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
             Our Foundation
           </p>
           <h2 className="font-serif text-3xl md:text-5xl text-foreground">
@@ -34,33 +31,44 @@ const CorePillars = () => {
           </h2>
         </ScrollReveal>
 
-        <StaggerContainer
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12"
-          staggerDelay={0.15}
-        >
-          {pillars.map((pillar) => (
-            <div
-              key={pillar.title}
-              className="group bg-background border border-border/50 overflow-hidden text-center transition-all duration-500 hover:border-gold/30 hover:-translate-y-1 luxury-shadow"
-            >
-              <div className="aspect-[3/2] overflow-hidden">
-                <img
-                  src={pillar.image}
-                  alt={pillar.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-10 md:p-12">
-                <h3 className="font-serif text-xl md:text-2xl mb-4 text-foreground">
-                  {pillar.title}
+        {/* Pyramid layout */}
+        <div className="flex flex-col items-center gap-6">
+          {/* Top — single pillar */}
+          <ScrollReveal delay={0.1}>
+            <div className="w-full max-w-sm text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
+              <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
+                {pillars[0].title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed font-sans">
+                {pillars[0].description}
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Bottom — two pillars side by side */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+            <ScrollReveal delay={0.2}>
+              <div className="text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
+                <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
+                  {pillars[1].title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed font-sans">
-                  {pillar.description}
+                  {pillars[1].description}
                 </p>
               </div>
-            </div>
-          ))}
-        </StaggerContainer>
+            </ScrollReveal>
+            <ScrollReveal delay={0.3}>
+              <div className="text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
+                <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
+                  {pillars[2].title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed font-sans">
+                  {pillars[2].description}
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
       </div>
     </section>
   );
