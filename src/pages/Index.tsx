@@ -7,6 +7,7 @@ import CorePillars from "@/components/home/CorePillars";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
 import BrandStory from "@/components/home/BrandStory";
+import LoyaltySmokeRing from "@/components/home/LoyaltySmokeRing";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
         <ProductsPreview />
         <StrainQuiz />
         <CorePillars />
+        <LoyaltySmokeRing />
         <BrandStory />
         <SocialProof />
       </main>

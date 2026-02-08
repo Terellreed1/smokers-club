@@ -3,43 +3,43 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
 
-import blueGuavaPops from "@/assets/products/blue-guava-pops.png";
-import pineSolParadise from "@/assets/products/pine-sol-paradise.png";
-import zPie from "@/assets/products/z-pie.png";
-import tiramisu from "@/assets/products/tiramisu.png";
+import blackLabel from "@/assets/products/black-label.png";
+import bigBagBuds from "@/assets/products/big-bag-buds.png";
+import elJefe from "@/assets/products/el-jefe.png";
+import marshmallowMilk from "@/assets/products/marshmallow-milk.png";
 
 const products = [
   {
     id: 1,
-    name: "Blue Guava Pops",
-    brand: "La Dulceria",
+    name: "Black Label",
+    brand: "The Republic",
     type: "Hybrid",
     price: "$55",
-    image: blueGuavaPops,
+    image: blackLabel,
   },
   {
     id: 2,
-    name: "Pine-Sol Paradise",
-    brand: "Fresh Vibez",
+    name: "CombOz",
+    brand: "Big Bag O' Buds",
     type: "Sativa",
     price: "$45",
-    image: pineSolParadise,
+    image: bigBagBuds,
   },
   {
     id: 3,
-    name: "Z-Pie",
-    brand: "Fresh Vibez",
+    name: "El Jefe",
+    brand: "LowKey",
     type: "Indica",
     price: "$50",
-    image: zPie,
+    image: elJefe,
   },
   {
     id: 4,
-    name: "Tiramisu",
-    brand: "Up The Hill",
+    name: "Marshmallow Milk",
+    brand: "VOLO",
     type: "Hybrid",
     price: "$65",
-    image: tiramisu,
+    image: marshmallowMilk,
   },
 ];
 
@@ -64,7 +64,7 @@ const ProductsPreview = () => {
         </div>
 
         <StaggerContainer
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
           staggerDelay={0.1}
         >
           {products.map((product) => (
@@ -101,35 +101,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="aspect-[3/4] bg-background border border-border/30 mb-4 overflow-hidden relative transition-all duration-500 group-hover:border-border/60">
-        {/* Product image */}
+      <div className="aspect-square mb-5 overflow-hidden relative">
         <motion.img
           src={product.image}
           alt={product.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain"
           animate={{
             scale: isHovered ? 1.06 : 1,
           }}
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
         />
-
-        {/* Hover overlay */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4 }}
-        />
-
-        {/* Quick view text on hover */}
-        <motion.div
-          className="absolute bottom-4 left-0 right-0 text-center z-10"
-          animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 10 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <span className="text-[10px] font-sans uppercase editorial-spacing text-background/90">
-            Quick View
-          </span>
-        </motion.div>
       </div>
 
       <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">

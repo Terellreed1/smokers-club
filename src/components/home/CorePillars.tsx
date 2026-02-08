@@ -21,7 +21,7 @@ const pillars = [
 const CorePillars = () => {
   return (
     <section className="py-24 md:py-32 px-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <ScrollReveal className="text-center mb-20">
           <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
             Our Foundation
@@ -31,43 +31,30 @@ const CorePillars = () => {
           </h2>
         </ScrollReveal>
 
-        {/* Pyramid layout */}
-        <div className="flex flex-col items-center gap-6">
-          {/* Top — single pillar */}
-          <ScrollReveal delay={0.1}>
-            <div className="w-full max-w-sm text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
-              <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
-                {pillars[0].title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed font-sans">
-                {pillars[0].description}
-              </p>
-            </div>
-          </ScrollReveal>
+        {/* Pyramid — triangle shape with progressively wider rows */}
+        <div className="flex flex-col items-center gap-0">
+          {pillars.map((pillar, i) => {
+            // Each row gets progressively wider
+            const widths = ["max-w-xs", "max-w-md", "max-w-2xl"];
+            const delays = [0.1, 0.2, 0.3];
+            // Darker shade for top, lighter toward bottom
+            const bgOpacity = ["bg-foreground/95", "bg-foreground/85", "bg-foreground/75"];
 
-          {/* Bottom — two pillars side by side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
-            <ScrollReveal delay={0.2}>
-              <div className="text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
-                <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
-                  {pillars[1].title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed font-sans">
-                  {pillars[1].description}
-                </p>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.3}>
-              <div className="text-center px-8 py-10 border border-border/40 bg-secondary/30 transition-all duration-500 hover:border-border">
-                <h3 className="font-serif text-xl md:text-2xl mb-3 text-foreground">
-                  {pillars[2].title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed font-sans">
-                  {pillars[2].description}
-                </p>
-              </div>
-            </ScrollReveal>
-          </div>
+            return (
+              <ScrollReveal key={i} delay={delays[i]} className="w-full flex justify-center">
+                <div
+                  className={`w-full ${widths[i]} text-center px-8 py-8 ${bgOpacity[i]} transition-all duration-500`}
+                >
+                  <h3 className="font-serif text-lg md:text-xl mb-2 text-background">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs text-background/60 leading-relaxed font-sans">
+                    {pillar.description}
+                  </p>
+                </div>
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>
