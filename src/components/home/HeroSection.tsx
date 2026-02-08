@@ -14,7 +14,7 @@ const HeroSection = () => {
 
     (window as any).onYouTubeIframeAPIReady = () => {
       player = new (window as any).YT.Player("yt-player", {
-        videoId: "Ptgjuqrs_6Y",
+        videoId: "jfMmHXR0MRc",
         playerVars: {
           autoplay: 1,
           mute: 1,
@@ -23,9 +23,7 @@ const HeroSection = () => {
           rel: 0,
           loop: 1,
           modestbranding: 1,
-          start: 301,
-          end: 372,
-          playlist: "Ptgjuqrs_6Y",
+          playlist: "jfMmHXR0MRc",
           playsinline: 1,
         },
         events: {
@@ -34,7 +32,7 @@ const HeroSection = () => {
           },
           onStateChange: (event: any) => {
             if (event.data === (window as any).YT.PlayerState.ENDED) {
-              event.target.seekTo(301);
+              event.target.seekTo(0);
               event.target.playVideo();
             }
           },
@@ -78,37 +76,12 @@ const HeroSection = () => {
           luxury couriers
         </h1>
 
-        {/* Gold Divider */}
-        <div
-          className="w-24 h-px gold-gradient mx-auto my-8 opacity-0 animate-fade-in-up"
-          style={{ animationDelay: "0.6s" }}
-        />
-
         <p
-          className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 opacity-0 animate-fade-in-up"
-          style={{ animationDelay: "0.9s" }}
+          className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 opacity-0 animate-fade-in-up mt-8"
+          style={{ animationDelay: "0.6s" }}
         >
           Street-born · Brand-backed · Premium THC delivered
         </p>
-
-        {/* CTA */}
-        <div
-          className="mt-12 opacity-0 animate-fade-in-up"
-          style={{ animationDelay: "1.2s" }}
-        >
-          <a
-            href="/shop"
-            className="inline-block border border-gold/60 text-gold text-xs font-sans uppercase editorial-spacing px-10 py-4 hover:bg-gold hover:text-foreground transition-all duration-500"
-          >
-            Explore the Collection
-          </a>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in-up" style={{ animationDelay: "1.5s" }}>
-        <div className="w-px h-12 bg-gradient-to-b from-gold/60 to-transparent mx-auto mb-2" />
-        <p className="text-[10px] font-sans uppercase editorial-spacing text-background/40">Scroll</p>
       </div>
     </section>
   );
