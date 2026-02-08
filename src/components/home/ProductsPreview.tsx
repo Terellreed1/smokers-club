@@ -3,42 +3,43 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
 
+import blueGuavaPops from "@/assets/products/blue-guava-pops.png";
+import pineSolParadise from "@/assets/products/pine-sol-paradise.png";
+import zPie from "@/assets/products/z-pie.png";
+import tiramisu from "@/assets/products/tiramisu.png";
+
 const products = [
   {
     id: 1,
-    name: "Premium Flower",
-    brand: "Cookies",
-    type: "Indica",
+    name: "Blue Guava Pops",
+    brand: "La Dulceria",
+    type: "Hybrid",
     price: "$55",
-    image: "https://images.unsplash.com/photo-1603909223429-69bb7101f420?w=500&h=650&fit=crop",
-    hoverImage: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=500&h=650&fit=crop",
+    image: blueGuavaPops,
   },
   {
     id: 2,
-    name: "Live Resin Cart",
-    brand: "Raw Garden",
-    type: "Hybrid",
+    name: "Pine-Sol Paradise",
+    brand: "Fresh Vibez",
+    type: "Sativa",
     price: "$45",
-    image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&h=650&fit=crop",
-    hoverImage: "https://images.unsplash.com/photo-1517142089942-ba376ce32a2e?w=500&h=650&fit=crop",
+    image: pineSolParadise,
   },
   {
     id: 3,
-    name: "Diamond Infused Pre-Roll",
-    brand: "Jeeter",
-    type: "Sativa",
-    price: "$25",
-    image: "https://images.unsplash.com/photo-1533750204176-3b0d38e9ac1e?w=500&h=650&fit=crop",
-    hoverImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&h=650&fit=crop",
+    name: "Z-Pie",
+    brand: "Fresh Vibez",
+    type: "Indica",
+    price: "$50",
+    image: zPie,
   },
   {
     id: 4,
-    name: "Rosin Concentrate",
-    brand: "710 Labs",
+    name: "Tiramisu",
+    brand: "Up The Hill",
     type: "Hybrid",
-    price: "$75",
-    image: "https://images.unsplash.com/photo-1532187863486-abf4dbce2632?w=500&h=650&fit=crop",
-    hoverImage: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=500&h=650&fit=crop",
+    price: "$65",
+    image: tiramisu,
   },
 ];
 
@@ -48,19 +49,14 @@ const ProductsPreview = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-end justify-between mb-16">
           <ScrollReveal>
-            <div>
-              <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
-                The Collection
-              </p>
-              <h2 className="font-serif text-3xl md:text-5xl text-foreground">
-                Featured Products
-              </h2>
-            </div>
+            <h2 className="font-serif text-3xl md:text-5xl text-foreground">
+              Featured Products
+            </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
             <Link
               to="/shop"
-              className="hidden md:block text-xs font-sans uppercase editorial-spacing text-gold hover:text-foreground transition-colors duration-300 border-b border-gold/30 pb-1"
+              className="hidden md:block text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300 pb-1"
             >
               View All
             </Link>
@@ -80,7 +76,7 @@ const ProductsPreview = () => {
           <div className="md:hidden text-center mt-10">
             <Link
               to="/shop"
-              className="text-xs font-sans uppercase editorial-spacing text-gold border-b border-gold/30 pb-1"
+              className="text-xs font-sans uppercase editorial-spacing text-muted-foreground"
             >
               View All Products
             </Link>
@@ -105,45 +101,24 @@ const ProductCard = ({ product }: ProductCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="aspect-[3/4] bg-secondary/80 border border-border/50 mb-4 overflow-hidden relative transition-all duration-500 group-hover:border-gold/30">
-        {/* Primary image */}
+      <div className="aspect-[3/4] bg-background border border-border/30 mb-4 overflow-hidden relative transition-all duration-500 group-hover:border-border/60">
+        {/* Product image */}
         <motion.img
           src={product.image}
           alt={product.name}
           className="absolute inset-0 w-full h-full object-cover"
           animate={{
-            scale: isHovered ? 1.08 : 1,
-            opacity: isHovered ? 0 : 1,
+            scale: isHovered ? 1.06 : 1,
           }}
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
         />
 
-        {/* Secondary "reveal" image on hover */}
-        <motion.img
-          src={product.hoverImage}
-          alt={`${product.name} detail`}
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ opacity: 0, scale: 1.15 }}
-          animate={{
-            opacity: isHovered ? 1 : 0,
-            scale: isHovered ? 1 : 1.15,
-          }}
-          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-        />
-
-        {/* Hover overlay shimmer */}
+        {/* Hover overlay */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent"
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.4 }}
         />
-
-        {/* Type badge */}
-        <div className="absolute top-4 left-4 z-10">
-          <span className="text-[10px] font-sans uppercase editorial-spacing text-gold bg-background/90 px-3 py-1">
-            {product.type}
-          </span>
-        </div>
 
         {/* Quick view text on hover */}
         <motion.div
@@ -160,10 +135,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">
         {product.brand}
       </p>
-      <h3 className="font-serif text-lg text-foreground group-hover:text-gold transition-colors duration-300">
+      <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">
         {product.name}
       </h3>
-      <p className="text-sm font-sans text-gold mt-1">{product.price}</p>
+      <div className="flex items-center gap-3 mt-1">
+        <p className="text-sm font-sans text-muted-foreground">{product.price}</p>
+        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground/60">
+          {product.type}
+        </span>
+      </div>
     </Link>
   );
 };
