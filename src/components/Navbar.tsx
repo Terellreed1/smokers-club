@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 
@@ -42,6 +43,7 @@ const Navbar = () => {
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
+  const { totalItems } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -70,14 +72,22 @@ const Navbar = () => {
     toast("Coming soon", { description: "Login functionality is on the way." });
   };
 
-  const renderNavLabel = (label: string) => `"${label}"`;
+  const isActive = (link: NavLink) => {
+    if (link.external) return false;
+    return location.pathname === link.to || location.pathname.startsWith(link.to + "/");
+  };
+
+  const renderLabel = (link: NavLink) => {
+    const active = isActive(link);
+    return active ? `"${link.label}"` : link.label;
+  };
 
   const linkClasses = (link: NavLink) =>
     cn(
       "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 hover:text-gold py-6",
       showSolid
-        ? location.pathname === link.to ? "text-gold" : "text-muted-foreground"
-        : location.pathname === link.to ? "text-gold" : "text-background/80 hover:text-gold"
+        ? isActive(link) ? "text-gold" : "text-muted-foreground"
+        : isActive(link) ? "text-gold" : "text-background/80 hover:text-gold"
     );
 
   return (
@@ -123,11 +133,11 @@ const Navbar = () => {
                   rel="noopener noreferrer"
                   className={linkClasses(link)}
                 >
-                  {renderNavLabel(link.label)}
+                  {renderLabel(link)}
                 </a>
               ) : (
                 <Link to={link.to} className={linkClasses(link)}>
-                  {renderNavLabel(link.label)}
+                  {renderLabel(link)}
                   {link.submenu && (
                     <ChevronDown
                       size={12}
@@ -167,8 +177,23 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Login Button */}
-        <div className="hidden md:block">
+        {/* Cart + Login */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link
+            to="/cart"
+            className={cn(
+              "relative p-2 transition-colors duration-300",
+              showSolid ? "text-foreground hover:text-gold" : "text-background hover:text-gold"
+            )}
+            aria-label="Shopping cart"
+          >
+            <ShoppingBag size={20} />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-primary-foreground text-[10px] font-sans flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </Link>
           <Button
             variant="outline"
             onClick={handleLogin}
@@ -178,17 +203,34 @@ const Navbar = () => {
           </Button>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className={cn(
-            "md:hidden transition-colors duration-300",
-            showSolid ? "text-foreground" : "text-background"
-          )}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Toggle + Cart */}
+        <div className="md:hidden flex items-center gap-3">
+          <Link
+            to="/cart"
+            className={cn(
+              "relative p-2 transition-colors duration-300",
+              showSolid ? "text-foreground" : "text-background"
+            )}
+            aria-label="Shopping cart"
+          >
+            <ShoppingBag size={20} />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-primary-foreground text-[10px] font-sans flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className={cn(
+              "transition-colors duration-300",
+              showSolid ? "text-foreground" : "text-background"
+            )}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -207,10 +249,10 @@ const Navbar = () => {
                       }
                       className={cn(
                         "w-full flex items-center justify-between text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3",
-                        location.pathname === link.to ? "text-gold" : "text-muted-foreground"
+                        isActive(link) ? "text-gold" : "text-muted-foreground"
                       )}
                     >
-                      {renderNavLabel(link.label)}
+                      {renderLabel(link)}
                       <ChevronDown
                         size={14}
                         className={cn(
@@ -242,7 +284,7 @@ const Navbar = () => {
                     onClick={() => setMobileOpen(false)}
                     className="block text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3 text-muted-foreground"
                   >
-                    {renderNavLabel(link.label)}
+                    {renderLabel(link)}
                   </a>
                 ) : (
                   <Link
@@ -250,10 +292,10 @@ const Navbar = () => {
                     onClick={() => setMobileOpen(false)}
                     className={cn(
                       "block text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3",
-                      location.pathname === link.to ? "text-gold" : "text-muted-foreground"
+                      isActive(link) ? "text-gold" : "text-muted-foreground"
                     )}
                   >
-                    {renderNavLabel(link.label)}
+                    {renderLabel(link)}
                   </Link>
                 )}
               </div>
