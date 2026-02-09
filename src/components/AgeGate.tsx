@@ -54,7 +54,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           <motion.img
             src={logo}
             alt="Luxury Couriers"
-            className="w-24 h-24 mx-auto mb-10 object-contain"
+            className="w-48 h-48 mx-auto mb-10 object-contain"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
