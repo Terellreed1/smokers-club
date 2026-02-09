@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
+import TiltCard from "@/components/TiltCard";
 
 import blackLabel from "@/assets/products/black-label.png";
 import bigBagBuds from "@/assets/products/big-bag-buds.png";
@@ -47,9 +48,11 @@ const Shop = () => {
       <h4 className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">{label}</h4>
       <div className="flex flex-wrap gap-2">
         {options.map((opt) => (
-          <button
+          <motion.button
             key={opt}
             onClick={() => onChange(opt)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={`text-xs font-sans px-4 py-2 border transition-all duration-300 ${
               value === opt
                 ? "border-foreground text-foreground bg-foreground/5"
@@ -57,7 +60,7 @@ const Shop = () => {
             }`}
           >
             {opt}
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>
@@ -82,14 +85,16 @@ const Shop = () => {
                 <FilterGroup label="Strain" options={strainTypes} value={strain} onChange={setStrain} />
                 <FilterGroup label="Brand" options={brands} value={brand} onChange={setBrand} />
                 <div className="mb-8">
-                  <button
+                  <motion.button
                     onClick={() => setDealsOnly(!dealsOnly)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     className={`text-xs font-sans px-4 py-2 border transition-all duration-300 ${
                       dealsOnly ? "border-foreground text-foreground bg-foreground/5" : "border-border/50 text-muted-foreground hover:border-foreground/30"
                     }`}
                   >
                     Deals Only
-                  </button>
+                  </motion.button>
                 </div>
               </aside>
             </ScrollReveal>
@@ -120,34 +125,29 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <Link
-      to={`/shop/${product.id}`}
-      className="group block"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="aspect-[3/4] mb-4 overflow-hidden relative">
-        <motion.img
-          src={product.image}
-          alt={product.name}
-          className="absolute inset-0 w-full h-full object-contain"
-          animate={{ scale: isHovered ? 1.06 : 1 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-        />
-        <div className="absolute top-4 left-4 flex gap-2">
-          <span className="text-[10px] font-sans uppercase editorial-spacing text-foreground bg-background/90 px-3 py-1">{product.type}</span>
-          {product.deal && (
-            <span className="text-[10px] font-sans uppercase editorial-spacing text-background bg-foreground px-3 py-1">Deal</span>
-          )}
+    <TiltCard className="relative">
+      <Link to={`/shop/${product.id}`} className="group block">
+        <div className="aspect-[3/4] mb-4 overflow-hidden relative">
+          <motion.img
+            src={product.image}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-contain"
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+          />
+          <div className="absolute top-4 left-4 flex gap-2">
+            <span className="text-[10px] font-sans uppercase editorial-spacing text-foreground bg-background/90 px-3 py-1">{product.type}</span>
+            {product.deal && (
+              <span className="text-[10px] font-sans uppercase editorial-spacing text-background bg-foreground px-3 py-1">Deal</span>
+            )}
+          </div>
         </div>
-      </div>
-      <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">{product.brand}</p>
-      <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
-      <p className="text-sm font-sans text-foreground/60 mt-1">{product.price}</p>
-    </Link>
+        <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">{product.brand}</p>
+        <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
+        <p className="text-sm font-sans text-foreground/60 mt-1">{product.price}</p>
+      </Link>
+    </TiltCard>
   );
 };
 

@@ -9,6 +9,7 @@ const Delivery = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [focused, setFocused] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +19,11 @@ const Delivery = () => {
     setEmail("");
     setMessage("");
   };
+
+  const inputClasses = (field: string) =>
+    `w-full bg-transparent border-b py-3 text-foreground font-sans text-sm outline-none transition-all duration-500 placeholder:text-muted-foreground/40 ${
+      focused === field ? "border-gold" : "border-border/50"
+    }`;
 
   return (
     <PageLayout>
@@ -52,54 +58,62 @@ const Delivery = () => {
 
           <ScrollReveal delay={0.15}>
             <form onSubmit={handleSubmit} className="space-y-10">
-              <div>
-                <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  maxLength={100}
-                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 placeholder:text-muted-foreground/40"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  maxLength={255}
-                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 placeholder:text-muted-foreground/40"
-                  placeholder="your@email.com"
-                />
-              </div>
-              <div>
+              {[
+                { field: "name", label: "Name", type: "text", value: name, onChange: setName, placeholder: "Your name" },
+                { field: "email", label: "Email", type: "email", value: email, onChange: setEmail, placeholder: "your@email.com" },
+              ].map(({ field, label, type, value, onChange, placeholder }) => (
+                <motion.div
+                  key={field}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
+                    {label}
+                  </label>
+                  <input
+                    type={type}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    onFocus={() => setFocused(field)}
+                    onBlur={() => setFocused(null)}
+                    required
+                    maxLength={field === "email" ? 255 : 100}
+                    className={inputClasses(field)}
+                    placeholder={placeholder}
+                  />
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
                 <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
                   Message
                 </label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  onFocus={() => setFocused("message")}
+                  onBlur={() => setFocused(null)}
                   required
                   maxLength={1000}
                   rows={4}
-                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 resize-none placeholder:text-muted-foreground/40"
+                  className={`${inputClasses("message")} resize-none`}
                   placeholder="How can we help?"
                 />
-              </div>
+              </motion.div>
+
               <div className="text-center pt-4">
                 <motion.button
                   type="submit"
                   className="text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-all duration-500"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.04, letterSpacing: "0.3em" }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Send Message
                 </motion.button>
@@ -113,12 +127,13 @@ const Delivery = () => {
               <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-2">
                 Or email us directly
               </p>
-              <a
+              <motion.a
                 href="mailto:info@luxurycouriers.com"
-                className="font-serif text-xl text-gold hover:text-gold/80 transition-colors duration-300"
+                className="font-serif text-xl text-gold hover:text-gold/80 transition-colors duration-300 inline-block"
+                whileHover={{ scale: 1.05 }}
               >
                 info@luxurycouriers.com
-              </a>
+              </motion.a>
             </div>
           </ScrollReveal>
         </div>
