@@ -95,7 +95,7 @@ const HeroSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full min-h-[120vh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
