@@ -139,7 +139,7 @@ const HeroSection = () => {
 
       {/* Hero Content */}
       <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl -mt-4 md:-mt-8"
+        className="relative z-10 text-center px-6 max-w-4xl -mt-16 md:-mt-24"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         {/* Logo */}
@@ -158,7 +158,14 @@ const HeroSection = () => {
 
         {/* Smoke reveal headline */}
         <motion.div style={{ x: textX, y: textY }} className="relative">
-          <HighTyping />
+          <motion.h1
+            className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic relative"
+            initial={{ opacity: 0, filter: "blur(20px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
+          >
+            "stay high, my friend"
+          </motion.h1>
         </motion.div>
 
         <motion.p
