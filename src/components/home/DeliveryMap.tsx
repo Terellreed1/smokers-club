@@ -36,7 +36,7 @@ const zones: ZoneData[] = [
     abbr: "DC",
     type: "delivery",
     description: "All quadrants — NW, NE, SW, SE, and downtown corridors. Our fastest service zone.",
-    hours: "Mon–Sat: 10am – 9pm · Sun: 11am – 7pm",
+    hours: "Mon–Sat: 8am – 9:30pm · Sun: 10am – 8pm",
     service: "Express hand-delivery",
     eta: "Under 1 hour",
     center: { lat: 38.9, lng: -77.03 },
@@ -52,7 +52,7 @@ const zones: ZoneData[] = [
     abbr: "MD",
     type: "delivery",
     description: "Baltimore, Annapolis, Silver Spring, Bethesda, Columbia, and surrounding areas.",
-    hours: "Mon–Sat: 10am – 9pm · Sun: 11am – 7pm",
+    hours: "Mon–Sat: 8am – 9:30pm · Sun: 10am – 8pm",
     service: "Same-day hand-delivery",
     eta: "1 – 3 hours",
     center: { lat: 39.15, lng: -76.7 },
@@ -72,7 +72,7 @@ const zones: ZoneData[] = [
     abbr: "VA",
     type: "delivery",
     description: "Northern Virginia including Arlington, Alexandria, Fairfax, Loudoun, and Prince William County.",
-    hours: "Mon–Sat: 10am – 9pm · Sun: 11am – 7pm",
+    hours: "Mon–Sat: 8am – 9:30pm · Sun: 10am – 8pm",
     service: "Same-day hand-delivery",
     eta: "1 – 3 hours",
     center: { lat: 38.2, lng: -78.0 },
@@ -139,13 +139,13 @@ const zones: ZoneData[] = [
   },
 ];
 
-// Purple-tinted Earth — everything purple except DMV
+// Red-tinted Earth — non-service areas shown in red
 function Earth() {
   const texture = useLoader(THREE.TextureLoader, "/textures/earth.jpg");
   const bumpMap = useLoader(THREE.TextureLoader, "/textures/earth-bump.png");
 
-  // Create a purple-tinted version of the texture
-  const purpleTexture = useMemo(() => {
+  // Create a red-tinted version of the texture for non-service areas
+  const redTexture = useMemo(() => {
     const canvas = document.createElement("canvas");
     const img = texture.image as HTMLImageElement;
     canvas.width = img.width;
@@ -155,14 +155,14 @@ function Earth() {
     // Draw original
     ctx.drawImage(img, 0, 0);
 
-    // Apply purple overlay
+    // Apply dark red overlay
     ctx.globalCompositeOperation = "color";
-    ctx.fillStyle = "rgba(120, 60, 180, 0.7)";
+    ctx.fillStyle = "rgba(180, 40, 40, 0.7)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Darken slightly
+    // Darken
     ctx.globalCompositeOperation = "multiply";
-    ctx.fillStyle = "rgba(40, 20, 60, 0.3)";
+    ctx.fillStyle = "rgba(60, 15, 15, 0.4)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const newTexture = new THREE.CanvasTexture(canvas);
@@ -173,7 +173,7 @@ function Earth() {
   return (
     <Sphere args={[2, 64, 64]}>
       <meshStandardMaterial
-        map={purpleTexture}
+        map={redTexture}
         bumpMap={bumpMap}
         bumpScale={0.03}
         roughness={0.7}
@@ -183,21 +183,21 @@ function Earth() {
   );
 }
 
-// Purple atmosphere glow
+// Dark atmosphere glow
 function Atmosphere() {
   return (
     <>
       <Sphere args={[2.04, 64, 64]}>
         <meshBasicMaterial
-          color="#7c3aed"
+          color="#991b1b"
           transparent
-          opacity={0.06}
+          opacity={0.04}
           side={THREE.BackSide}
         />
       </Sphere>
       <Sphere args={[2.15, 64, 64]}>
         <meshBasicMaterial
-          color="#a78bfa"
+          color="#7f1d1d"
           transparent
           opacity={0.03}
           side={THREE.BackSide}
@@ -205,7 +205,7 @@ function Atmosphere() {
       </Sphere>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <ringGeometry args={[2.02, 2.3, 64]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.02} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#991b1b" transparent opacity={0.02} side={THREE.DoubleSide} />
       </mesh>
     </>
   );
@@ -365,7 +365,7 @@ function GlobeScene({
     <>
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 3, 5]} intensity={1.0} />
-      <pointLight position={[-3, -2, 4]} intensity={0.2} color="#7c3aed" />
+      <pointLight position={[-3, -2, 4]} intensity={0.2} color="#991b1b" />
       <pointLight position={[2, 1, 3]} intensity={0.15} color="#4ade80" />
 
       <Earth />
@@ -466,7 +466,7 @@ const DeliveryMap = () => {
 
               {/* Ambient purple glow */}
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-violet-500/[0.04] blur-[60px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-red-900/[0.04] blur-[60px]" />
               </div>
             </div>
 
@@ -484,6 +484,12 @@ const DeliveryMap = () => {
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#8b5cf6" }} />
                   <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
                     Shipping
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#dc2626" }} />
+                  <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">
+                    No Service
                   </span>
                 </div>
               </div>
