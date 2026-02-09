@@ -128,11 +128,11 @@ const Delivery = () => {
                 Or email us directly
               </p>
               <motion.a
-                href="mailto:info@luxurycouriers.com"
+                href="mailto:admin@luxurycouriers.club"
                 className="font-serif text-xl text-gold hover:text-gold/80 transition-colors duration-300 inline-block"
                 whileHover={{ scale: 1.05 }}
               >
-                info@luxurycouriers.com
+                admin@luxurycouriers.club
               </motion.a>
             </div>
           </ScrollReveal>

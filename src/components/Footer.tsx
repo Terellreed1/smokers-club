@@ -18,18 +18,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Luxury Couriers" className="h-10 w-10 object-contain opacity-80" />
-              <h3 className="font-serif text-xl tracking-wider text-gold">LUXURY COURIERS</h3>
+            <div className="mb-4">
+              <img src={logo} alt="Luxury Couriers" className="h-20 w-20 object-contain opacity-80" />
             </div>
             <p className="text-sm text-background/60 leading-relaxed font-sans mb-4">
               Street-born. Brand-backed. Premium THC delivered to your door.
             </p>
             <a
-              href="mailto:info@luxurycouriers.com"
+              href="mailto:admin@luxurycouriers.club"
               className="text-sm text-gold hover:text-gold/80 transition-colors duration-300 font-sans"
             >
-              info@luxurycouriers.com
+              admin@luxurycouriers.club
             </a>
           </div>
 
@@ -82,8 +81,8 @@ const Footer = () => {
           <div>
             <h4 className="text-xs uppercase editorial-spacing text-gold mb-6 font-sans">Hours & Delivery</h4>
             <div className="space-y-2 text-sm text-background/60 font-sans">
-              <p>Mon – Sat: 10am – 9pm</p>
-              <p>Sunday: 11am – 7pm</p>
+              <p>Mon – Sat: 8am – 9:30pm</p>
+              <p>Sunday: 10am – 8pm</p>
               <div className="pt-3 border-t border-background/10 mt-3">
                 <p>Delivering to MD, DC & VA</p>
                 <Link

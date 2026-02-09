@@ -316,6 +316,78 @@ function ZoneLabel({ zone, isActive }: { zone: ZoneData; isActive: boolean }) {
   );
 }
 
+// All US states with approximate center coordinates
+const serviceStateIds = new Set(["dc", "md", "va", "ny", "nj", "pa"]);
+
+const allUSStates: { abbr: string; lat: number; lng: number }[] = [
+  { abbr: "AL", lat: 32.8, lng: -86.8 },
+  { abbr: "AK", lat: 64.2, lng: -152.5 },
+  { abbr: "AZ", lat: 34.0, lng: -111.1 },
+  { abbr: "AR", lat: 35.0, lng: -92.4 },
+  { abbr: "CA", lat: 36.8, lng: -119.4 },
+  { abbr: "CO", lat: 39.1, lng: -105.4 },
+  { abbr: "CT", lat: 41.6, lng: -72.7 },
+  { abbr: "DE", lat: 39.0, lng: -75.5 },
+  { abbr: "FL", lat: 27.8, lng: -81.8 },
+  { abbr: "GA", lat: 32.7, lng: -83.5 },
+  { abbr: "HI", lat: 19.9, lng: -155.6 },
+  { abbr: "ID", lat: 44.1, lng: -114.7 },
+  { abbr: "IL", lat: 40.3, lng: -89.0 },
+  { abbr: "IN", lat: 40.3, lng: -86.1 },
+  { abbr: "IA", lat: 42.0, lng: -93.2 },
+  { abbr: "KS", lat: 38.5, lng: -98.8 },
+  { abbr: "KY", lat: 37.8, lng: -84.3 },
+  { abbr: "LA", lat: 30.9, lng: -92.0 },
+  { abbr: "ME", lat: 45.3, lng: -69.4 },
+  { abbr: "MA", lat: 42.4, lng: -71.4 },
+  { abbr: "MI", lat: 44.3, lng: -85.6 },
+  { abbr: "MN", lat: 46.4, lng: -94.6 },
+  { abbr: "MS", lat: 32.7, lng: -89.7 },
+  { abbr: "MO", lat: 38.5, lng: -91.8 },
+  { abbr: "MT", lat: 46.8, lng: -110.4 },
+  { abbr: "NE", lat: 41.1, lng: -99.7 },
+  { abbr: "NV", lat: 38.8, lng: -116.4 },
+  { abbr: "NH", lat: 43.2, lng: -71.6 },
+  { abbr: "NM", lat: 34.8, lng: -106.2 },
+  { abbr: "NC", lat: 35.6, lng: -79.8 },
+  { abbr: "ND", lat: 47.5, lng: -100.5 },
+  { abbr: "OH", lat: 40.4, lng: -82.9 },
+  { abbr: "OK", lat: 35.0, lng: -97.1 },
+  { abbr: "OR", lat: 43.8, lng: -120.6 },
+  { abbr: "RI", lat: 41.6, lng: -71.5 },
+  { abbr: "SC", lat: 34.0, lng: -81.0 },
+  { abbr: "SD", lat: 43.9, lng: -99.9 },
+  { abbr: "TN", lat: 35.5, lng: -86.6 },
+  { abbr: "TX", lat: 31.1, lng: -97.6 },
+  { abbr: "UT", lat: 39.3, lng: -111.1 },
+  { abbr: "VT", lat: 44.0, lng: -72.7 },
+  { abbr: "WA", lat: 47.4, lng: -120.7 },
+  { abbr: "WV", lat: 38.5, lng: -80.5 },
+  { abbr: "WI", lat: 43.8, lng: -89.5 },
+  { abbr: "WY", lat: 43.1, lng: -107.6 },
+];
+
+// State label on globe — red for non-service, skip states that already have zone labels
+function StateLabel({ abbr, lat, lng }: { abbr: string; lat: number; lng: number }) {
+  const pos = useMemo(() => latLngToVector3(lat, lng, 2.08), [lat, lng]);
+
+  return (
+    <Html position={pos} center style={{ pointerEvents: "none" }}>
+      <div className="text-center">
+        <span
+          className="text-[8px] font-sans font-bold uppercase tracking-wider px-1"
+          style={{
+            color: "#ef4444",
+            textShadow: "0 0 6px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.5)",
+          }}
+        >
+          {abbr}
+        </span>
+      </div>
+    </Html>
+  );
+}
+
 // Pulsing city dot
 function CityDot({ lat, lng, delay = 0, label }: { lat: number; lng: number; delay?: number; label: string }) {
   const ref = useRef<THREE.Mesh>(null);
@@ -384,10 +456,17 @@ function GlobeScene({
         />
       ))}
 
-      {/* Zone labels */}
+      {/* Zone labels (service areas) */}
       {zones.map((zone) => (
         <ZoneLabel key={`label-${zone.id}`} zone={zone} isActive={activeZone === zone.id} />
       ))}
+
+      {/* All other US state labels in red */}
+      {allUSStates
+        .filter((s) => !serviceStateIds.has(s.abbr.toLowerCase()))
+        .map((s) => (
+          <StateLabel key={`state-${s.abbr}`} abbr={s.abbr} lat={s.lat} lng={s.lng} />
+        ))}
 
       {/* City markers */}
       <CityDot lat={38.9} lng={-77.03} delay={0} label="Washington" />
