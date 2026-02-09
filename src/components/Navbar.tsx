@@ -101,20 +101,12 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center group">
           <img
             src={logo}
             alt="Luxury Couriers"
             className="h-24 w-24 object-contain transition-transform duration-300 group-hover:scale-105"
           />
-          <span
-            className={cn(
-              "font-serif text-lg tracking-wider transition-colors duration-300",
-              showSolid ? "text-gold" : "text-background"
-            )}
-          >
-            LUXURY COURIERS
-          </span>
         </Link>
 
         {/* Desktop Links */}
