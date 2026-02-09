@@ -210,16 +210,19 @@ function ZoneMarker({
         onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = "pointer"; }}
         onPointerOut={() => { document.body.style.cursor = "auto"; }}
       >
-        <sphereGeometry args={[0.018, 16, 16]} />
-        <meshBasicMaterial color={dotColor} />
+        <sphereGeometry args={[0.001, 4, 4]} />
+        <meshBasicMaterial transparent opacity={0} />
       </mesh>
-      <Html position={labelPos} center style={{ pointerEvents: "none" }}>
-        <div className="flex flex-col items-center">
+      <Html position={labelPos} center>
+        <div
+          className="flex flex-col items-center cursor-pointer"
+          onClick={(e) => { e.stopPropagation(); onClick(); }}
+        >
           <span
             className={`text-[10px] font-sans font-bold whitespace-nowrap text-center ${isActive ? "scale-125" : ""}`}
             style={{
-              color: "#ffffff",
-              textShadow: "0 0 5px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.8)",
+              color: dotColor,
+              textShadow: `0 0 6px ${dotColor}88, 0 0 3px rgba(0,0,0,0.9)`,
             }}
           >
             {zone.abbr}
@@ -228,6 +231,7 @@ function ZoneMarker({
             className="text-[6px] font-sans uppercase whitespace-nowrap text-center"
             style={{
               color: dotColor,
+              opacity: 0.7,
               textShadow: "0 0 4px rgba(0,0,0,0.9)",
             }}
           >
@@ -297,17 +301,13 @@ function StateMarker({ abbr, lat, lng }: { abbr: string; lat: number; lng: numbe
 
   return (
     <group>
-      <mesh position={dotPos}>
-        <sphereGeometry args={[0.015, 16, 16]} />
-        <meshBasicMaterial color="#991b1b" />
-      </mesh>
       <Html position={labelPos} center style={{ pointerEvents: "none" }}>
         <div className="flex items-center justify-center">
           <span
             className="text-[9px] font-sans font-bold whitespace-nowrap text-center"
             style={{
-              color: "#ffffff",
-              textShadow: "0 0 4px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.8)",
+              color: "#dc2626",
+              textShadow: "0 0 4px rgba(220,38,38,0.4), 0 0 3px rgba(0,0,0,0.9)",
             }}
           >
             {abbr}
@@ -334,8 +334,8 @@ function CityDot({ lat, lng, delay = 0, label }: { lat: number; lng: number; del
   return (
     <group>
       <mesh ref={ref} position={pos}>
-        <sphereGeometry args={[0.01, 12, 12]} />
-        <meshBasicMaterial color="#4ade80" transparent opacity={0.9} />
+        <sphereGeometry args={[0.001, 4, 4]} />
+        <meshBasicMaterial transparent opacity={0} />
       </mesh>
       <Html position={latLngToVector3(lat, lng, 2.06)} center style={{ pointerEvents: "none" }}>
         <span
