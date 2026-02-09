@@ -151,7 +151,7 @@ const HeroSection = () => {
           <img
             src={logo}
             alt="LC"
-            className="h-48 md:h-64 w-auto mx-auto drop-shadow-lg"
+            className="h-64 md:h-96 w-auto mx-auto drop-shadow-lg"
           />
         </motion.div>
 
