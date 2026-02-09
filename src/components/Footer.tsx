@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Instagram, Facebook, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const navItems = [
@@ -102,22 +102,17 @@ const Footer = () => {
             © {new Date().getFullYear()} Luxury Couriers. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {[
-              { icon: Instagram, label: "Instagram" },
-              { icon: Facebook, label: "Facebook" },
-              { icon: Twitter, label: "Twitter" },
-            ].map(({ icon: Icon, label }) => (
-              <motion.a
-                key={label}
-                href="#"
-                className="text-background/40 hover:text-gold transition-colors duration-300"
-                aria-label={label}
-                whileHover={{ scale: 1.2, y: -3 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Icon size={18} />
-              </motion.a>
-            ))}
+            <motion.a
+              href="https://instagram.com/luxurycourierclub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-background/40 hover:text-gold transition-colors duration-300"
+              aria-label="Instagram"
+              whileHover={{ scale: 1.2, y: -3 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Instagram size={18} />
+            </motion.a>
           </div>
         </div>
       </div>
