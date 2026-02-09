@@ -144,7 +144,6 @@ const HeroSection = () => {
         {/* Logo */}
         <motion.div
           className="mx-auto mb-8"
-          style={{ x: logoX, y: logoY }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.6, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
@@ -152,7 +151,7 @@ const HeroSection = () => {
           <img
             src={logo}
             alt="LC"
-            className="h-24 md:h-32 w-auto mx-auto drop-shadow-lg"
+            className="h-48 md:h-64 w-auto mx-auto drop-shadow-lg"
           />
         </motion.div>
 

@@ -105,7 +105,7 @@ const Navbar = () => {
           <img
             src={logo}
             alt="Luxury Couriers"
-            className="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-24 w-24 object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <span
             className={cn(
