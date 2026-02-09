@@ -210,7 +210,7 @@ function ZoneMarker({
         onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = "pointer"; }}
         onPointerOut={() => { document.body.style.cursor = "auto"; }}
       >
-        <sphereGeometry args={[0.035, 16, 16]} />
+        <sphereGeometry args={[0.018, 16, 16]} />
         <meshBasicMaterial color={dotColor} />
       </mesh>
       <Html position={labelPos} center style={{ pointerEvents: "none" }}>
@@ -298,7 +298,7 @@ function StateMarker({ abbr, lat, lng }: { abbr: string; lat: number; lng: numbe
   return (
     <group>
       <mesh position={dotPos}>
-        <sphereGeometry args={[0.03, 16, 16]} />
+        <sphereGeometry args={[0.015, 16, 16]} />
         <meshBasicMaterial color="#991b1b" />
       </mesh>
       <Html position={labelPos} center style={{ pointerEvents: "none" }}>
@@ -334,7 +334,7 @@ function CityDot({ lat, lng, delay = 0, label }: { lat: number; lng: number; del
   return (
     <group>
       <mesh ref={ref} position={pos}>
-        <sphereGeometry args={[0.015, 12, 12]} />
+        <sphereGeometry args={[0.01, 12, 12]} />
         <meshBasicMaterial color="#4ade80" transparent opacity={0.9} />
       </mesh>
       <Html position={latLngToVector3(lat, lng, 2.06)} center style={{ pointerEvents: "none" }}>
