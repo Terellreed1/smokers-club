@@ -2,6 +2,14 @@ import { Link } from "react-router-dom";
 import { Instagram, Facebook, Twitter } from "lucide-react";
 import logo from "@/assets/logo.png";
 
+const navItems = [
+  { label: "Shop", to: "/shop" },
+  { label: "About", to: "/about" },
+  { label: "Merch", to: "https://www.luxurycourier.club/", external: true },
+  { label: "FAQ", to: "/faq" },
+  { label: "Delivery", to: "/delivery" },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
@@ -13,23 +21,40 @@ const Footer = () => {
               <img src={logo} alt="Luxury Couriers" className="h-10 w-10 object-contain opacity-80" />
               <h3 className="font-serif text-xl tracking-wider text-gold">LUXURY COURIERS</h3>
             </div>
-            <p className="text-sm text-background/60 leading-relaxed font-sans">
+            <p className="text-sm text-background/60 leading-relaxed font-sans mb-4">
               Street-born. Brand-backed. Premium THC delivered to your door.
             </p>
+            <a
+              href="mailto:info@luxurycouriers.com"
+              className="text-sm text-gold hover:text-gold/80 transition-colors duration-300 font-sans"
+            >
+              info@luxurycouriers.com
+            </a>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="text-xs uppercase editorial-spacing text-gold mb-6 font-sans">Navigate</h4>
             <ul className="space-y-3">
-              {["Shop", "About", "Merch", "FAQ", "Delivery"].map((link) => (
-                <li key={link}>
-                  <Link
-                    to={`/${link.toLowerCase()}`}
-                    className="text-sm text-background/60 hover:text-gold transition-colors duration-300 font-sans"
-                  >
-                    {link}
-                  </Link>
+              {navItems.map((item) => (
+                <li key={item.label}>
+                  {item.external ? (
+                    <a
+                      href={item.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-background/60 hover:text-gold transition-colors duration-300 font-sans"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.to}
+                      className="text-sm text-background/60 hover:text-gold transition-colors duration-300 font-sans"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

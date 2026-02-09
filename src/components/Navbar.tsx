@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 
 const shopSubmenu = [
@@ -20,10 +21,17 @@ const aboutSubmenu = [
   { label: "FAQ", to: "/faq" },
 ];
 
-const navLinks = [
+interface NavLink {
+  label: string;
+  to: string;
+  submenu?: { label: string; to: string }[];
+  external?: boolean;
+}
+
+const navLinks: NavLink[] = [
   { label: "Shop", to: "/shop", submenu: shopSubmenu },
   { label: "About", to: "/about", submenu: aboutSubmenu },
-  { label: "Merch", to: "/merch" },
+  { label: "Merch", to: "https://www.luxurycourier.club/", external: true },
   { label: "Delivery", to: "/delivery" },
 ];
 
@@ -35,14 +43,12 @@ const Navbar = () => {
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  // Track scroll for transparent → solid transition
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false);
     setMobileExpanded(null);
@@ -59,6 +65,20 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     hoverTimeout.current = setTimeout(() => setHoveredMenu(null), 150);
   };
+
+  const handleLogin = () => {
+    toast("Coming soon", { description: "Login functionality is on the way." });
+  };
+
+  const renderNavLabel = (label: string) => `"${label}"`;
+
+  const linkClasses = (link: NavLink) =>
+    cn(
+      "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 hover:text-gold py-6",
+      showSolid
+        ? location.pathname === link.to ? "text-gold" : "text-muted-foreground"
+        : location.pathname === link.to ? "text-gold" : "text-background/80 hover:text-gold"
+    );
 
   return (
     <nav
@@ -87,39 +107,38 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Links with Mega Menu */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <div
-              key={link.to}
+              key={link.label}
               className="relative"
               onMouseEnter={() => link.submenu && handleMouseEnter(link.label)}
               onMouseLeave={handleMouseLeave}
             >
-              <Link
-                to={link.to}
-                className={cn(
-                  "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 hover:text-gold py-6",
-                  showSolid
-                    ? location.pathname === link.to
-                      ? "text-gold"
-                      : "text-muted-foreground"
-                    : location.pathname === link.to
-                      ? "text-gold"
-                      : "text-background/80 hover:text-gold"
-                )}
-              >
-                {link.label}
-                {link.submenu && (
-                  <ChevronDown
-                    size={12}
-                    className={cn(
-                      "transition-transform duration-300",
-                      hoveredMenu === link.label && "rotate-180"
-                    )}
-                  />
-                )}
-              </Link>
+              {link.external ? (
+                <a
+                  href={link.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClasses(link)}
+                >
+                  {renderNavLabel(link.label)}
+                </a>
+              ) : (
+                <Link to={link.to} className={linkClasses(link)}>
+                  {renderNavLabel(link.label)}
+                  {link.submenu && (
+                    <ChevronDown
+                      size={12}
+                      className={cn(
+                        "transition-transform duration-300",
+                        hoveredMenu === link.label && "rotate-180"
+                      )}
+                    />
+                  )}
+                </Link>
+              )}
 
               {/* Dropdown */}
               {link.submenu && hoveredMenu === link.label && (
@@ -128,8 +147,7 @@ const Navbar = () => {
                   onMouseEnter={() => handleMouseEnter(link.label)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="bg-background/98 backdrop-blur-xl border border-border/50 shadow-lg overflow-hidden">
-                    {/* Gold accent line at top */}
+                  <div className="bg-background backdrop-blur-xl border border-border/50 shadow-xl overflow-hidden">
                     <div className="h-px w-full bg-gradient-to-r from-transparent via-gold to-transparent" />
                     <div className="py-3">
                       {link.submenu.map((sub) => (
@@ -153,6 +171,7 @@ const Navbar = () => {
         <div className="hidden md:block">
           <Button
             variant="outline"
+            onClick={handleLogin}
             className="uppercase text-xs editorial-spacing rounded-none px-6 py-2 transition-all duration-300 border-foreground text-foreground hover:bg-foreground hover:text-background"
           >
             Login
@@ -177,7 +196,7 @@ const Navbar = () => {
         <div className="md:hidden bg-background border-t border-border/50 animate-fade-in">
           <div className="px-6 py-8 flex flex-col gap-2">
             {navLinks.map((link) => (
-              <div key={link.to}>
+              <div key={link.label}>
                 {link.submenu ? (
                   <>
                     <button
@@ -188,12 +207,10 @@ const Navbar = () => {
                       }
                       className={cn(
                         "w-full flex items-center justify-between text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3",
-                        location.pathname === link.to
-                          ? "text-gold"
-                          : "text-muted-foreground"
+                        location.pathname === link.to ? "text-gold" : "text-muted-foreground"
                       )}
                     >
-                      {link.label}
+                      {renderNavLabel(link.label)}
                       <ChevronDown
                         size={14}
                         className={cn(
@@ -217,18 +234,26 @@ const Navbar = () => {
                       </div>
                     )}
                   </>
+                ) : link.external ? (
+                  <a
+                    href={link.to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3 text-muted-foreground"
+                  >
+                    {renderNavLabel(link.label)}
+                  </a>
                 ) : (
                   <Link
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
                       "block text-sm font-sans uppercase editorial-spacing transition-colors duration-300 py-3",
-                      location.pathname === link.to
-                        ? "text-gold"
-                        : "text-muted-foreground"
+                      location.pathname === link.to ? "text-gold" : "text-muted-foreground"
                     )}
                   >
-                    {link.label}
+                    {renderNavLabel(link.label)}
                   </Link>
                 )}
               </div>
@@ -236,6 +261,7 @@ const Navbar = () => {
             <div className="pt-4 border-t border-border/50 mt-2">
               <Button
                 variant="outline"
+                onClick={handleLogin}
                 className="border-gold text-gold hover:bg-gold hover:text-primary-foreground uppercase text-xs editorial-spacing rounded-none w-fit px-6"
               >
                 Login

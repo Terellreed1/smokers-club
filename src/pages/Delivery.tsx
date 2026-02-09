@@ -1,61 +1,128 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
-import { Clock, MapPin, Truck } from "lucide-react";
+import DeliveryMap from "@/components/home/DeliveryMap";
+import ScrollReveal from "@/components/home/ScrollReveal";
+import { toast } from "sonner";
 
 const Delivery = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) return;
+    toast.success("Message sent! We'll get back to you soon.");
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+
   return (
     <PageLayout>
-      <div className="py-16 md:py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">Service</p>
-            <h1 className="font-serif text-4xl md:text-6xl text-foreground">Delivery & Shipping</h1>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <div className="bg-secondary/50 border border-border/50 p-10 text-center">
-              <MapPin className="w-8 h-8 text-gold mx-auto mb-4" />
-              <h3 className="font-serif text-xl mb-3">Delivery Zones</h3>
-              <p className="text-sm text-muted-foreground font-sans">Maryland, Washington D.C., Virginia</p>
-            </div>
-            <div className="bg-secondary/50 border border-border/50 p-10 text-center">
-              <Clock className="w-8 h-8 text-gold mx-auto mb-4" />
-              <h3 className="font-serif text-xl mb-3">Business Hours</h3>
-              <p className="text-sm text-muted-foreground font-sans">Mon–Sat: 10am – 9pm</p>
-              <p className="text-sm text-muted-foreground font-sans">Sunday: 11am – 7pm</p>
-            </div>
-            <div className="bg-secondary/50 border border-border/50 p-10 text-center">
-              <Truck className="w-8 h-8 text-gold mx-auto mb-4" />
-              <h3 className="font-serif text-xl mb-3">Shipping</h3>
-              <p className="text-sm text-muted-foreground font-sans">Same-day delivery available for qualifying orders</p>
-            </div>
-          </div>
-
-          {/* Delivery Guidelines */}
-          <div className="mb-16">
-            <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-8">Delivery Guidelines</h2>
-            <div className="w-12 h-px bg-gold mb-8" />
-            <div className="space-y-6 text-sm text-muted-foreground leading-relaxed font-sans">
-              <p>All orders must be placed by a person aged 21 or older. A valid government-issued photo ID is required at the time of delivery.</p>
-              <p>Delivery times may vary based on order volume and location. Most orders within our service area arrive within 1–3 hours during business hours.</p>
-              <p>For orders placed after business hours, delivery will be scheduled for the next available delivery window.</p>
-              <p>Minimum order requirements may apply depending on your delivery zone. Contact us for specific details regarding your area.</p>
-            </div>
-          </div>
-
-          {/* Map Placeholder */}
-          <div>
-            <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-8">Service Area</h2>
-            <div className="w-12 h-px bg-gold mb-8" />
-            <div className="aspect-video bg-secondary/80 border border-border/50 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-10 h-10 text-gold/30 mx-auto mb-4" />
-                <p className="text-sm text-muted-foreground font-sans">Interactive delivery map — MD, DC & VA</p>
-                <p className="text-xs text-muted-foreground/60 font-sans mt-1">Coming in Phase 2</p>
-              </div>
-            </div>
-          </div>
+      {/* Header */}
+      <div className="pt-16 md:pt-24 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <ScrollReveal>
+            <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4">
+              Service & Contact
+            </p>
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground">
+              Delivery & Contact
+            </h1>
+          </ScrollReveal>
         </div>
       </div>
+
+      {/* Interactive Earth Map */}
+      <DeliveryMap />
+
+      {/* Contact Form — minimal, no containers */}
+      <section className="py-24 md:py-32 px-6">
+        <div className="max-w-2xl mx-auto">
+          <ScrollReveal>
+            <p className="text-xs font-sans uppercase editorial-spacing text-gold mb-4 text-center">
+              Reach Out
+            </p>
+            <h2 className="font-serif text-3xl md:text-5xl text-foreground text-center mb-16">
+              Send Us a Message
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.15}>
+            <form onSubmit={handleSubmit} className="space-y-10">
+              <div>
+                <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  maxLength={100}
+                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 placeholder:text-muted-foreground/40"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  maxLength={255}
+                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 placeholder:text-muted-foreground/40"
+                  placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-3 block">
+                  Message
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                  maxLength={1000}
+                  rows={4}
+                  className="w-full bg-transparent border-b border-border/50 focus:border-gold py-3 text-foreground font-sans text-sm outline-none transition-colors duration-500 resize-none placeholder:text-muted-foreground/40"
+                  placeholder="How can we help?"
+                />
+              </div>
+              <div className="text-center pt-4">
+                <motion.button
+                  type="submit"
+                  className="text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-all duration-500"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Send Message
+                </motion.button>
+              </div>
+            </form>
+          </ScrollReveal>
+
+          {/* Email */}
+          <ScrollReveal delay={0.3}>
+            <div className="text-center mt-20">
+              <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-2">
+                Or email us directly
+              </p>
+              <a
+                href="mailto:info@luxurycouriers.com"
+                className="font-serif text-xl text-gold hover:text-gold/80 transition-colors duration-300"
+              >
+                info@luxurycouriers.com
+              </a>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
     </PageLayout>
   );
 };
