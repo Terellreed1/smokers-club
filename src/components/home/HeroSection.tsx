@@ -138,7 +138,7 @@ const HeroSection = () => {
 
       {/* Hero Content */}
       <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl -mt-8 md:-mt-12"
+        className="relative z-10 text-center px-6 max-w-4xl mt-4 md:mt-8"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         {/* Logo */}

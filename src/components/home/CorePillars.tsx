@@ -46,11 +46,11 @@ const CorePillars = () => {
           </h2>
         </motion.div>
 
-        <div className="flex flex-col items-center gap-0">
+        <div className="flex flex-col items-center gap-12">
           {pillars.map((pillar, i) => (
             <motion.div
               key={i}
-              className={`w-full ${widths[i]} text-center px-8 py-8 bg-foreground transition-all duration-500`}
+              className={`w-full ${widths[i]} text-center px-8`}
               initial={{ opacity: 0, x: directions[i] }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{
@@ -59,10 +59,10 @@ const CorePillars = () => {
                 ease: [0.25, 0.4, 0.25, 1],
               }}
             >
-              <h3 className="font-serif text-lg md:text-xl mb-2 text-background">
+              <h3 className="font-serif text-lg md:text-xl mb-2 text-foreground">
                 {pillar.title}
               </h3>
-              <p className="text-xs text-background/60 leading-relaxed font-sans">
+              <p className="text-xs text-muted-foreground leading-relaxed font-sans">
                 {pillar.description}
               </p>
             </motion.div>
