@@ -139,74 +139,44 @@ const zones: ZoneData[] = [
   },
 ];
 
-// Red-tinted Earth — non-service areas shown in red
+// Natural Earth globe — green land, blue ocean
 function Earth() {
   const texture = useLoader(THREE.TextureLoader, "/textures/earth.jpg");
   const bumpMap = useLoader(THREE.TextureLoader, "/textures/earth-bump.png");
 
-  // Create a red-tinted version of the texture for non-service areas
-  const redTexture = useMemo(() => {
-    const canvas = document.createElement("canvas");
-    const img = texture.image as HTMLImageElement;
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d")!;
-
-    // Draw original
-    ctx.drawImage(img, 0, 0);
-
-    // Apply dark red overlay
-    ctx.globalCompositeOperation = "color";
-    ctx.fillStyle = "rgba(180, 40, 40, 0.7)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Darken
-    ctx.globalCompositeOperation = "multiply";
-    ctx.fillStyle = "rgba(60, 15, 15, 0.4)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const newTexture = new THREE.CanvasTexture(canvas);
-    newTexture.needsUpdate = true;
-    return newTexture;
-  }, [texture]);
-
   return (
     <Sphere args={[2, 64, 64]}>
       <meshStandardMaterial
-        map={redTexture}
+        map={texture}
         bumpMap={bumpMap}
-        bumpScale={0.03}
-        roughness={0.7}
-        metalness={0.15}
+        bumpScale={0.05}
+        roughness={0.6}
+        metalness={0.1}
       />
     </Sphere>
   );
 }
 
-// Dark atmosphere glow
+// Blue atmosphere glow
 function Atmosphere() {
   return (
     <>
       <Sphere args={[2.04, 64, 64]}>
         <meshBasicMaterial
-          color="#991b1b"
+          color="#1e40af"
           transparent
-          opacity={0.04}
+          opacity={0.08}
           side={THREE.BackSide}
         />
       </Sphere>
       <Sphere args={[2.15, 64, 64]}>
         <meshBasicMaterial
-          color="#7f1d1d"
+          color="#3b82f6"
           transparent
-          opacity={0.03}
+          opacity={0.04}
           side={THREE.BackSide}
         />
       </Sphere>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[2.02, 2.3, 64]} />
-        <meshBasicMaterial color="#991b1b" transparent opacity={0.02} side={THREE.DoubleSide} />
-      </mesh>
     </>
   );
 }
@@ -367,24 +337,29 @@ const allUSStates: { abbr: string; lat: number; lng: number }[] = [
   { abbr: "WY", lat: 43.1, lng: -107.6 },
 ];
 
-// State label on globe — red for non-service, skip states that already have zone labels
-function StateLabel({ abbr, lat, lng }: { abbr: string; lat: number; lng: number }) {
-  const pos = useMemo(() => latLngToVector3(lat, lng, 2.08), [lat, lng]);
+// State marker with red 3D dot + white label (like reference image)
+function StateMarker({ abbr, lat, lng }: { abbr: string; lat: number; lng: number }) {
+  const dotPos = useMemo(() => latLngToVector3(lat, lng, 2.02), [lat, lng]);
+  const labelPos = useMemo(() => latLngToVector3(lat, lng, 2.07), [lat, lng]);
 
   return (
-    <Html position={pos} center style={{ pointerEvents: "none" }}>
-      <div className="text-center">
+    <group>
+      <mesh position={dotPos}>
+        <sphereGeometry args={[0.025, 12, 12]} />
+        <meshBasicMaterial color="#ef4444" />
+      </mesh>
+      <Html position={labelPos} center style={{ pointerEvents: "none" }}>
         <span
-          className="text-[8px] font-sans font-bold uppercase tracking-wider px-1"
+          className="text-[9px] font-sans font-bold whitespace-nowrap"
           style={{
-            color: "#ef4444",
-            textShadow: "0 0 6px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.5)",
+            color: "#ffffff",
+            textShadow: "0 0 4px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.8)",
           }}
         >
           {abbr}
         </span>
-      </div>
-    </Html>
+      </Html>
+    </group>
   );
 }
 
@@ -435,10 +410,10 @@ function GlobeScene({
 }) {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 3, 5]} intensity={1.0} />
-      <pointLight position={[-3, -2, 4]} intensity={0.2} color="#991b1b" />
-      <pointLight position={[2, 1, 3]} intensity={0.15} color="#4ade80" />
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[5, 3, 5]} intensity={1.2} />
+      <pointLight position={[-3, -2, 4]} intensity={0.3} color="#3b82f6" />
+      <pointLight position={[2, 1, 3]} intensity={0.2} color="#ffffff" />
 
       <Earth />
       <Atmosphere />
@@ -461,11 +436,11 @@ function GlobeScene({
         <ZoneLabel key={`label-${zone.id}`} zone={zone} isActive={activeZone === zone.id} />
       ))}
 
-      {/* All other US state labels in red */}
+      {/* All other US state markers with red dots */}
       {allUSStates
         .filter((s) => !serviceStateIds.has(s.abbr.toLowerCase()))
         .map((s) => (
-          <StateLabel key={`state-${s.abbr}`} abbr={s.abbr} lat={s.lat} lng={s.lng} />
+          <StateMarker key={`state-${s.abbr}`} abbr={s.abbr} lat={s.lat} lng={s.lng} />
         ))}
 
       {/* City markers */}
@@ -543,9 +518,9 @@ const DeliveryMap = () => {
                 />
               </Canvas>
 
-              {/* Ambient purple glow */}
+              {/* Ambient blue glow */}
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-red-900/[0.04] blur-[60px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full bg-blue-900/[0.06] blur-[60px]" />
               </div>
             </div>
 
