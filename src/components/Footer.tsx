@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Instagram, Facebook, Twitter } from "lucide-react";
 import logo from "@/assets/logo.png";
 
@@ -102,15 +103,22 @@ const Footer = () => {
             © {new Date().getFullYear()} Luxury Couriers. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-background/40 hover:text-gold transition-colors duration-300" aria-label="Instagram">
-              <Instagram size={18} />
-            </a>
-            <a href="#" className="text-background/40 hover:text-gold transition-colors duration-300" aria-label="Facebook">
-              <Facebook size={18} />
-            </a>
-            <a href="#" className="text-background/40 hover:text-gold transition-colors duration-300" aria-label="Twitter">
-              <Twitter size={18} />
-            </a>
+            {[
+              { icon: Instagram, label: "Instagram" },
+              { icon: Facebook, label: "Facebook" },
+              { icon: Twitter, label: "Twitter" },
+            ].map(({ icon: Icon, label }) => (
+              <motion.a
+                key={label}
+                href="#"
+                className="text-background/40 hover:text-gold transition-colors duration-300"
+                aria-label={label}
+                whileHover={{ scale: 1.2, y: -3 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon size={18} />
+              </motion.a>
+            ))}
           </div>
         </div>
       </div>

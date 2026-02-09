@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 
 import kushFactory from "@/assets/brands/kush-factory.png";
@@ -29,10 +30,12 @@ const BrandCarousel = () => {
                 to={`/shop?brand=${brand.slug}`}
                 className="flex-shrink-0 px-10 md:px-14 flex items-center justify-center group"
               >
-                <img
+                <motion.img
                   src={brand.logo}
                   alt={brand.name}
                   className="h-20 md:h-28 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 />
               </Link>
             ))}

@@ -122,11 +122,17 @@ const ProductDetail = () => {
                   <motion.button
                     onClick={handleAddToCart}
                     className="flex-1 flex items-center justify-center gap-3 text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground px-8 py-4 hover:bg-foreground hover:text-background transition-all duration-500"
+                    whileHover={{ scale: 1.03, letterSpacing: "0.3em" }}
                     whileTap={{ scale: 0.97 }}
-                    animate={isAdding ? { scale: [1, 1.02, 1] } : {}}
+                    animate={isAdding ? { scale: [1, 1.05, 1], transition: { duration: 0.4 } } : {}}
                   >
-                    <ShoppingBag size={16} />
-                    Add to Cart
+                    <motion.span
+                      animate={isAdding ? { rotate: [0, -15, 15, 0] } : {}}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <ShoppingBag size={16} />
+                    </motion.span>
+                    {isAdding ? "Added!" : "Add to Cart"}
                   </motion.button>
                 </div>
 

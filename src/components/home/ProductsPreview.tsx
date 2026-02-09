@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
+import TiltCard from "@/components/TiltCard";
 
 import blackLabel from "@/assets/products/black-label.png";
 import bigBagBuds from "@/assets/products/big-bag-buds.png";
@@ -92,40 +92,33 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <Link
-      to={`/shop/${product.id}`}
-      className="group block"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="aspect-square mb-5 overflow-hidden relative">
-        <motion.img
-          src={product.image}
-          alt={product.name}
-          className="absolute inset-0 w-full h-full object-contain"
-          animate={{
-            scale: isHovered ? 1.06 : 1,
-          }}
-          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-        />
-      </div>
+    <TiltCard className="relative">
+      <Link to={`/shop/${product.id}`} className="group block">
+        <div className="aspect-square mb-5 overflow-hidden relative">
+          <motion.img
+            src={product.image}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-contain"
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+          />
+        </div>
 
-      <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">
-        {product.brand}
-      </p>
-      <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">
-        {product.name}
-      </h3>
-      <div className="flex items-center gap-3 mt-1">
-        <p className="text-sm font-sans text-muted-foreground">{product.price}</p>
-        <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground/60">
-          {product.type}
-        </span>
-      </div>
-    </Link>
+        <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">
+          {product.brand}
+        </p>
+        <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">
+          {product.name}
+        </h3>
+        <div className="flex items-center gap-3 mt-1">
+          <p className="text-sm font-sans text-muted-foreground">{product.price}</p>
+          <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground/60">
+            {product.type}
+          </span>
+        </div>
+      </Link>
+    </TiltCard>
   );
 };
 
