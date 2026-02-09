@@ -181,108 +181,61 @@ function Atmosphere() {
   );
 }
 
-// Clickable region polygon on globe surface
-function ZoneRegion({
+// Zone marker — consistent dot style for service areas (green for delivery, purple for shipping)
+function ZoneMarker({
   zone,
   isActive,
-  isHovered,
   onClick,
-  onHover,
-  onUnhover,
 }: {
   zone: ZoneData;
   isActive: boolean;
-  isHovered: boolean;
   onClick: () => void;
-  onHover: () => void;
-  onUnhover: () => void;
 }) {
-  const mesh = useMemo(() => {
-    const r = 2.02;
-    const points = zone.points.map((p) => latLngToVector3(p.lat, p.lng, r));
-    const center = latLngToVector3(zone.center.lat, zone.center.lng, r);
-
-    const vertices: number[] = [];
-    const indices: number[] = [];
-
-    vertices.push(center.x, center.y, center.z);
-    points.forEach((p) => vertices.push(p.x, p.y, p.z));
-
-    for (let i = 1; i <= points.length; i++) {
-      const next = i === points.length ? 1 : i + 1;
-      indices.push(0, i, next);
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
-
-    return geometry;
-  }, [zone]);
-
-  const isDelivery = zone.type === "delivery";
-  const baseOpacity = isDelivery ? 0.3 : 0.15;
-  const opacity = isActive ? 0.55 : isHovered ? 0.4 : baseOpacity;
-
-  return (
-    <mesh
-      geometry={mesh}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick();
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        onHover();
-        document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={() => {
-        onUnhover();
-        document.body.style.cursor = "auto";
-      }}
-    >
-      <meshBasicMaterial
-        color={zone.color}
-        transparent
-        opacity={opacity}
-        side={THREE.DoubleSide}
-        depthWrite={false}
-      />
-    </mesh>
+  const dotPos = useMemo(
+    () => latLngToVector3(zone.center.lat, zone.center.lng, 2.02),
+    [zone]
   );
-}
-
-// Zone label floating on globe
-function ZoneLabel({ zone, isActive }: { zone: ZoneData; isActive: boolean }) {
-  const pos = useMemo(
-    () => latLngToVector3(zone.center.lat, zone.center.lng, 2.08),
+  const labelPos = useMemo(
+    () => latLngToVector3(zone.center.lat, zone.center.lng, 2.07),
     [zone]
   );
 
+  const dotColor = zone.type === "delivery" ? "#22c55e" : "#8b5cf6";
+
   return (
-    <Html position={pos} center style={{ pointerEvents: "none" }}>
-      <div className={`text-center transition-all duration-300 ${isActive ? "scale-110" : ""}`}>
-        <span
-          className="text-[10px] font-sans font-bold uppercase tracking-wider px-1.5 py-0.5"
-          style={{
-            color: zone.color,
-            textShadow: "0 0 6px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.5)",
-          }}
-        >
-          {zone.abbr}
-        </span>
-        <div
-          className="text-[7px] font-sans uppercase tracking-wider mt-0.5"
-          style={{
-            color: zone.type === "delivery" ? "#4ade80" : "#a78bfa",
-            textShadow: "0 0 4px rgba(0,0,0,0.9)",
-          }}
-        >
-          {zone.type === "delivery" ? "● delivery" : "○ shipping"}
+    <group>
+      <mesh
+        position={dotPos}
+        onClick={(e) => { e.stopPropagation(); onClick(); }}
+        onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = "pointer"; }}
+        onPointerOut={() => { document.body.style.cursor = "auto"; }}
+      >
+        <sphereGeometry args={[0.035, 16, 16]} />
+        <meshBasicMaterial color={dotColor} />
+      </mesh>
+      <Html position={labelPos} center style={{ pointerEvents: "none" }}>
+        <div className="flex flex-col items-center">
+          <span
+            className={`text-[10px] font-sans font-bold whitespace-nowrap text-center ${isActive ? "scale-125" : ""}`}
+            style={{
+              color: "#ffffff",
+              textShadow: "0 0 5px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.8)",
+            }}
+          >
+            {zone.abbr}
+          </span>
+          <span
+            className="text-[6px] font-sans uppercase whitespace-nowrap text-center"
+            style={{
+              color: dotColor,
+              textShadow: "0 0 4px rgba(0,0,0,0.9)",
+            }}
+          >
+            {zone.type}
+          </span>
         </div>
-      </div>
-    </Html>
+      </Html>
+    </group>
   );
 }
 
@@ -337,7 +290,7 @@ const allUSStates: { abbr: string; lat: number; lng: number }[] = [
   { abbr: "WY", lat: 43.1, lng: -107.6 },
 ];
 
-// State marker with red 3D dot + white label (like reference image)
+// State marker with dark red 3D dot + centered white label
 function StateMarker({ abbr, lat, lng }: { abbr: string; lat: number; lng: number }) {
   const dotPos = useMemo(() => latLngToVector3(lat, lng, 2.02), [lat, lng]);
   const labelPos = useMemo(() => latLngToVector3(lat, lng, 2.07), [lat, lng]);
@@ -345,19 +298,21 @@ function StateMarker({ abbr, lat, lng }: { abbr: string; lat: number; lng: numbe
   return (
     <group>
       <mesh position={dotPos}>
-        <sphereGeometry args={[0.025, 12, 12]} />
-        <meshBasicMaterial color="#ef4444" />
+        <sphereGeometry args={[0.03, 16, 16]} />
+        <meshBasicMaterial color="#991b1b" />
       </mesh>
       <Html position={labelPos} center style={{ pointerEvents: "none" }}>
-        <span
-          className="text-[9px] font-sans font-bold whitespace-nowrap"
-          style={{
-            color: "#ffffff",
-            textShadow: "0 0 4px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.8)",
-          }}
-        >
-          {abbr}
-        </span>
+        <div className="flex items-center justify-center">
+          <span
+            className="text-[9px] font-sans font-bold whitespace-nowrap text-center"
+            style={{
+              color: "#ffffff",
+              textShadow: "0 0 4px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.8)",
+            }}
+          >
+            {abbr}
+          </span>
+        </div>
       </Html>
     </group>
   );
@@ -397,16 +352,10 @@ function CityDot({ lat, lng, delay = 0, label }: { lat: number; lng: number; del
 // Globe scene — camera positioned to show east coast US on load
 function GlobeScene({
   activeZone,
-  hoveredZone,
   onZoneClick,
-  onZoneHover,
-  onZoneUnhover,
 }: {
   activeZone: string | null;
-  hoveredZone: string | null;
   onZoneClick: (id: string) => void;
-  onZoneHover: (id: string) => void;
-  onZoneUnhover: () => void;
 }) {
   return (
     <>
@@ -418,22 +367,14 @@ function GlobeScene({
       <Earth />
       <Atmosphere />
 
-      {/* Clickable zone regions */}
+      {/* Service zone markers (consistent dot style) */}
       {zones.map((zone) => (
-        <ZoneRegion
+        <ZoneMarker
           key={zone.id}
           zone={zone}
           isActive={activeZone === zone.id}
-          isHovered={hoveredZone === zone.id}
           onClick={() => onZoneClick(zone.id)}
-          onHover={() => onZoneHover(zone.id)}
-          onUnhover={onZoneUnhover}
         />
-      ))}
-
-      {/* Zone labels (service areas) */}
-      {zones.map((zone) => (
-        <ZoneLabel key={`label-${zone.id}`} zone={zone} isActive={activeZone === zone.id} />
       ))}
 
       {/* All other US state markers with red dots */}
@@ -466,7 +407,6 @@ function GlobeScene({
 // Main component
 const DeliveryMap = () => {
   const [activeZoneId, setActiveZoneId] = useState<string | null>(null);
-  const [hoveredZoneId, setHoveredZoneId] = useState<string | null>(null);
 
   const activeZone = zones.find((z) => z.id === activeZoneId) ?? null;
 
@@ -511,10 +451,7 @@ const DeliveryMap = () => {
               >
                 <GlobeScene
                   activeZone={activeZoneId}
-                  hoveredZone={hoveredZoneId}
                   onZoneClick={handleZoneClick}
-                  onZoneHover={setHoveredZoneId}
-                  onZoneUnhover={() => setHoveredZoneId(null)}
                 />
               </Canvas>
 
