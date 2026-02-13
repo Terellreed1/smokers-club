@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
+  const [started, setStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -11,9 +12,29 @@ const MusicPlayer = () => {
     audio.loop = true;
     audio.volume = 0.3;
     audioRef.current = audio;
+
+    // Auto-play on first user interaction
+    const autoPlay = () => {
+      if (!audioRef.current) return;
+      audioRef.current.play().then(() => {
+        setPlaying(true);
+        setStarted(true);
+      }).catch(() => {});
+      document.removeEventListener("click", autoPlay);
+      document.removeEventListener("scroll", autoPlay);
+      document.removeEventListener("touchstart", autoPlay);
+    };
+
+    document.addEventListener("click", autoPlay, { once: true });
+    document.addEventListener("scroll", autoPlay, { once: true });
+    document.addEventListener("touchstart", autoPlay, { once: true });
+
     return () => {
       audio.pause();
       audio.src = "";
+      document.removeEventListener("click", autoPlay);
+      document.removeEventListener("scroll", autoPlay);
+      document.removeEventListener("touchstart", autoPlay);
     };
   }, []);
 
