@@ -169,7 +169,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Cart + Login */}
+        {/* Cart */}
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/cart"
@@ -186,13 +186,6 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-          <Button
-            variant="outline"
-            onClick={handleLogin}
-            className="uppercase text-xs editorial-spacing rounded-none px-6 py-2 transition-all duration-300 border-foreground text-foreground hover:bg-foreground hover:text-background"
-          >
-            Login
-          </Button>
         </div>
 
         {/* Mobile Toggle + Cart */}

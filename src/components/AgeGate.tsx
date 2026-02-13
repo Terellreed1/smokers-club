@@ -31,11 +31,41 @@ const ResinBlob = ({ color, x, y, size, duration, delay }: {
   />
 );
 
+/** Dust particle floating through spotlight */
+const DustParticle = ({ delay, x, y, duration, size }: {
+  delay: number; x: number; y: number; duration: number; size: number;
+}) => (
+  <motion.div
+    className="absolute rounded-full pointer-events-none"
+    style={{
+      width: size,
+      height: size,
+      left: `${x}%`,
+      top: `${y}%`,
+      background: "rgba(255,245,220,0.6)",
+      boxShadow: "0 0 4px rgba(255,245,220,0.3)",
+    }}
+    initial={{ opacity: 0, y: 0, x: 0 }}
+    animate={{
+      opacity: [0, 0.8, 0.6, 0.9, 0],
+      y: [-20, -60, -100, -140, -180],
+      x: [0, 15, -10, 20, -5],
+    }}
+    transition={{
+      duration,
+      delay,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  />
+);
+
 const AgeGate = ({ children }: { children: React.ReactNode }) => {
   const [verified, setVerified] = useState<boolean | null>(null);
   const [denied, setDenied] = useState(false);
   const [spotlightOn, setSpotlightOn] = useState(false);
   const [logoRevealed, setLogoRevealed] = useState(false);
+  const [flickerDone, setFlickerDone] = useState(false);
 
   // Birthday input state
   const [month, setMonth] = useState("");
