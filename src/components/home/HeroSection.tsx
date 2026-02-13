@@ -159,7 +159,7 @@ const HeroSection = () => {
         {/* Smoke reveal headline */}
         <motion.div style={{ x: textX, y: textY }} className="relative">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl text-background italic relative"
+            className="font-serif text-3xl md:text-5xl lg:text-6xl text-background italic relative whitespace-nowrap"
             initial={{ opacity: 0, filter: "blur(20px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
