@@ -51,6 +51,14 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
+          <motion.p
+            className="font-serif text-2xl md:text-3xl tracking-widest uppercase text-foreground mb-4"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Luxury Smokers Club
+          </motion.p>
           <motion.img
             src={logo}
             alt="Luxury Couriers"
