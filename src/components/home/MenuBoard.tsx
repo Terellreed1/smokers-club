@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 
@@ -66,10 +66,39 @@ const MenuBoard = () => {
   const [direction, setDirection] = useState(0);
   const currentCategory = categories[pageIndex];
 
+  // Page flip sound
+  const flipAudioRef = useRef<HTMLAudioElement | null>(null);
+  const playFlipSound = useCallback(() => {
+    if (!flipAudioRef.current) {
+      flipAudioRef.current = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=");
+    }
+    // Use a short noise burst to simulate a page flip
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const duration = 0.15;
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      const t = i / data.length;
+      // Quick noise burst with fast decay
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 3) * 0.3;
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    // Bandpass filter for papery sound
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 3000;
+    filter.Q.value = 0.7;
+    source.connect(filter);
+    filter.connect(ctx.destination);
+    source.start();
+  }, []);
+
   const goTo = (idx: number) => {
     if (idx === pageIndex) return;
     setDirection(idx > pageIndex ? 1 : -1);
     setPageIndex(idx);
+    playFlipSound();
   };
 
   const nextPage = () => {
