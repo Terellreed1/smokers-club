@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+
 import { useCart } from "@/contexts/CartContext";
-import { toast } from "sonner";
+
 import logo from "@/assets/logo.png";
 
 const shopSubmenu = [
@@ -68,9 +68,8 @@ const Navbar = () => {
     hoverTimeout.current = setTimeout(() => setHoveredMenu(null), 150);
   };
 
-  const handleLogin = () => {
-    toast("Coming soon", { description: "Login functionality is on the way." });
-  };
+
+
 
   const isActive = (link: NavLink) => {
     if (link.external) return false;
@@ -169,7 +168,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Cart + Login */}
+        {/* Cart */}
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/cart"
@@ -186,13 +185,6 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-          <Button
-            variant="outline"
-            onClick={handleLogin}
-            className="uppercase text-xs editorial-spacing rounded-none px-6 py-2 transition-all duration-300 border-foreground text-foreground hover:bg-foreground hover:text-background"
-          >
-            Login
-          </Button>
         </div>
 
         {/* Mobile Toggle + Cart */}
@@ -292,15 +284,6 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-            <div className="pt-4 border-t border-border/50 mt-2">
-              <Button
-                variant="outline"
-                onClick={handleLogin}
-                className="border-gold text-gold hover:bg-gold hover:text-primary-foreground uppercase text-xs editorial-spacing rounded-none w-fit px-6"
-              >
-                Login
-              </Button>
-            </div>
           </div>
         </div>
       )}

@@ -13,6 +13,13 @@ import blueGuavaPops from "@/assets/products/blue-guava-pops.png";
 import pineSolParadise from "@/assets/products/pine-sol-paradise.png";
 import tiramisu from "@/assets/products/tiramisu.png";
 import zPie from "@/assets/products/z-pie.png";
+import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.jpg";
+import teaTime from "@/assets/products/tea-time.jpg";
+import dragonfruitCandy from "@/assets/products/dragonfruit-candy.jpg";
+import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.jpg";
+import eliteFrutaz from "@/assets/products/elite-frutaz.jpg";
+import privateReserveFrutaz from "@/assets/products/private-reserve-frutaz.jpg";
+import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.jpg";
 
 const allProducts = [
   { id: 1, name: "Black Label", brand: "The Republic", type: "Hybrid", category: "Flower", price: "$55", deal: false, image: blackLabel },
@@ -23,6 +30,13 @@ const allProducts = [
   { id: 6, name: "Pine Sol Paradise", brand: "Jungle Boys", type: "Hybrid", category: "Concentrate", price: "$75", deal: false, image: pineSolParadise },
   { id: 7, name: "Tiramisu", brand: "Connected", type: "Indica", category: "Edible", price: "$30", deal: false, image: tiramisu },
   { id: 8, name: "Z-Pie", brand: "Alien Labs", type: "Hybrid", category: "Flower", price: "$70", deal: true, image: zPie },
+  { id: 9, name: "Dirty Fanta Slushie", brand: "Cream Team", type: "Hybrid", category: "Flower", price: "$60", deal: false, image: dirtyFantaSlushie },
+  { id: 10, name: "Tea Time", brand: "Mamey's Bodega", type: "Sativa", category: "Flower", price: "$65", deal: false, image: teaTime },
+  { id: 11, name: "Dragonfruit Candy", brand: "Exotic Genetix", type: "Indica", category: "Flower", price: "$60", deal: true, image: dragonfruitCandy },
+  { id: 12, name: "Cotton Candy Clouds", brand: "Super Candy Bros", type: "Hybrid", category: "Flower", price: "$55", deal: false, image: cottonCandyClouds },
+  { id: 13, name: "Elite Frutaz", brand: "Frutaz Organics", type: "Sativa", category: "Flower", price: "$65", deal: false, image: eliteFrutaz },
+  { id: 14, name: "Private Reserve Frutaz", brand: "Frutaz Organics", type: "Indica", category: "Flower", price: "$60", deal: true, image: privateReserveFrutaz },
+  { id: 15, name: "Zop Boy ZourZop", brand: "Zoptendo", type: "Hybrid", category: "Edible", price: "$50", deal: false, image: zopBoyZourzop },
 ];
 
 const categories = ["All", "Flower", "Vape", "Pre-Roll", "Concentrate", "Edible"];
