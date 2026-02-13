@@ -45,10 +45,10 @@ const Index = () => {
           <ProductsPreview />
           <MenuBoard />
         </div>
-        <HighQuestions />
         <div className="warm-wash">
           <StrainQuiz />
         </div>
+        <HighQuestions />
         <CorePillars />
         <DeliveryMap />
         <SocialProof />

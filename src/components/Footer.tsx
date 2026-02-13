@@ -84,7 +84,7 @@ const Footer = () => {
               <p>Mon – Sat: 8am – 9:30pm</p>
               <p>Sunday: 10am – 8pm</p>
               <div className="pt-3 border-t border-background/10 mt-3">
-                <p>Delivering to MD, DC & VA</p>
+                <p>Delivering to DMV</p>
                 <Link
                   to="/delivery"
                   className="text-gold hover:text-gold/80 transition-colors duration-300 inline-block mt-1"

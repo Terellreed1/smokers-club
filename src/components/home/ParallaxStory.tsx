@@ -8,26 +8,50 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 
   useEffect(() => {
     if (!isInView) return;
-    let start = 0;
     const duration = 2000;
     const startTime = performance.now();
 
     const step = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(eased * target);
-      setCount(current);
+      setCount(Math.round(eased * target));
       if (progress < 1) requestAnimationFrame(step);
     };
 
     requestAnimationFrame(step);
   }, [isInView, target]);
 
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+function TypewriterText({ text, className }: { text: string; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [displayed, setDisplayed] = useState("");
+
+  useEffect(() => {
+    if (!isInView) return;
+    setDisplayed("");
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(interval);
+    }, 60);
+    return () => clearInterval(interval);
+  }, [isInView, text]);
+
   return (
-    <span ref={ref}>
-      {count}{suffix}
+    <span ref={ref} className={className}>
+      {displayed}
+      {displayed.length < text.length && isInView && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity }}
+          className="inline-block w-[3px] h-[1em] bg-gold ml-1 align-middle"
+        />
+      )}
     </span>
   );
 }
@@ -46,7 +70,6 @@ const ParallaxStory = () => {
 
   return (
     <section ref={ref} className="relative py-32 md:py-48 px-6 overflow-hidden">
-      {/* Background parallax layers */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: y1 }}>
         <div className="absolute top-10 left-[10%] w-64 h-64 rounded-full opacity-[0.04]"
           style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }} />
@@ -61,15 +84,14 @@ const ParallaxStory = () => {
           style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }} />
       </motion.div>
 
-      {/* Content */}
       <motion.div
         className="relative z-10 max-w-4xl mx-auto text-center"
         style={{ y: y3, opacity }}
       >
-        <motion.h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-12">
-          Welcome to{" "}
-          <span className="gold-text-gradient">Luxury Cannabis.</span>
-        </motion.h2>
+        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-12">
+          <TypewriterText text="Welcome to " />
+          <TypewriterText text="Luxury Cannabis." className="gold-text-gradient" />
+        </h2>
 
         <motion.div className="flex items-center justify-center gap-16">
           <div className="text-center">

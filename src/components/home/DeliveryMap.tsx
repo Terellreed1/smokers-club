@@ -417,9 +417,9 @@ const DeliveryMap = () => {
   // Camera position: zoomed in on east coast US (DC area roughly lat 39, lng -77)
   // Converted to 3D: the camera looks at the globe from the angle showing the US east coast
   const cameraPosition = useMemo(() => {
-    const lat = 39;
-    const lng = -77;
-    const distance = 3.8;
+    const lat = 30;
+    const lng = -95;
+    const distance = 6;
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lng + 180) * (Math.PI / 180);
     const x = -(distance * Math.sin(phi) * Math.cos(theta));
