@@ -100,8 +100,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
             src={product.image}
             alt={product.name}
             className="absolute inset-0 w-full h-full object-contain"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
-            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           />
         </div>
 

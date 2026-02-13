@@ -8,6 +8,10 @@ import CorePillars from "@/components/home/CorePillars";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
 import DeliveryMap from "@/components/home/DeliveryMap";
+import MenuBoard from "@/components/home/MenuBoard";
+import DropAlert from "@/components/home/DropAlert";
+import StrainEffects from "@/components/home/StrainEffects";
+import ParallaxStory from "@/components/home/ParallaxStory";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -35,7 +39,11 @@ const Index = () => {
         <HeroSection />
         <BrandCarousel />
         <ProductsPreview />
+        <MenuBoard />
+        <ParallaxStory />
+        <StrainEffects />
         <StrainQuiz />
+        <DropAlert />
         <CorePillars />
         <DeliveryMap />
         <SocialProof />
