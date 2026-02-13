@@ -5,7 +5,7 @@ import PageTransition from "@/components/PageTransition";
 
 const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background noise-texture warm-wash">
       <Navbar />
       <PageTransition>
         <main className="pt-20">{children}</main>
