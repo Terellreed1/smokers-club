@@ -36,10 +36,10 @@ const menuItems: Record<typeof categories[number], Array<{
   ],
 };
 
-const typeColors: Record<string, string> = {
-  Indica: "text-purple-400",
-  Sativa: "text-emerald-400",
-  Hybrid: "text-amber-400",
+const typeLabels: Record<string, string> = {
+  Indica: "indica",
+  Sativa: "sativa",
+  Hybrid: "hybrid",
 };
 
 const MenuBoard = () => {
@@ -47,75 +47,109 @@ const MenuBoard = () => {
 
   return (
     <section className="py-24 md:py-32 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
+        {/* Outer menu card */}
         <ScrollReveal>
-          <div className="text-center mb-12">
-            <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
-              Today's Selection
-            </p>
-            <h2 className="font-serif text-3xl md:text-5xl text-foreground">The Menu</h2>
-          </div>
-        </ScrollReveal>
+          <div className="relative border border-gold/30 p-1">
+            {/* Inner border */}
+            <div className="border border-gold/20 px-8 py-12 md:px-14 md:py-16">
+              {/* Corner flourishes */}
+              <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/40" />
+              <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/40" />
+              <div className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/40" />
+              <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/40" />
 
-        {/* Category Tabs */}
-        <ScrollReveal delay={0.1}>
-          <div className="flex justify-center gap-2 mb-12">
-            {categories.map((cat) => (
-              <motion.button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`text-xs font-sans uppercase editorial-spacing px-6 py-3 border transition-all duration-300 ${
-                  activeCategory === cat
-                    ? "border-foreground text-foreground bg-foreground/5"
-                    : "border-border/50 text-muted-foreground hover:border-foreground/30"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {cat}
-              </motion.button>
-            ))}
-          </div>
-        </ScrollReveal>
+              {/* Header */}
+              <div className="text-center mb-10">
+                <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mb-3">
+                  ✦ Today's Selection ✦
+                </p>
+                <h2 className="font-serif text-4xl md:text-5xl text-foreground italic">The Menu</h2>
+                <div className="flex items-center justify-center gap-4 mt-4">
+                  <div className="h-px w-12 bg-gold/30" />
+                  <span className="text-gold text-xs">✦</span>
+                  <div className="h-px w-12 bg-gold/30" />
+                </div>
+              </div>
 
-        {/* Menu Table */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Header */}
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 pb-4 border-b border-border/30 mb-2">
-              <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">Strain</span>
-              <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground">Brand</span>
-              <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground text-center">THC</span>
-              <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground text-center">Type</span>
-              <span className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground text-right">Price</span>
+              {/* Category Tabs */}
+              <div className="flex justify-center flex-wrap gap-2 md:gap-6 mb-12">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 pb-1 ${
+                      activeCategory === cat
+                        ? "text-gold border-b border-gold"
+                        : "text-muted-foreground/60 hover:text-muted-foreground"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Menu Items */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-1"
+                >
+                  {menuItems[activeCategory].map((item, i) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.04 }}
+                      className="py-3"
+                    >
+                      {/* Name ........... Price */}
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-serif text-lg md:text-xl text-foreground whitespace-nowrap">
+                          {item.name}
+                        </span>
+                        <span className="flex-1 border-b border-dotted border-muted-foreground/20 min-w-[20px] translate-y-[-4px]" />
+                        <span className="font-serif text-lg text-foreground whitespace-nowrap">
+                          {item.price}
+                        </span>
+                      </div>
+                      {/* Details line */}
+                      <div className="flex items-center gap-3 mt-1 pl-1">
+                        <span className="text-[10px] font-sans text-muted-foreground/50 uppercase editorial-spacing">
+                          {item.strain}
+                        </span>
+                        <span className="text-muted-foreground/20">·</span>
+                        <span className="text-[10px] font-sans text-muted-foreground/50">
+                          THC {item.thc}
+                        </span>
+                        <span className="text-muted-foreground/20">·</span>
+                        <span className="text-[10px] font-sans text-muted-foreground/50 italic">
+                          {typeLabels[item.type]}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Footer ornament */}
+              <div className="text-center mt-10">
+                <div className="flex items-center justify-center gap-4">
+                  <div className="h-px w-12 bg-gold/30" />
+                  <span className="text-gold text-xs">✦</span>
+                  <div className="h-px w-12 bg-gold/30" />
+                </div>
+                <p className="text-[9px] font-sans uppercase editorial-spacing text-muted-foreground/40 mt-4">
+                  Prices subject to availability
+                </p>
+              </div>
             </div>
-
-            {/* Rows */}
-            {menuItems[activeCategory].map((item, i) => (
-              <motion.div
-                key={item.name}
-                className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 py-4 border-b border-border/10 hover:bg-foreground/[0.02] transition-colors duration-300"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <span className="font-serif text-lg text-foreground">{item.name}</span>
-                <span className="text-xs font-sans text-muted-foreground self-center">{item.strain}</span>
-                <span className="text-sm font-sans text-foreground/80 text-center self-center">{item.thc}</span>
-                <span className={`text-xs font-sans uppercase text-center self-center ${typeColors[item.type]}`}>
-                  {item.type}
-                </span>
-                <span className="text-sm font-sans text-foreground/80 text-right self-center">{item.price}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
