@@ -40,8 +40,10 @@ const DropAlert = () => {
 
   return (
     <section className="py-24 md:py-32 px-6 relative overflow-hidden">
-      {/* Subtle gold accent line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+      {/* Subtle accent glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full opacity-[0.04]"
+        style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }}
+      />
 
       <div className="max-w-4xl mx-auto text-center">
         <ScrollReveal>

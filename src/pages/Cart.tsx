@@ -5,6 +5,7 @@ import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal from "@/components/home/ScrollReveal";
+import RunningCart from "@/components/RunningCart";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -55,11 +56,12 @@ const Cart = () => {
           {items.length === 0 ? (
             <ScrollReveal>
               <div className="text-center py-20">
-                <ShoppingBag size={48} className="mx-auto text-muted-foreground/20 mb-6" />
-                <p className="font-serif text-2xl text-muted-foreground mb-6">Your cart is empty</p>
+                <RunningCart />
+                <p className="font-serif text-2xl text-muted-foreground mb-2">Your cart ran away!</p>
+                <p className="text-sm text-muted-foreground/60 font-sans mb-6">Looks like it's empty — go catch it.</p>
                 <Link
                   to="/shop"
-                  className="text-xs font-sans uppercase editorial-spacing text-gold hover:text-foreground transition-colors duration-300"
+                  className="text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300"
                 >
                   Continue Shopping →
                 </Link>
