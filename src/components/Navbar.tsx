@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { useCart } from "@/contexts/CartContext";
-import { toast } from "sonner";
+
 import logo from "@/assets/logo.png";
 
 const shopSubmenu = [
