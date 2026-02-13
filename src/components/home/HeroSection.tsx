@@ -54,6 +54,9 @@ const HeroSection = () => {
         style={{ opacity: overlayOpacity }}
       />
 
+      {/* Top black haze to cover video stamp */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black via-black/80 to-transparent z-[5] pointer-events-none" />
+
       {/* Ambient smoke haze */}
       <motion.div
         className="absolute inset-0 pointer-events-none overflow-hidden"
