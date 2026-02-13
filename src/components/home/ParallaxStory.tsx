@@ -1,5 +1,36 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+
+function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let start = 0;
+    const duration = 2000;
+    const startTime = performance.now();
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(eased * target);
+      setCount(current);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
+  }, [isInView, target]);
+
+  return (
+    <span ref={ref}>
+      {count}{suffix}
+    </span>
+  );
+}
 
 const ParallaxStory = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,28 +47,18 @@ const ParallaxStory = () => {
   return (
     <section ref={ref} className="relative py-32 md:py-48 px-6 overflow-hidden">
       {/* Background parallax layers */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: y1 }}
-      >
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: y1 }}>
         <div className="absolute top-10 left-[10%] w-64 h-64 rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }}
-        />
+          style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }} />
         <div className="absolute bottom-20 right-[15%] w-48 h-48 rounded-full opacity-[0.03]"
-          style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }}
-        />
+          style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }} />
       </motion.div>
 
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: y2 }}
-      >
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: y2 }}>
         <div className="absolute top-1/4 right-[20%] w-32 h-32 rounded-full opacity-[0.03]"
-          style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }}
-        />
+          style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }} />
         <div className="absolute bottom-1/3 left-[25%] w-24 h-24 rounded-full opacity-[0.02]"
-          style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }}
-        />
+          style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }} />
       </motion.div>
 
       {/* Content */}
@@ -45,33 +66,22 @@ const ParallaxStory = () => {
         className="relative z-10 max-w-4xl mx-auto text-center"
         style={{ y: y3, opacity }}
       >
-        <motion.p
-          className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-8"
-        >
-          Our Philosophy
-        </motion.p>
-
-        <motion.h2
-          className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-8"
-        >
+        <motion.h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-12">
           Welcome to{" "}
           <span className="gold-text-gradient">Luxury Cannabis.</span>
         </motion.h2>
 
-        <motion.p
-          className="text-base md:text-lg font-sans text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
-        >
-          From first click to front door, every touchpoint whispers excellence.
-          This isn't just a brand — it's a movement.
-        </motion.p>
-
         <motion.div className="flex items-center justify-center gap-16">
           <div className="text-center">
-            <p className="font-serif text-3xl md:text-4xl text-foreground">42+</p>
+            <p className="font-serif text-3xl md:text-4xl text-foreground">
+              <AnimatedCounter target={42} suffix="+" />
+            </p>
             <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mt-1">Strains</p>
           </div>
           <div className="text-center">
-            <p className="font-serif text-3xl md:text-4xl text-foreground">11</p>
+            <p className="font-serif text-3xl md:text-4xl text-foreground">
+              <AnimatedCounter target={11} />
+            </p>
             <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mt-1">Brands</p>
           </div>
         </motion.div>
