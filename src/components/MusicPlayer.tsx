@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
-  const [started, setStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasAutoPlayed = useRef(false);
 
   useEffect(() => {
     const audio = new Audio("/audio/jazz-bg.mp3");
@@ -13,28 +13,40 @@ const MusicPlayer = () => {
     audio.volume = 0.3;
     audioRef.current = audio;
 
-    // Auto-play on first user interaction
-    const autoPlay = () => {
-      if (!audioRef.current) return;
+    // Try to autoplay immediately (works after user already interacted with age gate)
+    const tryAutoPlay = () => {
+      if (hasAutoPlayed.current || !audioRef.current) return;
       audioRef.current.play().then(() => {
+        hasAutoPlayed.current = true;
         setPlaying(true);
-        setStarted(true);
-      }).catch(() => {});
-      document.removeEventListener("click", autoPlay);
-      document.removeEventListener("scroll", autoPlay);
-      document.removeEventListener("touchstart", autoPlay);
+        cleanup();
+      }).catch(() => {
+        // Browser blocked it, will retry on next interaction
+      });
     };
 
-    document.addEventListener("click", autoPlay, { once: true });
-    document.addEventListener("scroll", autoPlay, { once: true });
-    document.addEventListener("touchstart", autoPlay, { once: true });
+    const cleanup = () => {
+      document.removeEventListener("click", tryAutoPlay, true);
+      document.removeEventListener("scroll", tryAutoPlay, true);
+      document.removeEventListener("touchstart", tryAutoPlay, true);
+      document.removeEventListener("keydown", tryAutoPlay, true);
+    };
+
+    // Attempt immediately
+    tryAutoPlay();
+
+    // Also listen for any interaction as fallback
+    document.addEventListener("click", tryAutoPlay, true);
+    document.addEventListener("scroll", tryAutoPlay, true);
+    document.addEventListener("touchstart", tryAutoPlay, true);
+    document.addEventListener("keydown", tryAutoPlay, true);
 
     return () => {
-      audio.pause();
-      audio.src = "";
-      document.removeEventListener("click", autoPlay);
-      document.removeEventListener("scroll", autoPlay);
-      document.removeEventListener("touchstart", autoPlay);
+      cleanup();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
     };
   }, []);
 
@@ -42,10 +54,10 @@ const MusicPlayer = () => {
     if (!audioRef.current) return;
     if (playing) {
       audioRef.current.pause();
+      setPlaying(false);
     } else {
-      audioRef.current.play();
+      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
     }
-    setPlaying(!playing);
   };
 
   return (
