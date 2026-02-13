@@ -164,7 +164,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
           >
-            "stay high, my friend"
+            "stay high, my friend" — LSC
           </motion.h1>
         </motion.div>
 
