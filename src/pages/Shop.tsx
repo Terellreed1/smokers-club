@@ -164,12 +164,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-[3/4] mb-4 overflow-hidden relative">
+        <div className="aspect-[3/4] mb-4 overflow-hidden relative bg-background">
           <motion.img
             src={product.image}
             alt={product.name}
             className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""}`}
-            whileHover={{ scale: 1.08 }}
+            whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
             transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           />
           <div className="absolute top-4 left-4 flex gap-2">
