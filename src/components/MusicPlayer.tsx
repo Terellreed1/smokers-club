@@ -2,61 +2,63 @@ import { useState, useRef, useEffect } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Singleton audio instance to prevent duplicates
+let globalAudio: HTMLAudioElement | null = null;
+
+const getAudio = () => {
+  if (!globalAudio) {
+    globalAudio = new Audio("/audio/jazz-bg.mp3");
+    globalAudio.loop = true;
+    globalAudio.volume = 0.3;
+  }
+  return globalAudio;
+};
+
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const hasAutoPlayed = useRef(false);
 
   useEffect(() => {
-    const audio = new Audio("/audio/jazz-bg.mp3");
-    audio.loop = true;
-    audio.volume = 0.3;
-    audioRef.current = audio;
+    const audio = getAudio();
 
-    // Try to autoplay immediately (works after user already interacted with age gate)
+    // Sync state if already playing (e.g. remount)
+    if (!audio.paused) {
+      setPlaying(true);
+      hasAutoPlayed.current = true;
+      return;
+    }
+
     const tryAutoPlay = () => {
-      if (hasAutoPlayed.current || !audioRef.current) return;
-      audioRef.current.play().then(() => {
+      if (hasAutoPlayed.current) return;
+      audio.play().then(() => {
         hasAutoPlayed.current = true;
         setPlaying(true);
         cleanup();
-      }).catch(() => {
-        // Browser blocked it, will retry on next interaction
-      });
+      }).catch(() => {});
     };
 
     const cleanup = () => {
       document.removeEventListener("click", tryAutoPlay, true);
       document.removeEventListener("scroll", tryAutoPlay, true);
       document.removeEventListener("touchstart", tryAutoPlay, true);
-      document.removeEventListener("keydown", tryAutoPlay, true);
     };
 
-    // Attempt immediately
     tryAutoPlay();
 
-    // Also listen for any interaction as fallback
     document.addEventListener("click", tryAutoPlay, true);
     document.addEventListener("scroll", tryAutoPlay, true);
     document.addEventListener("touchstart", tryAutoPlay, true);
-    document.addEventListener("keydown", tryAutoPlay, true);
 
-    return () => {
-      cleanup();
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-      }
-    };
+    return () => cleanup();
   }, []);
 
   const toggle = () => {
-    if (!audioRef.current) return;
+    const audio = getAudio();
     if (playing) {
-      audioRef.current.pause();
+      audio.pause();
       setPlaying(false);
     } else {
-      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+      audio.play().then(() => setPlaying(true)).catch(() => {});
     }
   };
 
