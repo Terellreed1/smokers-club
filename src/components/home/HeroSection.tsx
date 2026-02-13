@@ -148,7 +148,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.6, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-          style={{ x: logoX, y: logoY }}
+          
         >
           <img
             src={logo}
