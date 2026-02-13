@@ -95,7 +95,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-square mb-5 overflow-hidden relative bg-white rounded-lg">
+        <div className="aspect-square mb-5 overflow-hidden relative">
           <motion.img
             src={product.image}
             alt={product.name}
