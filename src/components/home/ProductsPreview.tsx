@@ -95,12 +95,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-square mb-5 overflow-hidden relative">
+        <div className="aspect-square mb-5 overflow-hidden relative bg-background">
           <motion.img
             src={product.image}
             alt={product.name}
             className="absolute inset-0 w-full h-full object-contain"
-            whileHover={{ scale: 1.08 }}
+            whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
             transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           />
         </div>
