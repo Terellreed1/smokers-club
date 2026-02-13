@@ -93,12 +93,13 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
     setVerified(stored === "true");
   }, []);
 
-  // Spotlight turns on after 1s, logo reveals after 1.8s
+  // Spotlight flicker then stabilize
   useEffect(() => {
     if (verified === false) {
       const t1 = setTimeout(() => setSpotlightOn(true), 1000);
       const t2 = setTimeout(() => setLogoRevealed(true), 1800);
-      return () => { clearTimeout(t1); clearTimeout(t2); };
+      const t3 = setTimeout(() => setFlickerDone(true), 2500);
+      return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }
   }, [verified]);
 
@@ -232,16 +233,37 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           }}
         />
 
-        {/* SPOTLIGHT EFFECT */}
+        {/* SPOTLIGHT EFFECT with flicker */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: spotlightOn ? 1 : 0 }}
-          transition={{ duration: 1.5, ease: "easeIn" }}
+          animate={{
+            opacity: spotlightOn
+              ? flickerDone
+                ? 1
+                : [0, 0.7, 0.1, 0.9, 0.2, 0.8, 0.3, 1]
+              : 0,
+          }}
+          transition={flickerDone
+            ? { duration: 0.5, ease: "easeIn" }
+            : { duration: 1.5, ease: "easeIn", times: [0, 0.1, 0.2, 0.35, 0.45, 0.6, 0.75, 1] }
+          }
           style={{
             background: `radial-gradient(ellipse 320px 380px at ${spotlightX}% ${spotlightY}%, rgba(255,245,220,0.18) 0%, rgba(200,170,110,0.06) 40%, transparent 70%)`,
           }}
         />
+
+        {/* Dust particles in spotlight */}
+        {spotlightOn && Array.from({ length: 18 }).map((_, i) => (
+          <DustParticle
+            key={i}
+            delay={i * 0.7 + 1.5}
+            x={38 + Math.sin(i * 2.1) * 18}
+            y={25 + Math.cos(i * 1.7) * 20}
+            duration={4 + (i % 5) * 1.2}
+            size={1 + (i % 3)}
+          />
+        ))}
 
         {/* Content */}
         <motion.div

@@ -285,14 +285,6 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-            <div className="pt-4 border-t border-border/50 mt-2">
-              <Button
-                variant="outline"
-                onClick={handleLogin}
-                className="border-gold text-gold hover:bg-gold hover:text-primary-foreground uppercase text-xs editorial-spacing rounded-none w-fit px-6"
-              >
-                Login
-              </Button>
             </div>
           </div>
         </div>
