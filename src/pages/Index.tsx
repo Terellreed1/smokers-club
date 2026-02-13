@@ -28,7 +28,7 @@ const pageVariants = {
 const Index = () => {
   return (
     <motion.div
-      className="min-h-screen bg-background"
+      className="min-h-screen bg-background noise-texture"
       variants={pageVariants}
       initial="initial"
       animate="enter"
@@ -37,13 +37,20 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <BrandCarousel />
-        <ProductsPreview />
-        <MenuBoard />
-        <ParallaxStory />
+        <div className="smoke-divider">
+          <BrandCarousel />
+        </div>
+        <div className="warm-wash">
+          <ProductsPreview />
+          <MenuBoard />
+        </div>
+        <div className="smoke-divider">
+          <ParallaxStory />
+        </div>
         <HighQuestions />
-        <StrainQuiz />
-        {/* DropAlert removed */}
+        <div className="warm-wash">
+          <StrainQuiz />
+        </div>
         <CorePillars />
         <DeliveryMap />
         <SocialProof />
