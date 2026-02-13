@@ -1,12 +1,40 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal from "@/components/home/ScrollReveal";
 import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, totalItems } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      const checkoutItems = items.map((item) => ({
+        name: item.name,
+        price: parseFloat(item.price.replace("$", "")),
+        quantity: item.quantity,
+      }));
+
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { items: checkoutItems },
+      });
+
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (err: any) {
+      toast.error("Checkout failed", { description: err.message || "Please try again." });
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   const totalPrice = items.reduce((sum, item) => {
     const price = parseFloat(item.price.replace("$", ""));
@@ -119,17 +147,14 @@ const Cart = () => {
                       Clear Cart
                     </button>
                     <motion.button
-                      className="text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground px-10 py-3 hover:bg-foreground hover:text-background transition-all duration-500"
+                      className="text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground px-10 py-3 hover:bg-foreground hover:text-background transition-all duration-500 flex items-center gap-2 disabled:opacity-50"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        // Placeholder checkout
-                        import("sonner").then(({ toast }) => {
-                          toast("Coming soon", { description: "Checkout functionality is on the way." });
-                        });
-                      }}
+                      onClick={handleCheckout}
+                      disabled={isCheckingOut}
                     >
-                      Checkout
+                      {isCheckingOut && <Loader2 size={14} className="animate-spin" />}
+                      {isCheckingOut ? "Processing..." : "Checkout"}
                     </motion.button>
                   </div>
                 </div>
