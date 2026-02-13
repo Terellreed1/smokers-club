@@ -40,12 +40,10 @@ const Index = () => {
         <div className="smoke-divider">
           <BrandCarousel />
         </div>
+        <ParallaxStory />
         <div className="warm-wash">
           <ProductsPreview />
           <MenuBoard />
-        </div>
-        <div className="smoke-divider">
-          <ParallaxStory />
         </div>
         <HighQuestions />
         <div className="warm-wash">
