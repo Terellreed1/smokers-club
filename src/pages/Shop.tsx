@@ -5,13 +5,13 @@ import PageLayout from "@/components/PageLayout";
 import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 
-import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.jpg";
-import teaTime from "@/assets/products/tea-time.jpg";
-import dragonfruitCandy from "@/assets/products/dragonfruit-candy.jpg";
-import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.jpg";
-import eliteFrutaz from "@/assets/products/elite-frutaz.jpg";
-import privateReserveFrutaz from "@/assets/products/private-reserve-frutaz.jpg";
-import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.jpg";
+import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
+import teaTime from "@/assets/products/tea-time.png";
+import dragonfruitCandy from "@/assets/products/dragonfruit-candy.png";
+import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
+import eliteFrutaz from "@/assets/products/elite-frutaz.png";
+import privateReserveFrutaz from "@/assets/products/private-reserve-frutaz.png";
+import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.png";
 
 const placeholder = "/placeholder.svg";
 
