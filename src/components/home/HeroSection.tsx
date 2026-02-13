@@ -148,6 +148,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.6, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+          style={{ x: logoX, y: logoY }}
         >
           <img
             src={logo}
@@ -158,6 +159,14 @@ const HeroSection = () => {
 
         {/* Smoke reveal headline */}
         <motion.div style={{ x: textX, y: textY }} className="relative">
+          <motion.p
+            className="font-serif text-lg md:text-2xl lg:text-3xl text-background/90 tracking-widest uppercase mb-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2, delay: 0.8, ease: "easeOut" }}
+          >
+            Luxury Smokers Club
+          </motion.p>
           <motion.h1
             className="font-serif text-3xl md:text-5xl lg:text-6xl text-background italic relative whitespace-nowrap"
             initial={{ opacity: 0, filter: "blur(20px)" }}
