@@ -55,7 +55,7 @@ const HeroSection = () => {
       />
 
       {/* Top black haze to cover video stamp */}
-      <div className="absolute top-0 left-0 right-0 h-56 bg-gradient-to-b from-black via-black/70 to-transparent z-[5] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-80 bg-gradient-to-b from-black via-black/60 to-transparent z-[5] pointer-events-none" />
 
       {/* Ambient smoke haze */}
       <motion.div
