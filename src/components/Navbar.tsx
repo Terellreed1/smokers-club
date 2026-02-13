@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -68,9 +68,8 @@ const Navbar = () => {
     hoverTimeout.current = setTimeout(() => setHoveredMenu(null), 150);
   };
 
-  const handleLogin = () => {
-    toast("Coming soon", { description: "Login functionality is on the way." });
-  };
+
+
 
   const isActive = (link: NavLink) => {
     if (link.external) return false;
