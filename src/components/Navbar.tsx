@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, ShoppingBag } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import NavCartIcon from "@/components/NavCartIcon";
 import { cn } from "@/lib/utils";
 
 import { useCart } from "@/contexts/CartContext";
@@ -178,7 +179,7 @@ const Navbar = () => {
             )}
             aria-label="Shopping cart"
           >
-            <ShoppingBag size={20} />
+            <NavCartIcon size={20} />
             {totalItems > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-primary-foreground text-[10px] font-sans flex items-center justify-center rounded-full">
                 {totalItems}
@@ -197,7 +198,7 @@ const Navbar = () => {
             )}
             aria-label="Shopping cart"
           >
-            <ShoppingBag size={20} />
+            <NavCartIcon size={20} />
             {totalItems > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-primary-foreground text-[10px] font-sans flex items-center justify-center rounded-full">
                 {totalItems}

@@ -4,7 +4,7 @@ const RunningCart = () => {
   return (
     <div className="relative w-full h-40 overflow-hidden my-8 flex items-center justify-center">
       <motion.div
-        animate={{ x: ["100vw", "-300px"] }}
+        animate={{ x: ["-300px", "100vw"] }}
         transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
         className="absolute bottom-6"
       >
