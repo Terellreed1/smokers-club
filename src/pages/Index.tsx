@@ -43,7 +43,7 @@ const Index = () => {
         <ParallaxStory />
         <HighQuestions />
         <StrainQuiz />
-        <DropAlert />
+        {/* DropAlert removed */}
         <CorePillars />
         <DeliveryMap />
         <SocialProof />

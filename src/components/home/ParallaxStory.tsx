@@ -61,9 +61,8 @@ const ParallaxStory = () => {
         <motion.p
           className="text-base md:text-lg font-sans text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
         >
-          Every strain is hand-selected. Every brand is vetted. Every delivery 
-          is an event. Welcome to the future of luxury cannabis — where quality 
-          isn't a tier, it's the standard.
+          From first click to front door, every touchpoint whispers excellence.
+          This isn't just a brand — it's a movement.
         </motion.p>
 
         <motion.div className="flex items-center justify-center gap-16">
