@@ -158,9 +158,9 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Smoke reveal headline */}
-        <motion.div style={{ x: textX, y: textY }} className="relative">
+        <div className="relative">
           <motion.p
-            className="font-serif text-lg md:text-2xl lg:text-3xl text-background/90 tracking-widest uppercase mb-2"
+            className="font-serif text-3xl md:text-5xl lg:text-6xl text-background/90 tracking-widest uppercase mb-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 2, delay: 0.8, ease: "easeOut" }}
@@ -168,14 +168,14 @@ const HeroSection = () => {
             Luxury Smokers Club
           </motion.p>
           <motion.h1
-            className="font-serif text-3xl md:text-5xl lg:text-6xl text-background italic relative whitespace-nowrap"
+            className="font-serif text-xl md:text-3xl lg:text-4xl text-background italic relative whitespace-nowrap"
             initial={{ opacity: 0, filter: "blur(20px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
           >
             "stay high, my friend" — LSC
           </motion.h1>
-        </motion.div>
+        </div>
 
         <motion.p
           className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 mt-8"
