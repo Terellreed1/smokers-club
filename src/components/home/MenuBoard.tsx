@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 
 const categories = ["Flower", "Edibles", "Pre-Rolls", "Concentrates"] as const;
+type Category = typeof categories[number];
 
-const menuItems: Record<typeof categories[number], Array<{
+const menuItems: Record<Category, Array<{
   name: string;
   strain: string;
   thc: string;
@@ -42,109 +43,168 @@ const typeLabels: Record<string, string> = {
   Hybrid: "hybrid",
 };
 
+const pageVariants = {
+  enter: (direction: number) => ({
+    rotateY: direction > 0 ? 90 : -90,
+    opacity: 0,
+    transformOrigin: direction > 0 ? "left center" : "right center",
+  }),
+  center: {
+    rotateY: 0,
+    opacity: 1,
+    transformOrigin: "center center",
+  },
+  exit: (direction: number) => ({
+    rotateY: direction > 0 ? -90 : 90,
+    opacity: 0,
+    transformOrigin: direction > 0 ? "left center" : "right center",
+  }),
+};
+
 const MenuBoard = () => {
-  const [activeCategory, setActiveCategory] = useState<typeof categories[number]>("Flower");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const currentCategory = categories[pageIndex];
+
+  const goTo = (idx: number) => {
+    if (idx === pageIndex) return;
+    setDirection(idx > pageIndex ? 1 : -1);
+    setPageIndex(idx);
+  };
+
+  const nextPage = () => {
+    if (pageIndex < categories.length - 1) goTo(pageIndex + 1);
+  };
+
+  const prevPage = () => {
+    if (pageIndex > 0) goTo(pageIndex - 1);
+  };
 
   return (
     <section className="py-24 md:py-32 px-6">
       <div className="max-w-3xl mx-auto">
-        {/* Outer menu card */}
         <ScrollReveal>
-          <div className="relative border border-gold/30 p-1">
-            {/* Inner border */}
-            <div className="border border-gold/20 px-8 py-12 md:px-14 md:py-16">
-              {/* Corner flourishes */}
-              <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/40" />
-              <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/40" />
-              <div className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/40" />
-              <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/40" />
+          {/* Menu "book" */}
+          <div className="relative" style={{ perspective: "1200px" }}>
+            {/* Outer menu card */}
+            <div className="relative border border-gold/30 p-1 bg-background shadow-[0_8px_60px_-12px_hsl(var(--gold)/0.08)]">
+              {/* Inner border */}
+              <div className="border border-gold/20 px-6 py-10 md:px-14 md:py-14 min-h-[500px] flex flex-col">
+                {/* Corner flourishes */}
+                <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/40" />
+                <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/40" />
+                <div className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/40" />
+                <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/40" />
 
-              {/* Header */}
-              <div className="text-center mb-10">
-                <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mb-3">
-                  ✦ Today's Selection ✦
-                </p>
-                <h2 className="font-serif text-4xl md:text-5xl text-foreground italic">The Menu</h2>
-                <div className="flex items-center justify-center gap-4 mt-4">
-                  <div className="h-px w-12 bg-gold/30" />
-                  <span className="text-gold text-xs">✦</span>
-                  <div className="h-px w-12 bg-gold/30" />
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <h2 className="font-serif text-4xl md:text-5xl text-foreground italic">The Menu</h2>
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <div className="h-px w-12 bg-gold/30" />
+                    <span className="text-gold text-xs">✦</span>
+                    <div className="h-px w-12 bg-gold/30" />
+                  </div>
                 </div>
-              </div>
 
-              {/* Category Tabs */}
-              <div className="flex justify-center flex-wrap gap-2 md:gap-6 mb-12">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 pb-1 ${
-                      activeCategory === cat
-                        ? "text-gold border-b border-gold"
-                        : "text-muted-foreground/60 hover:text-muted-foreground"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-
-              {/* Menu Items */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeCategory}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="space-y-1"
-                >
-                  {menuItems[activeCategory].map((item, i) => (
+                {/* Flippable page content */}
+                <div className="flex-1 relative overflow-hidden">
+                  <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.04 }}
-                      className="py-3"
+                      key={currentCategory}
+                      custom={direction}
+                      variants={pageVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                      className="w-full"
+                      style={{ backfaceVisibility: "hidden" }}
                     >
-                      {/* Name ........... Price */}
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-serif text-lg md:text-xl text-foreground whitespace-nowrap">
-                          {item.name}
-                        </span>
-                        <span className="flex-1 border-b border-dotted border-muted-foreground/20 min-w-[20px] translate-y-[-4px]" />
-                        <span className="font-serif text-lg text-foreground whitespace-nowrap">
-                          {item.price}
-                        </span>
-                      </div>
-                      {/* Details line */}
-                      <div className="flex items-center gap-3 mt-1 pl-1">
-                        <span className="text-[10px] font-sans text-muted-foreground/50 uppercase editorial-spacing">
-                          {item.strain}
-                        </span>
-                        <span className="text-muted-foreground/20">·</span>
-                        <span className="text-[10px] font-sans text-muted-foreground/50">
-                          THC {item.thc}
-                        </span>
-                        <span className="text-muted-foreground/20">·</span>
-                        <span className="text-[10px] font-sans text-muted-foreground/50 italic">
-                          {typeLabels[item.type]}
-                        </span>
+                      {/* Category title */}
+                      <h3 className="text-center font-serif text-2xl text-foreground/80 italic mb-8">
+                        {currentCategory}
+                      </h3>
+
+                      {/* Menu items */}
+                      <div className="space-y-1">
+                        {menuItems[currentCategory].map((item, i) => (
+                          <motion.div
+                            key={item.name}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: i * 0.06 + 0.2 }}
+                            className="py-3"
+                          >
+                            {/* Name ........... Price */}
+                            <div className="flex items-baseline gap-2">
+                              <span className="font-serif text-lg md:text-xl text-foreground whitespace-nowrap">
+                                {item.name}
+                              </span>
+                              <span className="flex-1 border-b border-dotted border-muted-foreground/20 min-w-[20px] translate-y-[-4px]" />
+                              <span className="font-serif text-lg text-foreground whitespace-nowrap">
+                                {item.price}
+                              </span>
+                            </div>
+                            {/* Details */}
+                            <div className="flex items-center gap-3 mt-1 pl-1">
+                              <span className="text-[10px] font-sans text-muted-foreground/50 uppercase editorial-spacing">
+                                {item.strain}
+                              </span>
+                              <span className="text-muted-foreground/20">·</span>
+                              <span className="text-[10px] font-sans text-muted-foreground/50">
+                                THC {item.thc}
+                              </span>
+                              <span className="text-muted-foreground/20">·</span>
+                              <span className="text-[10px] font-sans text-muted-foreground/50 italic">
+                                {typeLabels[item.type]}
+                              </span>
+                            </div>
+                          </motion.div>
+                        ))}
                       </div>
                     </motion.div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Footer ornament */}
-              <div className="text-center mt-10">
-                <div className="flex items-center justify-center gap-4">
-                  <div className="h-px w-12 bg-gold/30" />
-                  <span className="text-gold text-xs">✦</span>
-                  <div className="h-px w-12 bg-gold/30" />
+                  </AnimatePresence>
                 </div>
-                <p className="text-[9px] font-sans uppercase editorial-spacing text-muted-foreground/40 mt-4">
-                  Prices subject to availability
+
+                {/* Page navigation */}
+                <div className="flex items-center justify-between mt-8 pt-6 border-t border-gold/10">
+                  <button
+                    onClick={prevPage}
+                    disabled={pageIndex === 0}
+                    className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default"
+                  >
+                    ← Prev
+                  </button>
+
+                  {/* Page dots / category tabs */}
+                  <div className="flex items-center gap-3">
+                    {categories.map((cat, idx) => (
+                      <button
+                        key={cat}
+                        onClick={() => goTo(idx)}
+                        className={`text-[10px] font-sans uppercase editorial-spacing transition-all duration-300 ${
+                          idx === pageIndex
+                            ? "text-gold"
+                            : "text-muted-foreground/40 hover:text-muted-foreground"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={nextPage}
+                    disabled={pageIndex === categories.length - 1}
+                    className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default"
+                  >
+                    Next →
+                  </button>
+                </div>
+
+                {/* Page number */}
+                <p className="text-center text-[9px] font-sans text-muted-foreground/30 mt-4">
+                  {pageIndex + 1} / {categories.length}
                 </p>
               </div>
             </div>
