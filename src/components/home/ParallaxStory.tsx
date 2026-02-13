@@ -32,8 +32,12 @@ const ParallaxStory = () => {
         className="absolute inset-0 pointer-events-none"
         style={{ y: y2 }}
       >
-        <div className="absolute top-1/4 right-[20%] w-px h-48 bg-gradient-to-b from-transparent via-gold/10 to-transparent" />
-        <div className="absolute bottom-1/3 left-[25%] w-px h-32 bg-gradient-to-b from-transparent via-gold/10 to-transparent" />
+        <div className="absolute top-1/4 right-[20%] w-32 h-32 rounded-full opacity-[0.03]"
+          style={{ background: "radial-gradient(circle, hsl(var(--gold)) 0%, transparent 70%)" }}
+        />
+        <div className="absolute bottom-1/3 left-[25%] w-24 h-24 rounded-full opacity-[0.02]"
+          style={{ background: "radial-gradient(circle, hsl(var(--gold-light)) 0%, transparent 70%)" }}
+        />
       </motion.div>
 
       {/* Content */}
@@ -50,9 +54,8 @@ const ParallaxStory = () => {
         <motion.h2
           className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-8"
         >
-          We don't sell weed.
-          <br />
-          <span className="gold-text-gradient">We curate experiences.</span>
+          Welcome to{" "}
+          <span className="gold-text-gradient">Luxury Cannabis.</span>
         </motion.h2>
 
         <motion.p
@@ -63,20 +66,14 @@ const ParallaxStory = () => {
           isn't a tier, it's the standard.
         </motion.p>
 
-        <motion.div className="flex items-center justify-center gap-12">
+        <motion.div className="flex items-center justify-center gap-16">
           <div className="text-center">
             <p className="font-serif text-3xl md:text-4xl text-foreground">42+</p>
             <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mt-1">Strains</p>
           </div>
-          <div className="w-px h-12 bg-border/30" />
           <div className="text-center">
             <p className="font-serif text-3xl md:text-4xl text-foreground">11</p>
             <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mt-1">Brands</p>
-          </div>
-          <div className="w-px h-12 bg-border/30" />
-          <div className="text-center">
-            <p className="font-serif text-3xl md:text-4xl text-foreground">6</p>
-            <p className="text-[10px] font-sans uppercase editorial-spacing text-muted-foreground mt-1">States</p>
           </div>
         </motion.div>
       </motion.div>

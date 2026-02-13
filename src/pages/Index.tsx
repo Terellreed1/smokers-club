@@ -10,8 +10,8 @@ import SocialProof from "@/components/home/SocialProof";
 import DeliveryMap from "@/components/home/DeliveryMap";
 import MenuBoard from "@/components/home/MenuBoard";
 import DropAlert from "@/components/home/DropAlert";
-import StrainEffects from "@/components/home/StrainEffects";
 import ParallaxStory from "@/components/home/ParallaxStory";
+import HighQuestions from "@/components/home/HighQuestions";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -41,7 +41,7 @@ const Index = () => {
         <ProductsPreview />
         <MenuBoard />
         <ParallaxStory />
-        <StrainEffects />
+        <HighQuestions />
         <StrainQuiz />
         <DropAlert />
         <CorePillars />
