@@ -37,21 +37,31 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <div className="smoke-divider">
+        <div className="smoke-divider ivory-section">
           <BrandCarousel />
         </div>
         <ParallaxStory />
         <div className="warm-wash">
           <ProductsPreview />
+        </div>
+        <div className="dark-section">
           <MenuBoard />
         </div>
-        <div className="warm-wash">
+        <div className="ivory-section">
           <StrainQuiz />
         </div>
-        <HighQuestions />
-        <CorePillars />
-        <DeliveryMap />
-        <SocialProof />
+        <div className="dark-section">
+          <HighQuestions />
+        </div>
+        <div className="warm-wash">
+          <CorePillars />
+        </div>
+        <div className="dark-section">
+          <DeliveryMap />
+        </div>
+        <div className="ivory-section">
+          <SocialProof />
+        </div>
       </main>
       <Footer />
     </motion.div>
