@@ -3,43 +3,43 @@ import { motion } from "framer-motion";
 import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 
-import blackLabel from "@/assets/products/black-label.png";
-import bigBagBuds from "@/assets/products/big-bag-buds.png";
-import elJefe from "@/assets/products/el-jefe.png";
-import marshmallowMilk from "@/assets/products/marshmallow-milk.png";
+import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.jpg";
+import eliteFrutaz from "@/assets/products/elite-frutaz.jpg";
+import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.jpg";
+import dragonfruitCandy from "@/assets/products/dragonfruit-candy.jpg";
 
 const products = [
   {
-    id: 1,
-    name: "Black Label",
-    brand: "The Republic",
-    type: "Hybrid",
-    price: "$55",
-    image: blackLabel,
-  },
-  {
-    id: 2,
-    name: "CombOz",
-    brand: "Big Bag O' Buds",
-    type: "Sativa",
-    price: "$45",
-    image: bigBagBuds,
-  },
-  {
-    id: 3,
-    name: "El Jefe",
-    brand: "LowKey",
-    type: "Indica",
-    price: "$50",
-    image: elJefe,
-  },
-  {
-    id: 4,
-    name: "Marshmallow Milk",
-    brand: "VOLO",
-    type: "Hybrid",
+    id: 6,
+    name: "Dirty Fantasy Slushie",
+    brand: "JoJo Exotics",
+    type: "$65",
     price: "$65",
-    image: marshmallowMilk,
+    image: dirtyFantaSlushie,
+  },
+  {
+    id: 1,
+    name: "Verzaza",
+    brand: "Frutaz",
+    type: "$65",
+    price: "$65",
+    image: eliteFrutaz,
+  },
+  {
+    id: 8,
+    name: "Cotton Candy Clouds",
+    brand: "Always Faded",
+    type: "$65",
+    price: "$65",
+    image: cottonCandyClouds,
+  },
+  {
+    id: 14,
+    name: "Dragonfruit Candy",
+    brand: "Always Faded",
+    type: "$65",
+    price: "$65",
+    image: dragonfruitCandy,
   },
 ];
 
