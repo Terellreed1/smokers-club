@@ -25,14 +25,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
       setError("Please select your full date of birth.");
       return;
     }
-
     const birthDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
+    const md = today.getMonth() - birthDate.getMonth();
+    if (md < 0 || (md === 0 && today.getDate() < birthDate.getDate())) age--;
 
     if (age >= 21) {
       sessionStorage.setItem("age-verified", "true");
@@ -46,128 +43,109 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
   if (verified) return <>{children}</>;
 
   const selectClass =
-    "h-12 px-3 text-sm font-mono rounded border bg-white text-[#1a1510] outline-none focus:ring-2 focus:ring-[#c8aa6e]/50 appearance-none cursor-pointer";
+    "h-11 px-3 text-sm font-sans rounded-md border border-black/15 bg-white text-black/80 outline-none focus:ring-2 focus:ring-black/10 appearance-none cursor-pointer w-full";
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm"
-        initial={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.4 }}
-      >
+    <>
+      {children}
+      <AnimatePresence>
         <motion.div
-          className="relative w-[90vw] max-w-md rounded-xl p-8 sm:p-10 text-center"
-          style={{
-            background: "linear-gradient(135deg, #f5e6c8 0%, #f0daa0 50%, #e8d48b 100%)",
-          }}
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center"
+          style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          {/* Logo */}
-          <img
-            src={logo}
-            alt="Luxury Smokers Club"
-            className="mx-auto mb-4 w-24 h-24 sm:w-32 sm:h-32 object-contain"
-          />
-
-          {!denied ? (
-            <>
-              <h1
-                className="font-serif text-lg sm:text-xl font-bold uppercase tracking-wider mb-2"
+          <div className="w-[90vw] max-w-sm text-center px-6">
+            {/* Logo + LSC */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <img
+                src={logo}
+                alt="LSC"
+                className="w-28 h-28 sm:w-36 sm:h-36 object-contain"
+              />
+              <span
+                className="font-serif text-4xl sm:text-5xl font-bold tracking-wider"
                 style={{ color: "#1a1510" }}
               >
-                Please Verify You're Over 21.
-              </h1>
-              <p className="text-sm mb-6 font-sans" style={{ color: "#3a3020" }}>
-                Enter Your Date Of Birth Below.
-              </p>
+                LSC
+              </span>
+            </div>
 
-              {/* Dropdowns */}
-              <div className="grid grid-cols-3 gap-3 mb-4 text-left">
-                <div>
-                  <label className="block text-xs font-sans font-bold uppercase mb-1" style={{ color: "#3a3020" }}>
-                    Month
-                  </label>
-                  <select
-                    value={month}
-                    onChange={(e) => { setMonth(e.target.value); setError(""); }}
-                    className={selectClass + " w-full"}
-                  >
-                    <option value="">MM</option>
-                    {months.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-sans font-bold uppercase mb-1" style={{ color: "#3a3020" }}>
-                    Day
-                  </label>
-                  <select
-                    value={day}
-                    onChange={(e) => { setDay(e.target.value); setError(""); }}
-                    className={selectClass + " w-full"}
-                  >
-                    <option value="">DD</option>
-                    {days.map((d) => (
-                      <option key={d} value={d}>{d}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-sans font-bold uppercase mb-1" style={{ color: "#3a3020" }}>
-                    Year
-                  </label>
-                  <select
-                    value={year}
-                    onChange={(e) => { setYear(e.target.value); setError(""); }}
-                    className={selectClass + " w-full"}
-                  >
-                    <option value="">YYYY</option>
-                    {years.map((y) => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            {!denied ? (
+              <>
+                <h1
+                  className="font-serif text-lg sm:text-xl font-semibold uppercase tracking-wide mb-1"
+                  style={{ color: "#1a1510" }}
+                >
+                  Verify Your Age
+                </h1>
+                <p className="text-xs font-sans mb-8" style={{ color: "#888" }}>
+                  You must be 21 or older to enter.
+                </p>
 
-              {error && (
-                <p className="text-xs mb-3 text-red-700 font-sans">{error}</p>
-              )}
+                <div className="grid grid-cols-3 gap-3 mb-5 text-left">
+                  <div>
+                    <label className="block text-[10px] font-sans uppercase tracking-wider mb-1.5" style={{ color: "#999" }}>
+                      Month
+                    </label>
+                    <select value={month} onChange={(e) => { setMonth(e.target.value); setError(""); }} className={selectClass}>
+                      <option value="">MM</option>
+                      {months.map((m) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-sans uppercase tracking-wider mb-1.5" style={{ color: "#999" }}>
+                      Day
+                    </label>
+                    <select value={day} onChange={(e) => { setDay(e.target.value); setError(""); }} className={selectClass}>
+                      <option value="">DD</option>
+                      {days.map((d) => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-sans uppercase tracking-wider mb-1.5" style={{ color: "#999" }}>
+                      Year
+                    </label>
+                    <select value={year} onChange={(e) => { setYear(e.target.value); setError(""); }} className={selectClass}>
+                      <option value="">YYYY</option>
+                      {years.map((y) => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                  </div>
+                </div>
 
-              <button
-                onClick={handleSubmit}
-                className="w-full max-w-[220px] mx-auto block py-3 text-sm font-sans font-bold uppercase tracking-widest rounded transition-all duration-200 active:scale-95"
-                style={{
-                  background: "#1a1510",
-                  color: "#f5e6c8",
-                }}
-              >
-                Submit
-              </button>
-            </>
-          ) : (
-            <>
-              <h1 className="font-serif text-xl font-bold mb-2" style={{ color: "#1a1510" }}>
-                No Worries 🫡
-              </h1>
-              <p className="text-sm font-sans mb-6" style={{ color: "#3a3020" }}>
-                Come back when you've leveled up.
-              </p>
-              <button
-                onClick={() => { setDenied(false); setMonth(""); setDay(""); setYear(""); setError(""); }}
-                className="text-xs font-sans underline underline-offset-4"
-                style={{ color: "#3a3020" }}
-              >
-                Wait, I made a mistake
-              </button>
-            </>
-          )}
+                {error && <p className="text-xs mb-3 font-sans" style={{ color: "#c44" }}>{error}</p>}
+
+                <button
+                  onClick={handleSubmit}
+                  className="w-full max-w-[200px] mx-auto block py-3 text-xs font-sans font-semibold uppercase tracking-[0.15em] rounded-md transition-all duration-200 active:scale-95"
+                  style={{ background: "#1a1510", color: "#fff" }}
+                >
+                  Submit
+                </button>
+              </>
+            ) : (
+              <>
+                <h1 className="font-serif text-xl font-semibold mb-2" style={{ color: "#1a1510" }}>
+                  No Worries 🫡
+                </h1>
+                <p className="text-sm font-sans mb-6" style={{ color: "#888" }}>
+                  Come back when you've leveled up.
+                </p>
+                <button
+                  onClick={() => { setDenied(false); setMonth(""); setDay(""); setYear(""); setError(""); }}
+                  className="text-xs font-sans underline underline-offset-4"
+                  style={{ color: "#999" }}
+                >
+                  Wait, I made a mistake
+                </button>
+              </>
+            )}
+          </div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>
+      </AnimatePresence>
+    </>
   );
 };
 
