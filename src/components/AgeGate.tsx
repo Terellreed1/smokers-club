@@ -119,17 +119,20 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
             ) : (
               <>
                 <h1 className="font-serif text-xl font-semibold mb-2" style={{ color: "#1a1510" }}>
-                  No Worries 🫡
+                  We Appreciate Your Interest
                 </h1>
-                <p className="text-sm font-sans mb-6" style={{ color: "#888" }}>
-                  Come back when you've leveled up.
+                <p className="text-sm font-sans mb-2" style={{ color: "#888" }}>
+                  This experience is reserved for guests aged 21 and over.
+                </p>
+                <p className="text-xs font-sans italic mb-6" style={{ color: "#aaa" }}>
+                  We look forward to welcoming you in the future.
                 </p>
                 <button
                   onClick={() => { setDenied(false); setMonth(""); setDay(""); setYear(""); setError(""); }}
                   className="text-xs font-sans underline underline-offset-4"
                   style={{ color: "#999" }}
                 >
-                  Wait, I made a mistake
+                  Re-enter date of birth
                 </button>
               </>
             )}
