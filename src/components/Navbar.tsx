@@ -28,10 +28,11 @@ interface NavLink {
   to: string;
   submenu?: { label: string; to: string }[];
   external?: boolean;
+  disabled?: boolean;
 }
 
 const navLinks: NavLink[] = [
-  { label: "Shop", to: "/shop", submenu: shopSubmenu },
+  { label: "Shop", to: "/shop", submenu: shopSubmenu, disabled: true },
   { label: "About", to: "/about", submenu: aboutSubmenu },
   { label: "Merch", to: "https://www.luxurycourier.club/", external: true },
   { label: "Delivery", to: "/delivery" },
@@ -84,10 +85,12 @@ const Navbar = () => {
 
   const linkClasses = (link: NavLink) =>
     cn(
-      "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 hover:text-gold py-6",
-      showSolid
-        ? isActive(link) ? "text-gold" : "text-muted-foreground"
-        : isActive(link) ? "text-gold" : "text-background/80 hover:text-gold"
+      "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 py-6",
+      link.disabled
+        ? "text-muted-foreground/30 cursor-not-allowed"
+        : showSolid
+          ? isActive(link) ? "text-gold" : "text-muted-foreground"
+          : isActive(link) ? "text-gold" : "text-background/80 hover:text-gold"
     );
 
   return (
@@ -115,7 +118,7 @@ const Navbar = () => {
             <div
               key={link.label}
               className="relative"
-              onMouseEnter={() => link.submenu && handleMouseEnter(link.label)}
+              onMouseEnter={() => link.submenu && !link.disabled && handleMouseEnter(link.label)}
               onMouseLeave={handleMouseLeave}
             >
               {link.external ? (
@@ -127,6 +130,11 @@ const Navbar = () => {
                 >
                   {renderLabel(link)}
                 </a>
+              ) : link.disabled ? (
+                <span className={linkClasses(link)} title="Coming soon">
+                  {link.label}
+                  {link.submenu && <ChevronDown size={12} className="opacity-30" />}
+                </span>
               ) : (
                 <Link to={link.to} className={linkClasses(link)}>
                   {renderLabel(link)}
@@ -224,7 +232,11 @@ const Navbar = () => {
           <div className="px-6 py-8 flex flex-col gap-2">
             {navLinks.map((link) => (
               <div key={link.label}>
-                {link.submenu ? (
+                {link.disabled ? (
+                  <span className="block text-sm font-sans uppercase editorial-spacing py-3 text-muted-foreground/30 cursor-not-allowed">
+                    {link.label}
+                  </span>
+                ) : link.submenu ? (
                   <>
                     <button
                       onClick={() =>
