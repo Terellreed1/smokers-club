@@ -195,42 +195,22 @@ const MenuBoard = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Page navigation */}
-                <div className="flex flex-col gap-4 mt-8 pt-6 border-t border-gold/10">
-                  {/* Category tabs — scrollable on mobile */}
-                  <div className="flex items-center justify-center gap-1 sm:gap-3 overflow-x-auto">
-                    {categories.map((cat, idx) => (
-                      <button
-                        key={cat}
-                        onClick={() => goTo(idx)}
-                        className={`text-[9px] sm:text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 py-2 px-2 sm:px-3 whitespace-nowrap min-h-[44px] ${
-                          idx === pageIndex
-                            ? "text-gold"
-                            : "text-muted-foreground/40 hover:text-muted-foreground"
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Prev/Next */}
-                  <div className="flex items-center justify-between">
+                {/* Page dots */}
+                <div className="flex items-center justify-center gap-2 mt-8 pt-6 border-t border-gold/10">
+                  {categories.map((cat, idx) => (
                     <button
-                      onClick={prevPage}
-                      disabled={pageIndex === 0}
-                      className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default min-h-[44px] px-2"
+                      key={cat}
+                      onClick={() => goTo(idx)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 min-h-[44px] min-w-[44px] flex items-center justify-center ${
+                        idx === pageIndex
+                          ? "bg-gold"
+                          : "bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                      }`}
+                      aria-label={cat}
                     >
-                      ← Prev
+                      <span className={`w-2 h-2 rounded-full ${idx === pageIndex ? "bg-gold" : "bg-muted-foreground/20"}`} />
                     </button>
-                    <button
-                      onClick={nextPage}
-                      disabled={pageIndex === categories.length - 1}
-                      className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default min-h-[44px] px-2"
-                    >
-                      Next →
-                    </button>
-                  </div>
+                  ))}
                 </div>
 
                 {/* Page number */}
