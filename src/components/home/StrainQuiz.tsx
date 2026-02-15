@@ -257,7 +257,7 @@ const StrainQuiz = () => {
                 >
                   <motion.a
                     href={`/shop?type=${result.name.toLowerCase()}`}
-                    className="font-sans text-xs uppercase editorial-spacing px-8 py-4 bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
+                    className="font-sans text-xs uppercase editorial-spacing px-6 sm:px-8 py-4 bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 min-h-[44px] flex items-center justify-center"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -265,7 +265,7 @@ const StrainQuiz = () => {
                   </motion.a>
                   <motion.button
                     onClick={reset}
-                    className="font-sans text-xs uppercase editorial-spacing px-8 py-4 border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-all duration-300"
+                    className="font-sans text-xs uppercase editorial-spacing px-6 sm:px-8 py-4 border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-all duration-300 min-h-[44px]"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >

@@ -33,7 +33,7 @@ const HeroSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full min-h-[120vh] overflow-hidden flex items-center justify-center"
+      className="relative w-full min-h-screen md:min-h-[120vh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
@@ -100,14 +100,14 @@ const HeroSection = () => {
           <img
             src={logo}
             alt="LC"
-            className="h-64 md:h-96 w-auto mx-auto drop-shadow-lg"
+            className="h-40 sm:h-64 md:h-96 w-auto mx-auto drop-shadow-lg"
           />
         </motion.div>
 
         {/* Headline */}
         <div className="relative">
-          <motion.p
-            className="font-serif text-3xl md:text-5xl lg:text-6xl text-background/90 tracking-widest uppercase mb-2"
+        <motion.p
+            className="font-serif text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-background/90 tracking-widest uppercase mb-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 2, delay: 0.8, ease: "easeOut" }}
@@ -115,7 +115,7 @@ const HeroSection = () => {
             Luxury Smokers Club
           </motion.p>
           <motion.h1
-            className="font-serif text-xl md:text-3xl lg:text-4xl text-background italic relative whitespace-nowrap"
+            className="font-serif text-base sm:text-xl md:text-3xl lg:text-4xl text-background italic relative"
             initial={{ opacity: 0, filter: "blur(20px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 3, delay: 1.2, ease: [0.25, 0.4, 0.25, 1] }}

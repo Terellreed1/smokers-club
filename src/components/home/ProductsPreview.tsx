@@ -64,7 +64,7 @@ const ProductsPreview = () => {
         </div>
 
         <StaggerContainer
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
+          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-10"
           staggerDelay={0.1}
         >
           {products.map((product) => (
@@ -95,7 +95,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-[3/4] mb-5 overflow-hidden relative">
+        <div className="aspect-[3/4] mb-3 sm:mb-5 overflow-hidden relative">
           <motion.img
             src={product.image}
             alt={product.name}
@@ -109,7 +109,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">
           {product.brand}
         </p>
-        <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">
+        <h3 className="font-serif text-sm sm:text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">
           {product.name}
         </h3>
         <div className="flex items-center gap-3 mt-1">

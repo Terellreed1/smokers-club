@@ -88,12 +88,12 @@ const ParallaxStory = () => {
         className="relative z-10 max-w-4xl mx-auto text-center"
         style={{ y: y3, opacity }}
       >
-        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-12">
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.1] mb-8 sm:mb-12">
           <TypewriterText text="Welcome to " />
           <TypewriterText text="Luxury Cannabis." className="gold-text-gradient" />
         </h2>
 
-        <motion.div className="flex items-center justify-center gap-16">
+        <motion.div className="flex items-center justify-center gap-8 sm:gap-16">
           <div className="text-center">
             <p className="font-serif text-3xl md:text-4xl text-foreground">
               <AnimatedCounter target={42} suffix="+" />

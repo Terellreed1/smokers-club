@@ -135,7 +135,7 @@ const Shop = () => {
 
             {/* Product Grid */}
             <StaggerContainer
-              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+              className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6"
               staggerDelay={0.08}
             >
               {filtered.map((product) => (

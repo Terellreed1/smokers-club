@@ -443,7 +443,7 @@ const DeliveryMap = () => {
         <ScrollReveal delay={0.15}>
           <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-16">
             {/* 3D Globe */}
-            <div className="relative w-full lg:w-3/5 aspect-square max-w-[520px] mx-auto lg:mx-0 overflow-hidden">
+            <div className="relative w-full lg:w-3/5 aspect-square max-w-[320px] sm:max-w-[420px] lg:max-w-[520px] mx-auto lg:mx-0 overflow-hidden">
               <Canvas
                 camera={{ position: cameraPosition, fov: 40 }}
                 style={{ background: "transparent" }}
