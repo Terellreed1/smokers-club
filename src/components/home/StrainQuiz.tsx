@@ -103,7 +103,7 @@ const StrainQuiz = () => {
   const progress = started ? ((currentQuestion + (showResult ? 1 : 0)) / questions.length) * 100 : 0;
 
   return (
-    <section className="py-24 md:py-32 px-6 relative overflow-hidden">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 relative overflow-hidden">
       {/* Left leaf */}
       <img
         src={cannabisLeaf}

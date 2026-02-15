@@ -110,7 +110,7 @@ const MenuBoard = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 px-6">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <ScrollReveal>
           {/* Menu "book" */}
@@ -118,7 +118,7 @@ const MenuBoard = () => {
             {/* Outer menu card */}
             <div className="relative border border-gold/30 p-1 bg-background shadow-[0_8px_60px_-12px_hsl(var(--gold)/0.08)]">
               {/* Inner border */}
-              <div className="border border-gold/20 px-4 py-8 sm:px-6 sm:py-10 md:px-14 md:py-14 min-h-[400px] sm:min-h-[500px] flex flex-col">
+              <div className="border border-gold/20 px-3 py-6 sm:px-6 sm:py-10 md:px-14 md:py-14 min-h-[380px] sm:min-h-[500px] flex flex-col">
                 {/* Corner flourishes */}
                 <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/40" />
                 <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/40" />
@@ -196,22 +196,14 @@ const MenuBoard = () => {
                 </div>
 
                 {/* Page navigation */}
-                <div className="flex items-center justify-between mt-8 pt-6 border-t border-gold/10">
-                  <button
-                    onClick={prevPage}
-                    disabled={pageIndex === 0}
-                    className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default"
-                  >
-                    ← Prev
-                  </button>
-
-                  {/* Page dots / category tabs */}
-                  <div className="flex items-center gap-3">
+                <div className="flex flex-col gap-4 mt-8 pt-6 border-t border-gold/10">
+                  {/* Category tabs — scrollable on mobile */}
+                  <div className="flex items-center justify-center gap-1 sm:gap-3 overflow-x-auto">
                     {categories.map((cat, idx) => (
                       <button
                         key={cat}
                         onClick={() => goTo(idx)}
-                        className={`text-[10px] sm:text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 py-2 px-1 ${
+                        className={`text-[9px] sm:text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 py-2 px-2 sm:px-3 whitespace-nowrap min-h-[44px] ${
                           idx === pageIndex
                             ? "text-gold"
                             : "text-muted-foreground/40 hover:text-muted-foreground"
@@ -222,13 +214,23 @@ const MenuBoard = () => {
                     ))}
                   </div>
 
-                  <button
-                    onClick={nextPage}
-                    disabled={pageIndex === categories.length - 1}
-                    className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default"
-                  >
-                    Next →
-                  </button>
+                  {/* Prev/Next */}
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={prevPage}
+                      disabled={pageIndex === 0}
+                      className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default min-h-[44px] px-2"
+                    >
+                      ← Prev
+                    </button>
+                    <button
+                      onClick={nextPage}
+                      disabled={pageIndex === categories.length - 1}
+                      className="text-[11px] font-sans uppercase editorial-spacing text-muted-foreground/60 hover:text-gold transition-colors disabled:opacity-20 disabled:cursor-default min-h-[44px] px-2"
+                    >
+                      Next →
+                    </button>
+                  </div>
                 </div>
 
                 {/* Page number */}

@@ -30,7 +30,7 @@ const GoogleLogo = () => (
 
 const SocialProof = () => {
   return (
-    <section className="py-24 md:py-32 px-6 bg-secondary/50">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-secondary/50">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -51,7 +51,7 @@ const SocialProof = () => {
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="bg-background border border-border/50 p-10 text-center transition-all duration-500 hover:border-border"
+              className="bg-background border border-border/50 p-6 sm:p-10 text-center transition-all duration-500 hover:border-border"
             >
               {/* Google icon + stars */}
               <div className="flex items-center justify-center gap-2 mb-6">

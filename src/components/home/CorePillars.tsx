@@ -61,7 +61,7 @@ const CorePillars = () => {
   const directions = [-120, 120, -120];
 
   return (
-    <section className="py-24 md:py-32 px-6">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden">
       <div className="max-w-5xl mx-auto" ref={ref}>
         <motion.div
           className="text-center mb-20"
@@ -81,7 +81,7 @@ const CorePillars = () => {
           {pillars.map((pillar, i) => (
             <motion.div
               key={i}
-              className={`w-full ${widths[i]} text-center px-8`}
+              className={`w-full ${widths[i]} text-center px-4 sm:px-8`}
               initial={{ opacity: 0, x: directions[i] }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{

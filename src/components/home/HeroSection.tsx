@@ -33,7 +33,7 @@ const HeroSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full min-h-screen md:min-h-[120vh] overflow-hidden flex items-center justify-center"
+      className="relative w-full min-h-[100svh] md:min-h-[120vh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
@@ -126,7 +126,7 @@ const HeroSection = () => {
         </div>
 
         <motion.p
-          className="text-xs md:text-sm font-sans uppercase wide-spacing text-background/80 mt-8"
+          className="text-[10px] sm:text-xs md:text-sm font-sans uppercase tracking-widest sm:wide-spacing text-background/80 mt-6 sm:mt-8 px-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 2.5, ease: "easeOut" }}

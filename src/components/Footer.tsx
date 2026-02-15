@@ -14,10 +14,10 @@ const navItems = [
 const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
           {/* Brand */}
-          <div className="md:col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <div className="mb-4">
               <img src={logo} alt="Luxury Couriers" className="h-20 w-20 object-contain opacity-80" />
             </div>

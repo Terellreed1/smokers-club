@@ -103,7 +103,7 @@ const Shop = () => {
 
   return (
     <PageLayout>
-      <div className="py-16 md:py-24 px-6">
+      <div className="py-12 sm:py-16 md:py-24 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -182,7 +182,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
         <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">{product.brand}</p>
-        <h3 className="font-serif text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
+        <h3 className="font-serif text-sm sm:text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
         <p className="text-sm font-sans text-foreground/60 mt-1">{product.price}</p>
       </Link>
     </TiltCard>
