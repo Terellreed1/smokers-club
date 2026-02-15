@@ -6,7 +6,7 @@ import TiltCard from "@/components/TiltCard";
 import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
 import eliteFrutaz from "@/assets/products/elite-frutaz.png";
 import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
-import dragonfruitCandy from "@/assets/products/dragonfruit-candy.png";
+import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.png";
 
 const products = [
   {
@@ -34,12 +34,12 @@ const products = [
     image: cottonCandyClouds,
   },
   {
-    id: 14,
-    name: "Dragonfruit Candy",
-    brand: "Always Faded",
+    id: 3,
+    name: "SqurtleZop",
+    brand: "Zour Zop",
     type: "$65",
     price: "$65",
-    image: dragonfruitCandy,
+    image: zopBoyZourzop,
   },
 ];
 
@@ -99,7 +99,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <motion.img
             src={product.image}
             alt={product.name}
-            className={`absolute inset-0 w-full h-full object-contain ${product.name === "Dragonfruit Candy" ? "rotate-[-12deg]" : ""}`}
+            className="absolute inset-0 w-full h-full object-contain"
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             whileHover={{ scale: 1.08 }}
