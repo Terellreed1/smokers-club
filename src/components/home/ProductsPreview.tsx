@@ -6,7 +6,6 @@ import TiltCard from "@/components/TiltCard";
 import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
 import eliteFrutaz from "@/assets/products/elite-frutaz.png";
 import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
-import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.png";
 
 const products = [
   {
@@ -33,14 +32,6 @@ const products = [
     price: "$65",
     image: cottonCandyClouds,
   },
-  {
-    id: 3,
-    name: "SqurtleZop",
-    brand: "Zour Zop",
-    type: "$65",
-    price: "$65",
-    image: zopBoyZourzop,
-  },
 ];
 
 const ProductsPreview = () => {
@@ -64,7 +55,7 @@ const ProductsPreview = () => {
         </div>
 
         <StaggerContainer
-          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-10"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-10"
           staggerDelay={0.1}
         >
           {products.map((product) => (
