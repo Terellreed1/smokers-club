@@ -168,7 +168,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <motion.img
             src={product.image}
             alt={product.name}
-            className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""}`}
+            className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""} ${product.name === "Dragonfruit Candy" ? "rotate-[-12deg]" : ""}`}
             whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
             transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           />
