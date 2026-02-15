@@ -99,10 +99,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <motion.img
             src={product.image}
             alt={product.name}
-            className="absolute inset-0 w-full h-full object-contain"
+            className={`absolute inset-0 w-full h-full object-contain ${product.name === "Dragonfruit Candy" ? "rotate-[-12deg]" : ""}`}
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
+            whileHover={{ scale: 1.08 }}
           />
         </div>
 
