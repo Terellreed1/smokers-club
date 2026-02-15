@@ -8,7 +8,7 @@ const HeroSection = () => {
   const { scrollY } = useScroll();
   const videoY = useTransform(scrollY, [0, 800], [0, 300]);
   const contentY = useTransform(scrollY, [0, 600], [0, -120]);
-  const overlayOpacity = useTransform(scrollY, [0, 600], [0.45, 0.85]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.35, 0.8]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   const mouseX = useMotionValue(0);
@@ -51,12 +51,12 @@ const HeroSection = () => {
 
       {/* Dark Overlay */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-foreground/60"
+        className="absolute inset-0 bg-gradient-to-b from-foreground/50 via-foreground/30 to-foreground/50"
         style={{ opacity: overlayOpacity }}
       />
 
       {/* Top black haze to cover video stamp */}
-      <div className="absolute top-0 left-0 right-0 h-[30%] bg-gradient-to-b from-black via-black/60 via-40% to-transparent z-[5] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-[20%] bg-gradient-to-b from-black/80 via-black/40 to-transparent z-[5] pointer-events-none" />
 
       {/* Ambient smoke haze */}
       <motion.div
