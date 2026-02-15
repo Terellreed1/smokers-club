@@ -8,7 +8,7 @@ const HeroSection = () => {
   const { scrollY } = useScroll();
   const videoY = useTransform(scrollY, [0, 800], [0, 300]);
   const contentY = useTransform(scrollY, [0, 600], [0, -120]);
-  const overlayOpacity = useTransform(scrollY, [0, 600], [0.65, 0.95]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.45, 0.85]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   const mouseX = useMotionValue(0);
@@ -42,7 +42,8 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover will-change-transform"
+          style={{ imageRendering: "auto", backfaceVisibility: "hidden" }}
         >
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
@@ -50,12 +51,12 @@ const HeroSection = () => {
 
       {/* Dark Overlay */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/60 to-foreground/80"
+        className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-foreground/60"
         style={{ opacity: overlayOpacity }}
       />
 
       {/* Top black haze to cover video stamp */}
-      <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-black via-black/80 via-50% to-transparent z-[5] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-[30%] bg-gradient-to-b from-black via-black/60 via-40% to-transparent z-[5] pointer-events-none" />
 
       {/* Ambient smoke haze */}
       <motion.div
