@@ -57,7 +57,7 @@ const HighQuestions = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 px-6">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto text-center">
         <ScrollReveal>
           <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">

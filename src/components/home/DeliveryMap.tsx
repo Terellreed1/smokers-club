@@ -429,7 +429,7 @@ const DeliveryMap = () => {
   }, []);
 
   return (
-    <section className="py-24 md:py-32 px-6">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal className="text-center mb-16">
           <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">
