@@ -61,7 +61,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
             <img
               src={logo}
               alt="Luxury Smokers Club"
-              className="mx-auto mt-4 mb-4 w-40 h-40 sm:w-52 sm:h-52 object-contain"
+              className="mx-auto mt-4 mb-4 w-80 h-80 sm:w-[416px] sm:h-[416px] object-contain"
             />
 
             {!denied ? (
