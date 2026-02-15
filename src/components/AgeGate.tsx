@@ -58,20 +58,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           transition={{ duration: 0.4 }}
         >
           <div className="w-[90vw] max-w-sm text-center px-6">
-            {/* Logo + LSC */}
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <img
-                src={logo}
-                alt="LSC"
-                className="w-28 h-28 sm:w-36 sm:h-36 object-contain"
-              />
-              <span
-                className="font-serif text-4xl sm:text-5xl font-bold tracking-wider"
-                style={{ color: "#1a1510" }}
-              >
-                LSC
-              </span>
-            </div>
+            <img
+              src={logo}
+              alt="Luxury Smokers Club"
+              className="mx-auto mb-8 w-40 h-40 sm:w-52 sm:h-52 object-contain"
+            />
 
             {!denied ? (
               <>
