@@ -118,7 +118,7 @@ const MenuBoard = () => {
             {/* Outer menu card */}
             <div className="relative border border-gold/30 p-1 bg-background shadow-[0_8px_60px_-12px_hsl(var(--gold)/0.08)]">
               {/* Inner border */}
-              <div className="border border-gold/20 px-6 py-10 md:px-14 md:py-14 min-h-[500px] flex flex-col">
+              <div className="border border-gold/20 px-4 py-8 sm:px-6 sm:py-10 md:px-14 md:py-14 min-h-[400px] sm:min-h-[500px] flex flex-col">
                 {/* Corner flourishes */}
                 <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/40" />
                 <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/40" />
@@ -166,7 +166,7 @@ const MenuBoard = () => {
                           >
                             {/* Name ........... Price */}
                             <div className="flex items-baseline gap-2">
-                              <span className="font-serif text-lg md:text-xl text-foreground whitespace-nowrap">
+                              <span className="font-serif text-sm sm:text-lg md:text-xl text-foreground">
                                 {item.name}
                               </span>
                               <span className="flex-1 border-b border-dotted border-muted-foreground/20 min-w-[20px] translate-y-[-4px]" />
@@ -175,16 +175,16 @@ const MenuBoard = () => {
                               </span>
                             </div>
                             {/* Details */}
-                            <div className="flex items-center gap-3 mt-1 pl-1">
-                              <span className="text-[10px] font-sans text-muted-foreground/50 uppercase editorial-spacing">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 pl-1">
+                              <span className="text-[9px] sm:text-[10px] font-sans text-muted-foreground/50 uppercase editorial-spacing">
                                 {item.strain}
                               </span>
-                              <span className="text-muted-foreground/20">·</span>
-                              <span className="text-[10px] font-sans text-muted-foreground/50">
+                              <span className="text-muted-foreground/20 hidden sm:inline">·</span>
+                              <span className="text-[9px] sm:text-[10px] font-sans text-muted-foreground/50">
                                 THC {item.thc}
                               </span>
-                              <span className="text-muted-foreground/20">·</span>
-                              <span className="text-[10px] font-sans text-muted-foreground/50 italic">
+                              <span className="text-muted-foreground/20 hidden sm:inline">·</span>
+                              <span className="text-[9px] sm:text-[10px] font-sans text-muted-foreground/50 italic">
                                 {typeLabels[item.type]}
                               </span>
                             </div>
@@ -211,7 +211,7 @@ const MenuBoard = () => {
                       <button
                         key={cat}
                         onClick={() => goTo(idx)}
-                        className={`text-[10px] font-sans uppercase editorial-spacing transition-all duration-300 ${
+                        className={`text-[10px] sm:text-[11px] font-sans uppercase editorial-spacing transition-all duration-300 py-2 px-1 ${
                           idx === pageIndex
                             ? "text-gold"
                             : "text-muted-foreground/40 hover:text-muted-foreground"

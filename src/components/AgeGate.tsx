@@ -274,8 +274,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
         >
           {/* Logo with spotlight reveal */}
           <motion.div
-            className="relative mx-auto mb-8"
-            style={{ width: 280, height: 280 }}
+            className="relative mx-auto mb-6 sm:mb-8 w-[200px] h-[200px] sm:w-[280px] sm:h-[280px]"
           >
             {/* Spotlight cone hitting the logo */}
             <motion.div
@@ -309,7 +308,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           </motion.div>
 
           <motion.p
-            className="font-serif text-2xl md:text-3xl tracking-widest uppercase mb-6"
+            className="font-serif text-xl sm:text-2xl md:text-3xl tracking-widest uppercase mb-4 sm:mb-6"
             style={{ color: "rgba(220,200,160,0.9)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: logoRevealed ? 1 : 0 }}

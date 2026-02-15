@@ -28,12 +28,12 @@ const BrandCarousel = () => {
               <Link
                 key={`${brand.slug}-${i}`}
                 to={`/shop?brand=${brand.slug}`}
-                className="flex-shrink-0 px-10 md:px-14 flex items-center justify-center group"
+                className="flex-shrink-0 px-6 sm:px-10 md:px-14 flex items-center justify-center group"
               >
                 <motion.img
                   src={brand.logo}
                   alt={brand.name}
-                  className="h-20 md:h-28 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                  className="h-14 sm:h-20 md:h-28 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500"
                   whileHover={{ scale: 1.1, y: -5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 />

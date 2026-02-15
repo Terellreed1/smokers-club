@@ -72,7 +72,7 @@ const HighQuestions = () => {
           <AnimatePresence mode="wait">
             <motion.p
               key={currentIndex}
-              className="font-serif text-2xl md:text-4xl text-foreground/90 leading-relaxed italic"
+              className="font-serif text-xl sm:text-2xl md:text-4xl text-foreground/90 leading-relaxed italic px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -83,10 +83,10 @@ const HighQuestions = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center justify-center gap-8 mt-12">
+        <div className="flex items-center justify-center gap-4 sm:gap-8 mt-8 sm:mt-12">
           <button
             onClick={prevQuestion}
-            className="text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300 px-6 py-3 border border-border/50 hover:border-border"
+            className="text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300 px-4 sm:px-6 py-3 border border-border/50 hover:border-border min-h-[44px]"
           >
             ← Prev
           </button>
@@ -95,7 +95,7 @@ const HighQuestions = () => {
           </span>
           <button
             onClick={nextQuestion}
-            className="text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300 px-6 py-3 border border-border/50 hover:border-border"
+            className="text-xs font-sans uppercase editorial-spacing text-muted-foreground hover:text-foreground transition-colors duration-300 px-4 sm:px-6 py-3 border border-border/50 hover:border-border min-h-[44px]"
           >
             Next →
           </button>
