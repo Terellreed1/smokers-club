@@ -43,7 +43,7 @@ const HeroSection = () => {
       >
         {/* Massive headline */}
         <motion.h1
-          className="font-sans font-bold uppercase text-white leading-[0.9] tracking-tight mb-6"
+          className="font-serif font-bold uppercase text-white leading-[0.9] tracking-tight mb-6"
           style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
