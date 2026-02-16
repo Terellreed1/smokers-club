@@ -57,7 +57,8 @@ const Navbar = () => {
     setMobileExpanded(null);
   }, [location.pathname]);
 
-  const showSolid = true;
+  const isHomepage = location.pathname === "/";
+  const showSolid = scrolled || !isHomepage;
 
   const handleMouseEnter = (label: string) => {
     if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
@@ -90,18 +91,23 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="sticky top-0 z-50 bg-background border-b border-border/50 shadow-sm"
+      className={cn(
+        "sticky top-0 z-50 transition-all duration-500",
+        showSolid
+          ? "bg-background/95 backdrop-blur-md border-b border-border/30"
+          : "bg-transparent border-b border-transparent"
+      )}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center group">
           <motion.img
             src={logo}
             alt="Luxury Couriers"
-            className="h-24 w-24 object-contain"
+            className="h-14 w-14 object-contain"
             whileHover={{ scale: 1.08, rotate: -2 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           />
