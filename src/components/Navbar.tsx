@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavCartIcon from "@/components/NavCartIcon";
 import { cn } from "@/lib/utils";
@@ -34,9 +34,10 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { totalItems } = useCart();
+  const isHomepage = location.pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -45,159 +46,176 @@ const Navbar = () => {
     setMobileOpen(false);
   }, [location.pathname]);
 
+  const showSolid = scrolled || !isHomepage;
+
   return (
-    <>
-      {/* Main Nav */}
-      <nav
-        className={cn(
-          "sticky top-0 z-50 bg-background transition-shadow duration-300",
-          scrolled && "shadow-md"
-        )}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logo} alt="Luxury Smokers Club" className="h-10 w-10 object-contain" />
-            <span className="hidden sm:inline font-serif text-lg font-bold text-foreground">
-              Luxury Smokers Club
-            </span>
-          </Link>
+    <motion.nav
+      className={cn(
+        "sticky top-0 z-50 transition-all duration-500",
+        showSolid
+          ? "bg-background/95 backdrop-blur-md border-b border-border/30"
+          : "bg-transparent border-b border-transparent"
+      )}
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-3 shrink-0">
+          <motion.img
+            src={logo}
+            alt="Luxury Smokers Club"
+            className="h-14 w-14 object-contain"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          />
+        </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) =>
-              link.external ? (
-                <a
-                  key={link.label}
-                  href={link.to}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.label}
-                  to={link.to}
-                  className={cn(
-                    "text-sm font-medium transition-colors",
-                    location.pathname === link.to
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              )
-            )}
-          </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            <Link
-              to="/cart"
-              className="relative p-2 text-foreground hover:text-primary transition-colors"
-              aria-label="Shopping cart"
-            >
-              <NavCartIcon size={22} />
-              <AnimatePresence>
-                {totalItems > 0 && (
-                  <motion.span
-                    className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  >
-                    {totalItems}
-                  </motion.span>
+        {/* Desktop Links */}
+        <div className="hidden lg:flex items-center justify-center flex-1 gap-10">
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.label}
+                href={link.to}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[13px] font-sans uppercase tracking-[0.2em] text-foreground/70 hover:text-gold transition-colors duration-300"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                to={link.to}
+                className={cn(
+                  "text-[13px] font-sans uppercase tracking-[0.2em] transition-colors duration-300",
+                  location.pathname === link.to
+                    ? "text-gold"
+                    : "text-foreground/70 hover:text-gold"
                 )}
-              </AnimatePresence>
-            </Link>
-
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 text-foreground"
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </div>
 
-        {/* Category bar — desktop */}
-        <div className="hidden lg:block border-t border-border bg-background">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-8 h-11">
+        {/* Right side */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            to="/cart"
+            className="relative p-2 text-foreground/70 hover:text-gold transition-colors duration-300"
+            aria-label="Shopping cart"
+          >
+            <NavCartIcon size={20} />
+            <AnimatePresence>
+              {totalItems > 0 && (
+                <motion.span
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-primary-foreground text-[10px] font-sans flex items-center justify-center rounded-full"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  {totalItems}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </Link>
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 text-foreground"
+            aria-label="Toggle menu"
+          >
+            <AnimatePresence mode="wait">
+              {mobileOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <X size={24} />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <Menu size={24} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
+      </div>
+
+      {/* Category bar — desktop, shown below main nav on scroll */}
+      {showSolid && (
+        <div className="hidden lg:block border-t border-border/20">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center gap-8 h-10">
             {categories.map((cat) => (
               <Link
                 key={cat.label}
                 to={cat.to}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="text-[11px] font-sans uppercase tracking-[0.15em] text-muted-foreground hover:text-gold transition-colors duration-300"
               >
                 {cat.label}
               </Link>
             ))}
           </div>
         </div>
+      )}
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              className="lg:hidden bg-background border-t border-border overflow-hidden"
-              initial={{ height: 0 }}
-              animate={{ height: "auto" }}
-              exit={{ height: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              <div className="px-4 py-4 flex flex-col gap-1">
-                {navLinks.map((link) =>
-                  link.external ? (
-                    <a
-                      key={link.label}
-                      href={link.to}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setMobileOpen(false)}
-                      className="py-3 text-base font-medium text-muted-foreground"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={link.label}
-                      to={link.to}
-                      onClick={() => setMobileOpen(false)}
-                      className={cn(
-                        "py-3 text-base font-medium transition-colors",
-                        location.pathname === link.to
-                          ? "text-primary"
-                          : "text-muted-foreground"
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                )}
-                <div className="h-px bg-border my-2" />
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Categories</p>
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.label}
-                    to={cat.to}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            className="lg:hidden bg-background border-t border-border/30 overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-6 py-6 flex flex-col gap-1">
+              {navLinks.map((link) =>
+                link.external ? (
+                  <a
+                    key={link.label}
+                    href={link.to}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setMobileOpen(false)}
-                    className="py-2.5 text-sm text-muted-foreground"
+                    className="py-3 text-sm font-sans uppercase editorial-spacing text-muted-foreground"
                   >
-                    {cat.label}
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.label}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "py-3 text-sm font-sans uppercase editorial-spacing transition-colors duration-300",
+                      location.pathname === link.to ? "text-gold" : "text-muted-foreground"
+                    )}
+                  >
+                    {link.label}
                   </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-    </>
+                )
+              )}
+              <div className="h-px bg-border/30 my-2" />
+              <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold/60 mb-1">Categories</p>
+              {categories.map((cat) => (
+                <Link
+                  key={cat.label}
+                  to={cat.to}
+                  onClick={() => setMobileOpen(false)}
+                  className="py-2.5 text-xs font-sans uppercase tracking-[0.15em] text-muted-foreground hover:text-gold transition-colors"
+                >
+                  {cat.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
