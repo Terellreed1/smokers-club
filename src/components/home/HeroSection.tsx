@@ -25,7 +25,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Simple dark overlay */}
-      <div className="absolute inset-0 bg-foreground/50" />
+      <div className="absolute inset-0 bg-foreground/25" />
 
       {/* Top black haze to cover video stamp */}
       <div className="absolute top-0 left-0 right-0 h-[20%] bg-gradient-to-b from-black/80 via-black/40 to-transparent z-[5] pointer-events-none" />
