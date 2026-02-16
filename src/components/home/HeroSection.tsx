@@ -13,7 +13,7 @@ const HeroSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[80svh] overflow-hidden flex items-center justify-center"
+      className="relative w-full h-[100svh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
