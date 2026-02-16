@@ -13,6 +13,16 @@ import skyami from "@/assets/products/skyami.jpg";
 import lostAngels from "@/assets/products/lost-angels.jpg";
 import returnOfSilverSurfer from "@/assets/products/return-of-silver-surfer.jpg";
 import mojosCandy from "@/assets/products/mojos-candy.jpg";
+import toxicSlime from "@/assets/products/toxic-slime.jpg";
+import zabreakers from "@/assets/products/zabreakers.jpg";
+import raininThunder from "@/assets/products/rainin-thunder.jpg";
+import twistedBerryBitez from "@/assets/products/twisted-berry-bitez.jpg";
+import subZ from "@/assets/products/sub-z.jpg";
+import flyingCherryKicks from "@/assets/products/flying-cherry-kicks.jpg";
+import hollywoodStuntDouble from "@/assets/products/hollywood-stunt-double.jpg";
+import hellfireRingz from "@/assets/products/hellfire-ringz.jpg";
+import zorro from "@/assets/products/zorro.jpg";
+import superSweetBlades from "@/assets/products/super-sweet-blades.jpg";
 
 export interface Product {
   id: number;
@@ -263,7 +273,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 6,
-    image: null,
+    image: flyingCherryKicks,
     description: "Cherry-forward with a sneaker-fresh kick. Light and bouncy high that keeps you moving all day.",
   },
   {
@@ -272,7 +282,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 9,
-    image: null,
+    image: raininThunder,
     description: "Stormy, diesel-heavy profile with a thunderous body high. Dark, loud, and unforgettable.",
   },
   {
@@ -281,7 +291,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 4,
-    image: null,
+    image: subZ,
     description: "Ice-cold menthol meets deep berry terps. A sub-zero chill that numbs the stress away.",
   },
   {
@@ -290,7 +300,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 9,
-    image: null,
+    image: hellfireRingz,
     description: "Spicy, peppery heat with a ring of sweet candy on the exhale. Bold flavor for those who like it hot.",
   },
   {
@@ -299,7 +309,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 11,
-    image: null,
+    image: twistedBerryBitez,
     description: "Mixed berry medley twisted with sour candy terps. Fun, fruity, and perfect for sharing.",
   },
   {
@@ -308,7 +318,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 10,
-    image: null,
+    image: hollywoodStuntDouble,
     description: "Star-quality smoke with a blockbuster terpene profile. Citrus and gas combine for a leading-role high.",
   },
   {
@@ -317,7 +327,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 13,
-    image: null,
+    image: superSweetBlades,
     description: "Sharp sweetness that cuts through with sugary, candy-coated terps. Clean smoke, clean high.",
   },
   {
@@ -326,7 +336,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$60",
     qty: 10,
-    image: null,
+    image: zorro,
     description: "Mysterious and bold with dark berry and earthy undertones. Zorro strikes with a swift, relaxing body high.",
   },
   {
@@ -353,7 +363,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$60",
     qty: 7,
-    image: null,
+    image: zabreakers,
     description: "Jawbreaker-inspired layers of flavor that shift with every puff. Sweet, sour, and endlessly interesting.",
   },
   {
@@ -362,7 +372,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$60",
     qty: 11,
-    image: null,
+    image: toxicSlime,
     description: "Neon-green vibes with a sour, gassy punch. Don't let the name fool you — this slime is pure gold.",
   },
 
