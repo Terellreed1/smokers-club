@@ -53,10 +53,10 @@ const Navbar = () => {
           scrolled && "shadow-md"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logo} alt="Luxury Smokers Club" className="h-14 w-14 object-contain" />
+            <img src={logo} alt="Luxury Smokers Club" className="h-10 w-10 sm:h-14 sm:w-14 object-contain" />
             <span className="hidden sm:inline font-serif text-lg font-bold text-foreground">
               Luxury Smokers Club
             </span>

@@ -29,12 +29,12 @@ const BrandCarousel = () => {
             <Link
               key={`${brand.slug}-${i}`}
               to={`/shop?brand=${brand.slug}`}
-              className="flex-shrink-0 px-8 sm:px-12 md:px-14 flex items-center justify-center group"
+              className="flex-shrink-0 px-5 sm:px-8 md:px-14 flex items-center justify-center group"
             >
               <motion.img
                 src={brand.logo}
                 alt={brand.name}
-                className="h-14 sm:h-16 md:h-20 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
+                className="h-10 sm:h-14 md:h-20 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
                 whileHover={{ scale: 1.1 }}
               />
             </Link>

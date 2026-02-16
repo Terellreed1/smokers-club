@@ -26,9 +26,9 @@ const ProductsPreview = () => {
   };
 
   return (
-    <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground">
+        <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground">
           Popular Flower
         </h2>
         <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ const ProductsPreview = () => {
         {products.map((product, i) => (
           <motion.div
             key={product.id}
-            className="snap-start shrink-0 w-[220px] sm:w-[260px] group"
+            className="snap-start shrink-0 w-[160px] sm:w-[220px] md:w-[260px] group"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

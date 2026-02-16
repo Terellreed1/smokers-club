@@ -29,23 +29,23 @@ const GoogleLogo = () => (
 
 const SocialProof = () => {
   return (
-    <section className="py-14 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+    <section className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-2 mb-3">
+          <div className="flex items-center justify-center gap-2 mb-2 sm:mb-3">
             <GoogleLogo />
             <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground">
+          <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground">
             What Our Customers Say
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="bg-background rounded-2xl p-6 sm:p-8 text-center shadow-sm"
+              className="bg-background rounded-2xl p-5 sm:p-6 md:p-8 text-center shadow-sm"
             >
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 <GoogleLogo />

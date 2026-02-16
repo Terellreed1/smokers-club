@@ -49,7 +49,7 @@ const JoinClubPopup = () => {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <div className="relative bg-background w-full max-w-md shadow-2xl">
+            <div className="relative bg-background w-full max-w-md shadow-2xl rounded-2xl mx-4">
               {/* Close button */}
               <button
                 onClick={handleClose}
@@ -60,7 +60,7 @@ const JoinClubPopup = () => {
               </button>
 
               {/* Content */}
-              <div className="px-8 pt-10 pb-8 text-center">
+              <div className="px-5 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 text-center">
                 {/* Logo */}
                 <img
                   src={logo}
