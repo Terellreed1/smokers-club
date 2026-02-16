@@ -5,8 +5,14 @@ import { motion, useScroll, useTransform } from "framer-motion";
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  const videoY = useTransform(scrollY, [0, 800], [0, 300]);
-  const contentY = useTransform(scrollY, [0, 600], [0, -80]);
+
+  // Parallax layers at different speeds
+  const videoY = useTransform(scrollY, [0, 800], [0, 250]);
+  const videoScale = useTransform(scrollY, [0, 800], [1, 1.15]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.7]);
+  const subtitleY = useTransform(scrollY, [0, 600], [0, -40]);
+  const headlineY = useTransform(scrollY, [0, 600], [0, -70]);
+  const ctaY = useTransform(scrollY, [0, 600], [0, -100]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
@@ -14,8 +20,11 @@ const HeroSection = () => {
       ref={containerRef}
       className="relative w-full h-[85svh] overflow-hidden flex items-end"
     >
-      {/* Video Background */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
+      {/* Video Background — parallax + zoom */}
+      <motion.div
+        className="absolute inset-[-10%] pointer-events-none"
+        style={{ y: videoY, scale: videoScale }}
+      >
         <video
           autoPlay
           loop
@@ -27,16 +36,17 @@ const HeroSection = () => {
         </video>
       </motion.div>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40" />
-
-      {/* Hero Content — left aligned, bottom anchored */}
+      {/* Dark overlay — darkens on scroll */}
       <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-16 sm:pb-20"
-        style={{ y: contentY, opacity: contentOpacity }}
-      >
+        className="absolute inset-0 bg-black"
+        style={{ opacity: overlayOpacity }}
+      />
+
+      {/* Hero Content — staggered parallax per element */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-16 sm:pb-20">
         <motion.p
           className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-white/70 mb-4"
+          style={{ y: subtitleY, opacity: contentOpacity }}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -46,6 +56,7 @@ const HeroSection = () => {
 
         <motion.h1
           className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] max-w-2xl mb-8"
+          style={{ y: headlineY, opacity: contentOpacity }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
@@ -57,6 +68,7 @@ const HeroSection = () => {
 
         <motion.div
           className="flex items-center gap-4"
+          style={{ y: ctaY, opacity: contentOpacity }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -74,7 +86,7 @@ const HeroSection = () => {
             Delivery Info
           </Link>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };
