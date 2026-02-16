@@ -19,36 +19,27 @@ const brands = [
 
 const BrandCarousel = () => {
   return (
-    <section className="py-6 sm:py-8 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 mb-6">
-        <div className="h-px bg-border/40" />
-      </div>
-
+    <section className="py-8 overflow-hidden border-y border-border bg-secondary/30">
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-secondary/30 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-secondary/30 to-transparent z-10 pointer-events-none" />
 
         <div className="flex animate-scroll items-center">
           {[...brands, ...brands].map((brand, i) => (
             <Link
               key={`${brand.slug}-${i}`}
               to={`/shop?brand=${brand.slug}`}
-              className="flex-shrink-0 px-8 sm:px-12 md:px-16 flex items-center justify-center group"
+              className="flex-shrink-0 px-8 sm:px-12 md:px-14 flex items-center justify-center group"
             >
               <motion.img
                 src={brand.logo}
                 alt={brand.name}
-                className="h-16 sm:h-20 md:h-24 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all duration-500"
+                className="h-14 sm:h-16 md:h-20 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               />
             </Link>
           ))}
         </div>
-      </div>
-
-      <div className="max-w-5xl mx-auto px-6 mt-6">
-        <div className="h-px bg-border/40" />
       </div>
     </section>
   );
