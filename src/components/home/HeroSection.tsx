@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import logo from "@/assets/logo.png";
+import heroLogo from "@/assets/hero-logo.png";
 
 const HeroSection = () => {
   return (
@@ -55,7 +55,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <img src={logo} alt="Luxury Smokers Club" className="w-[28rem] h-[28rem] xl:w-[36rem] xl:h-[36rem] object-contain opacity-80 drop-shadow-2xl" />
+          <img src={heroLogo} alt="Luxury Smokers Club" className="w-[28rem] h-[28rem] xl:w-[36rem] xl:h-[36rem] object-contain opacity-80 drop-shadow-2xl" />
         </motion.div>
       </div>
     </section>
