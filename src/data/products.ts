@@ -41,6 +41,8 @@ export interface Product {
   image: string | null;
   description: string;
   isNew?: boolean;
+  onSale?: boolean;
+  strain?: "Indica" | "Sativa" | "Hybrid";
 }
 
 export const allProducts: Product[] = [
