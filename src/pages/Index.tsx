@@ -1,17 +1,13 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/home/AnnouncementBar";
 import HeroSection from "@/components/home/HeroSection";
+import CategoryGrid from "@/components/home/CategoryGrid";
 import BrandCarousel from "@/components/home/BrandCarousel";
-import StrainQuiz from "@/components/home/StrainQuiz";
-import CorePillars from "@/components/home/CorePillars";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
-import DeliveryMap from "@/components/home/DeliveryMap";
-import MenuBoard from "@/components/home/MenuBoard";
-import DropAlert from "@/components/home/DropAlert";
-import ParallaxStory from "@/components/home/ParallaxStory";
-import HighQuestions from "@/components/home/HighQuestions";
+import StoreInfo from "@/components/home/StoreInfo";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -28,40 +24,21 @@ const pageVariants = {
 const Index = () => {
   return (
     <motion.div
-      className="min-h-screen bg-background noise-texture"
+      className="min-h-screen bg-background"
       variants={pageVariants}
       initial="initial"
       animate="enter"
       exit="exit"
     >
+      <AnnouncementBar />
       <Navbar />
       <main>
         <HeroSection />
-        <div className="smoke-divider ivory-section">
-          <BrandCarousel />
-        </div>
-        <ParallaxStory />
-        <div className="warm-wash">
-          <ProductsPreview />
-        </div>
-        <div className="dark-section">
-          <MenuBoard />
-        </div>
-        <div className="ivory-section">
-          <StrainQuiz />
-        </div>
-        <div className="dark-section">
-          <HighQuestions />
-        </div>
-        <div className="warm-wash">
-          <CorePillars />
-        </div>
-        <div className="dark-section">
-          <DeliveryMap />
-        </div>
-        <div className="ivory-section">
-          <SocialProof />
-        </div>
+        <CategoryGrid />
+        <BrandCarousel />
+        <ProductsPreview />
+        <StoreInfo />
+        <SocialProof />
       </main>
       <Footer />
     </motion.div>
