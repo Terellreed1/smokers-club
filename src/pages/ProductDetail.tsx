@@ -15,7 +15,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
-  const outOfStock = product ? product.qty <= 0 : false;
+  
 
   if (!product) {
     return (
@@ -31,7 +31,6 @@ const ProductDetail = () => {
   }
 
   const handleAddToCart = () => {
-    if (outOfStock) return;
     setIsAdding(true);
     for (let i = 0; i < quantity; i++) {
       addItem({
@@ -64,7 +63,7 @@ const ProductDetail = () => {
                   <motion.img
                     src={product.image}
                     alt={product.name}
-                    className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""}`}
+                    className="absolute inset-0 w-full h-full object-contain"
                     initial={{ scale: 1.1, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
@@ -86,12 +85,6 @@ const ProductDetail = () => {
                 {product.isNew && (
                   <span className="text-xs font-sans uppercase editorial-spacing text-primary mb-4">New Drop</span>
                 )}
-                {outOfStock && (
-                  <span className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Sold Out</span>
-                )}
-                {!outOfStock && !product.isNew && product.qty <= 5 && (
-                  <span className="text-xs font-sans uppercase editorial-spacing text-foreground mb-4">Low Stock — {product.qty} left</span>
-                )}
                 <p className="font-serif text-3xl text-foreground mb-8">{product.price}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed font-sans mb-10">
                   {product.description}
@@ -104,7 +97,6 @@ const ProductDetail = () => {
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       className="p-3 text-muted-foreground hover:text-foreground transition-colors"
                       aria-label="Decrease quantity"
-                      disabled={outOfStock}
                     >
                       <Minus size={14} />
                     </button>
@@ -115,7 +107,6 @@ const ProductDetail = () => {
                       onClick={() => setQuantity(Math.min(product.qty, quantity + 1))}
                       className="p-3 text-muted-foreground hover:text-foreground transition-colors"
                       aria-label="Increase quantity"
-                      disabled={outOfStock}
                     >
                       <Plus size={14} />
                     </button>
@@ -123,15 +114,10 @@ const ProductDetail = () => {
 
                   <motion.button
                     onClick={handleAddToCart}
-                    className={`flex-1 flex items-center justify-center gap-3 text-xs font-sans uppercase editorial-spacing border px-8 py-4 transition-all duration-500 ${
-                      outOfStock
-                        ? "border-border/50 text-muted-foreground cursor-not-allowed"
-                        : "border-foreground text-foreground hover:bg-foreground hover:text-background"
-                    }`}
-                    whileHover={outOfStock ? {} : { scale: 1.03, letterSpacing: "0.3em" }}
-                    whileTap={outOfStock ? {} : { scale: 0.97 }}
+                    className="flex-1 flex items-center justify-center gap-3 text-xs font-sans uppercase editorial-spacing border border-foreground text-foreground hover:bg-foreground hover:text-background px-8 py-4 transition-all duration-500"
+                    whileHover={{ scale: 1.03, letterSpacing: "0.3em" }}
+                    whileTap={{ scale: 0.97 }}
                     animate={isAdding ? { scale: [1, 1.05, 1], transition: { duration: 0.4 } } : {}}
-                    disabled={outOfStock}
                   >
                     <motion.span
                       animate={isAdding ? { rotate: [0, -15, 15, 0] } : {}}
@@ -139,7 +125,7 @@ const ProductDetail = () => {
                     >
                       <ShoppingBag size={16} />
                     </motion.span>
-                    {outOfStock ? "Sold Out" : isAdding ? "Added!" : "Add to Cart"}
+                    {isAdding ? "Added!" : "Add to Cart"}
                   </motion.button>
                 </div>
 

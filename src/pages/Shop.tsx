@@ -96,8 +96,7 @@ const Shop = () => {
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const outOfStock = product.qty <= 0;
-
+  const outOfStock = false; // stock badges removed
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
