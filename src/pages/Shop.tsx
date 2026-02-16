@@ -101,22 +101,20 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-[3/4] mb-4 overflow-hidden relative bg-white rounded-2xl">
-          {product.image ? (
-            <motion.img
-              src={product.image}
-              alt={product.name}
-              className="absolute inset-0 w-full h-full object-contain"
-              whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
-              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-            />
-          ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground/40">
-              <ImageOff size={40} strokeWidth={1} />
-              <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
-            </div>
-          )}
-        </div>
+        {product.image ? (
+          <motion.img
+            src={product.image}
+            alt={product.name}
+            className="w-full aspect-[3/4] object-contain mb-4"
+            whileHover={{ scale: 1.04 }}
+            transition={{ duration: 0.4 }}
+          />
+        ) : (
+          <div className="aspect-[3/4] mb-4 flex flex-col items-center justify-center text-muted-foreground/40">
+            <ImageOff size={40} strokeWidth={1} />
+            <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
+          </div>
+        )}
         <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">{product.brand}</p>
         <h3 className="font-serif text-sm sm:text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
         <p className="text-sm font-sans text-foreground/60 mt-1">{product.price}</p>
