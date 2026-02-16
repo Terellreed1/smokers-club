@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      wholesale_inquiries: {
+        Row: {
+          company_address: string
+          company_name: string
+          created_at: string
+          email: string
+          id: string
+          license_number: string
+          name: string
+          phone: string
+          sellers_permit_url: string | null
+          state_license_url: string | null
+          w9_url: string | null
+          website: string | null
+        }
+        Insert: {
+          company_address: string
+          company_name: string
+          created_at?: string
+          email: string
+          id?: string
+          license_number: string
+          name: string
+          phone: string
+          sellers_permit_url?: string | null
+          state_license_url?: string | null
+          w9_url?: string | null
+          website?: string | null
+        }
+        Update: {
+          company_address?: string
+          company_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          license_number?: string
+          name?: string
+          phone?: string
+          sellers_permit_url?: string | null
+          state_license_url?: string | null
+          w9_url?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
