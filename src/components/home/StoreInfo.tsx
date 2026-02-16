@@ -10,12 +10,12 @@ const infoItems = [
 
 const StoreInfo = () => {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6">
+    <section className="py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-serif text-2xl md:text-4xl text-foreground text-center mb-4">
+        <h2 className="font-serif text-xl md:text-3xl text-foreground text-center mb-3">
           Why Choose Us
         </h2>
-        <p className="text-sm text-muted-foreground text-center mb-14 font-sans max-w-lg mx-auto">
+        <p className="text-sm text-muted-foreground text-center mb-10 font-sans max-w-lg mx-auto">
           Premium cannabis, delivered with care. Licensed, lab-tested, and trusted by thousands.
         </p>
 

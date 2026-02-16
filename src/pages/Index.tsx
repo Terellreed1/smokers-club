@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnnouncementBar from "@/components/home/AnnouncementBar";
 import HeroSection from "@/components/home/HeroSection";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import BrandCarousel from "@/components/home/BrandCarousel";
@@ -31,7 +30,6 @@ const Index = () => {
       animate="enter"
       exit="exit"
     >
-      <AnnouncementBar />
       <Navbar />
       <main>
         <HeroSection />
