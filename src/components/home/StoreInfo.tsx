@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 
 const infoItems = [
-  { title: "Free Delivery", description: "Same-day throughout the DMV. Order by 7pm." },
-  { title: "Store Hours", description: "Mon–Sat 8am–9:30pm · Sun 10am–8pm" },
-  { title: "Service Area", description: "DC · Maryland · Virginia · NY · NJ · PA" },
-  { title: "Lab Tested", description: "Third-party tested for quality and purity." },
+  { title: "Luxury", description: "Curated top-shelf selections for the refined palate." },
+  { title: "Culture", description: "Rooted in the community we serve, every day." },
+  { title: "Quality", description: "Lab-tested, hand-picked, never compromised." },
+  { title: "Service", description: "White-glove delivery across the East Coast." },
 ];
 
 const StoreInfo = () => {
@@ -18,7 +18,7 @@ const StoreInfo = () => {
             Why Choose Us
           </h2>
           <p className="text-sm text-muted-foreground text-center mb-10 font-sans max-w-lg mx-auto">
-            Premium cannabis, delivered with care. Licensed, lab-tested, and trusted by thousands.
+            More than a brand — a lifestyle.
           </p>
         </ScrollReveal>
 
