@@ -52,7 +52,8 @@ const LiveInventory = () => {
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+        className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
+        style={{ overscrollBehaviorX: 'contain' }}
       >
         {categories.map((cat, i) => (
           <motion.div
