@@ -1,22 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ImageOff } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
-
-import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
-import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
-import eliteFrutaz from "@/assets/products/elite-frutaz.png";
-
-const allProducts = [
-  { id: 6, name: "Dirty Fantasy Slushie", brand: "JoJo Exotics", price: "$65", qty: 27, image: dirtyFantaSlushie },
-  { id: 1, name: "Verzaza", brand: "Frutaz", price: "$65", qty: 3, image: eliteFrutaz },
-  { id: 8, name: "Cotton Candy Clouds", brand: "Always Faded", price: "$65", qty: 2, image: cottonCandyClouds },
-];
-
-const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand)))];
-const priceOptions = ["All", "$65"];
+import { allProducts, brandOptions, priceOptions, type Product } from "@/data/products";
 
 const Shop = () => {
   const [brand, setBrand] = useState("All");
@@ -106,29 +95,35 @@ const Shop = () => {
   );
 };
 
-interface ProductCardProps {
-  product: typeof allProducts[number];
-}
-
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const outOfStock = product.qty <= 0;
 
   return (
     <TiltCard className="relative">
       <Link to={`/shop/${product.id}`} className="group block">
-        <div className="aspect-[3/4] mb-4 overflow-hidden relative bg-background">
-          <motion.img
-            src={product.image}
-            alt={product.name}
-            className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""} ${product.name === "Dragonfruit Candy" ? "rotate-[-12deg]" : ""}`}
-            whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
-            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-          />
+        <div className="aspect-[3/4] mb-4 overflow-hidden relative bg-secondary/50 rounded-2xl">
+          {product.image ? (
+            <motion.img
+              src={product.image}
+              alt={product.name}
+              className={`absolute inset-0 w-full h-full object-contain ${outOfStock ? "opacity-40 grayscale" : ""}`}
+              whileHover={{ scale: 1.08, rotate: [0, -2, 2, -1, 1, 0] }}
+              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+            />
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground/40">
+              <ImageOff size={40} strokeWidth={1} />
+              <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
+            </div>
+          )}
           <div className="absolute top-4 left-4 flex gap-2">
             {outOfStock && (
               <span className="text-[10px] font-sans uppercase editorial-spacing text-background bg-muted-foreground px-3 py-1">Sold Out</span>
             )}
-            {product.qty > 0 && product.qty <= 5 && (
+            {product.isNew && (
+              <span className="text-[10px] font-sans uppercase editorial-spacing text-background bg-foreground px-3 py-1">New</span>
+            )}
+            {!outOfStock && !product.isNew && product.qty <= 5 && (
               <span className="text-[10px] font-sans uppercase editorial-spacing text-background bg-foreground px-3 py-1">Low Stock</span>
             )}
           </div>
