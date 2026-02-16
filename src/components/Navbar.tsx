@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import NavCartIcon from "@/components/NavCartIcon";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/hero-logo.png";
 
 const categories = [
   { label: "All Flower", to: "/shop" },
