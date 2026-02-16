@@ -1,1 +1,4 @@
 project_id = "bsmujjrfwyqlfdqnjpes"
+
+[functions.send-wholesale-inquiry]
+verify_jwt = false
