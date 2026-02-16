@@ -13,7 +13,7 @@ const HeroSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[100svh] overflow-hidden flex items-center justify-center"
+      className="relative w-full h-[80svh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
@@ -35,57 +35,41 @@ const HeroSection = () => {
       <div className="absolute top-0 left-0 right-0 h-[15%] bg-gradient-to-b from-black/60 to-transparent z-[5] pointer-events-none hidden" />
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-background to-transparent z-[5] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-background to-transparent z-[5] pointer-events-none hidden" />
 
       {/* Hero Content */}
       <motion.div
         className="relative z-10 text-center px-6 max-w-3xl mx-auto"
         style={{ y: contentY, opacity: contentOpacity }}
       >
-        <motion.img
-          src={logo}
-          alt="Luxury Smokers Club"
-          className="h-36 sm:h-56 md:h-72 w-auto mx-auto mb-6"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        />
-
         <motion.p
-          className="font-serif text-lg sm:text-xl md:text-3xl text-background/90 tracking-[0.15em] uppercase mb-2"
+          className="font-serif text-2xl sm:text-3xl md:text-5xl text-background/95 tracking-[0.15em] uppercase mb-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
         >
           Luxury Smokers Club
         </motion.p>
 
         <motion.p
-          className="font-sans text-xs sm:text-sm text-background/80 tracking-widest mb-8"
+          className="font-sans text-xs sm:text-sm text-background/80 tracking-widest mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.4 }}
         >
           Premium Cannabis · Delivered to Your Door
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.2 }}
+          transition={{ duration: 1, delay: 0.8 }}
         >
           <Link
             to="/shop"
-            className="px-8 py-3 bg-primary text-primary-foreground font-sans text-xs uppercase tracking-[0.2em] hover:bg-primary/90 transition-all duration-300 min-w-[180px]"
+            className="px-10 py-3.5 bg-primary text-primary-foreground font-sans text-xs uppercase tracking-[0.2em] hover:bg-primary/90 transition-all duration-300"
           >
             Shop Now
-          </Link>
-          <Link
-            to="/delivery"
-            className="px-8 py-3 border border-background/30 text-background/80 font-sans text-xs uppercase tracking-[0.2em] hover:bg-background/10 transition-all duration-300 min-w-[180px]"
-          >
-            Delivery Info
           </Link>
         </motion.div>
       </motion.div>
