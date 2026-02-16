@@ -1,10 +1,16 @@
 import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
-import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
-import eliteFrutaz from "@/assets/products/elite-frutaz.png";
-import privateReserveFrutaz from "@/assets/products/private-reserve-frutaz.png";
-import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.png";
+import cottonCandyClouds from "@/assets/products/cotton-candy-clouds-new.jpg";
+import eliteFrutaz from "@/assets/products/verzaza.jpg";
+import privateReserveFrutaz from "@/assets/products/super-bubble-gum.jpg";
+import zopBoyZourzop from "@/assets/products/squrtlezop.jpg";
 import teaTime from "@/assets/products/tea-time.png";
 import dragonfruitCandy from "@/assets/products/dragonfruit-candy.png";
+import zopmander from "@/assets/products/zopmander.jpg";
+import magicDope from "@/assets/products/magic-dope.jpg";
+import empireState from "@/assets/products/empire-state.jpg";
+import screwston from "@/assets/products/screwston.jpg";
+import skyami from "@/assets/products/skyami.jpg";
+import lostAngels from "@/assets/products/lost-angels.jpg";
 
 export interface Product {
   id: number;
@@ -52,7 +58,7 @@ export const allProducts: Product[] = [
     brand: "Zour Zop",
     price: "$65",
     qty: 4,
-    image: null,
+    image: zopmander,
     description: "Fiery terpene profile with spicy, herbal notes and a warm body sensation. ZopMander brings the heat with every hit.",
   },
   {
@@ -154,7 +160,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$65",
     qty: 52,
-    image: null,
+    image: empireState,
     description: "Big city energy in every nug. Diesel-forward with a sweet berry undertone, Empire State delivers a powerful, focused high.",
   },
   {
@@ -163,7 +169,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$65",
     qty: 50,
-    image: null,
+    image: lostAngels,
     description: "West coast vibes with a hazy, citrus-forward profile. Laid-back and smooth — pure LA in a bag.",
   },
   {
@@ -172,7 +178,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$65",
     qty: 49,
-    image: null,
+    image: screwston,
     description: "Southern lean-inspired sweetness with a grape candy nose. Slow-hitting, heavy indica that keeps you glued to the couch.",
   },
   {
@@ -181,7 +187,7 @@ export const allProducts: Product[] = [
     brand: "Super Candy Bros",
     price: "$65",
     qty: 46,
-    image: null,
+    image: skyami,
     description: "Miami heat meets sky-high potency. Tropical, gassy, and dripping with trichomes — a true exotic.",
   },
   {
@@ -228,7 +234,7 @@ export const allProducts: Product[] = [
     brand: "ESPN",
     price: "$60",
     qty: 13,
-    image: null,
+    image: magicDope,
     description: "Enchanting terpene blend with earthy, pine-forward notes. A magical smoke that delivers balanced mind-body relaxation.",
   },
   {
