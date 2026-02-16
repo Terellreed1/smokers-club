@@ -40,7 +40,7 @@ const ProductsPreview = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-end justify-between mb-10">
           <ScrollReveal>
-            <h2 className="font-serif text-2xl md:text-4xl text-foreground">
+            <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground">
               Featured Products
             </h2>
           </ScrollReveal>

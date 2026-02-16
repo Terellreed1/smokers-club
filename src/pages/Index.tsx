@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/home/HeroSection";
-import CategoryGrid from "@/components/home/CategoryGrid";
+
 import BrandCarousel from "@/components/home/BrandCarousel";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
@@ -33,7 +33,7 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <CategoryGrid />
+        
         <BrandCarousel />
         <ProductsPreview />
         <StoreInfo />
