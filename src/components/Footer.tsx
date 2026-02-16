@@ -10,10 +10,10 @@ const Footer = () => {
         <div className="flex flex-col items-center text-center mb-14">
           <img src={logo} alt="Luxury Smokers Club" className="h-16 w-16 object-contain mb-4 opacity-90" />
           <p className="font-serif text-2xl sm:text-3xl text-foreground/90 mb-2">
-            Luxury Smokers Club
+            Luxury Courier Club
           </p>
           <p className="text-sm text-muted-foreground max-w-md">
-            Premium flower delivered to your door. Serving the DMV & East Coast.
+            Premium flower delivered to your door.
           </p>
         </div>
 
@@ -34,7 +34,7 @@ const Footer = () => {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Luxury Smokers Club. All rights reserved.
+            © {new Date().getFullYear()} Luxury Courier Club. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             <a
