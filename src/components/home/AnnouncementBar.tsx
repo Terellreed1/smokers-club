@@ -13,7 +13,7 @@ const AnnouncementBar = () => {
   if (!visible) return null;
 
   return (
-    <div className="bg-primary text-primary-foreground relative z-[60] overflow-hidden">
+    <div className="bg-foreground text-background relative z-[60] overflow-hidden">
       <div className="flex animate-scroll whitespace-nowrap py-2.5">
         {[...announcements, ...announcements, ...announcements].map((text, i) => (
           <span key={i} className="text-xs sm:text-sm font-medium px-8 shrink-0">
