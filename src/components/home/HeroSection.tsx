@@ -63,7 +63,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          Premium Cannabis · Serving DC, Maryland &amp; Virginia
+          Premium Cannabis · Serving the East Coast
         </motion.p>
 
         {/* CTAs */}
