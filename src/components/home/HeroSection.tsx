@@ -24,7 +24,7 @@ const HeroSection = () => {
           playsInline
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
         >
-          <source src="/videos/cannabis-hero.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/small-vecteezy_camera-moves-along-medical-cannabis-plants-grown-under_7386213_small_pndozl.mp4" type="video/mp4" />
         </video>
       </motion.div>
 
