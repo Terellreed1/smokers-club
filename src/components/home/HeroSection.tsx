@@ -6,21 +6,18 @@ const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
-  // Parallax layers at different speeds
   const videoY = useTransform(scrollY, [0, 800], [0, 250]);
   const videoScale = useTransform(scrollY, [0, 800], [1, 1.15]);
-  const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.7]);
-  const subtitleY = useTransform(scrollY, [0, 600], [0, -40]);
-  const headlineY = useTransform(scrollY, [0, 600], [0, -70]);
-  const ctaY = useTransform(scrollY, [0, 600], [0, -100]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.35, 0.7]);
+  const contentY = useTransform(scrollY, [0, 600], [0, -60]);
   const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[85svh] overflow-hidden flex items-end"
+      className="relative w-full h-[90svh] overflow-hidden flex items-end"
     >
-      {/* Video Background — parallax + zoom */}
+      {/* Video Background */}
       <motion.div
         className="absolute inset-[-10%] pointer-events-none"
         style={{ y: videoY, scale: videoScale }}
@@ -36,67 +33,60 @@ const HeroSection = () => {
         </video>
       </motion.div>
 
-      {/* Dark overlay — darkens on scroll */}
+      {/* Dark overlay */}
+      <motion.div className="absolute inset-0 bg-black" style={{ opacity: overlayOpacity }} />
+
+      {/* Hero Content */}
       <motion.div
-        className="absolute inset-0 bg-black"
-        style={{ opacity: overlayOpacity }}
-      />
-
-      {/* Hero Content — staggered parallax per element */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-16 sm:pb-20">
-        <motion.p
-          className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-white/70 mb-4"
-          style={{ y: subtitleY, opacity: contentOpacity }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          Welcome to
-        </motion.p>
-
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-12 sm:pb-16"
+        style={{ y: contentY, opacity: contentOpacity }}
+      >
+        {/* Massive headline */}
         <motion.h1
-          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] max-w-2xl mb-8"
-          style={{ y: headlineY, opacity: contentOpacity }}
-          initial={{ opacity: 0, y: 30 }}
+          className="font-sans font-bold uppercase text-white leading-[0.9] tracking-tight mb-6"
+          style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
         >
-          Luxury
-          <br />
-          Smokers Club
+          <span className="block">Luxury</span>
+          <span className="block">
+            Smokers{" "}
+            <span className="text-gold">Club</span>
+          </span>
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p
-          className="font-sans text-sm sm:text-base text-white/60 tracking-wide mb-8"
-          style={{ y: headlineY, opacity: contentOpacity }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Premium Cannabis Products
-        </motion.p>
-
-        <motion.div
-          className="flex items-center gap-4"
-          style={{ y: ctaY, opacity: contentOpacity }}
+          className="font-sans text-sm sm:text-base text-white/50 uppercase tracking-[0.15em] mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          Premium Cannabis · Delivered to Your Door
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          className="flex items-center gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
         >
           <Link
             to="/shop"
-            className="px-8 py-3 bg-primary text-primary-foreground font-sans text-xs uppercase tracking-[0.2em] hover:bg-primary/90 transition-all duration-300 rounded-full"
+            className="px-8 py-3.5 bg-primary text-primary-foreground font-sans text-xs font-semibold uppercase tracking-[0.15em] hover:bg-primary/90 transition-all duration-300 rounded-full"
           >
             Shop Now
           </Link>
           <Link
             to="/delivery"
-            className="px-8 py-3 border border-white/40 text-white/90 font-sans text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-all duration-300 rounded-full"
+            className="px-8 py-3.5 bg-white/10 backdrop-blur-sm text-white font-sans text-xs font-semibold uppercase tracking-[0.15em] hover:bg-white/20 transition-all duration-300 rounded-full"
           >
             Delivery Info
           </Link>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
