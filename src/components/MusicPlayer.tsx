@@ -62,20 +62,7 @@ const MusicPlayer = () => {
     }
   };
 
-  return (
-    <button
-      onClick={toggle}
-      className={cn(
-        "fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center",
-        "bg-foreground/90 text-background backdrop-blur-md border border-gold/30",
-        "shadow-lg hover:scale-110 transition-all duration-300",
-        playing && "ring-2 ring-gold/40 ring-offset-2 ring-offset-background"
-      )}
-      aria-label={playing ? "Pause music" : "Play music"}
-    >
-      {playing ? <Volume2 size={18} /> : <VolumeX size={18} />}
-    </button>
-  );
+  return null;
 };
 
 export default MusicPlayer;
