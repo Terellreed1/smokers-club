@@ -3,11 +3,10 @@ import { Instagram } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const shopLinks = [
-  { label: "All Products", to: "/shop" },
-  { label: "Flower", to: "/shop?category=Flower" },
-  { label: "Vapes", to: "/shop?category=Vape" },
-  { label: "Pre-Rolls", to: "/shop?category=Pre-Roll" },
-  { label: "Edibles", to: "/shop?category=Edible" },
+  { label: "All Flower", to: "/shop" },
+  { label: "Indica", to: "/shop?strain=Indica" },
+  { label: "Sativa", to: "/shop?strain=Sativa" },
+  { label: "Hybrid", to: "/shop?strain=Hybrid" },
 ];
 
 const companyLinks = [
@@ -34,7 +33,7 @@ const Footer = () => {
               <span className="font-serif text-base font-bold text-background/90">LSC</span>
             </Link>
             <p className="text-sm text-background/50 leading-relaxed mb-4">
-              Premium cannabis delivered to your door. Serving the DMV & East Coast.
+              Premium flower delivered to your door. Serving the DMV & East Coast.
             </p>
             <a
               href="https://instagram.com/luxurycourierclub"

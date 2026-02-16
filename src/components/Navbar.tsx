@@ -8,11 +8,10 @@ import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.png";
 
 const categories = [
-  { label: "Flower", to: "/shop?category=Flower" },
-  { label: "Vapes", to: "/shop?category=Vape" },
-  { label: "Pre-Rolls", to: "/shop?category=Pre-Roll" },
-  { label: "Concentrates", to: "/shop?category=Concentrate" },
-  { label: "Edibles", to: "/shop?category=Edible" },
+  { label: "All Flower", to: "/shop" },
+  { label: "Indica", to: "/shop?strain=Indica" },
+  { label: "Sativa", to: "/shop?strain=Sativa" },
+  { label: "Hybrid", to: "/shop?strain=Hybrid" },
 ];
 
 interface NavLinkType {
