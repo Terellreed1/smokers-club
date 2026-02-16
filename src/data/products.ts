@@ -23,6 +23,14 @@ import hollywoodStuntDouble from "@/assets/products/hollywood-stunt-double.jpg";
 import hellfireRingz from "@/assets/products/hellfire-ringz.jpg";
 import zorro from "@/assets/products/zorro.jpg";
 import superSweetBlades from "@/assets/products/super-sweet-blades.jpg";
+import buttercupBiscotti from "@/assets/products/buttercup-biscotti.jpg";
+import gammaBertz from "@/assets/products/gamma-bertz.jpg";
+import invaderZ from "@/assets/products/invader-z.jpg";
+import fusionCherryBlast from "@/assets/products/fusion-cherry-blast.jpg";
+import vibraniumRockCandy from "@/assets/products/vibranium-rock-candy.jpg";
+import pinkKandyBlasterz from "@/assets/products/pink-kandy-blasterz.jpg";
+import atomicKandyBomb from "@/assets/products/atomic-kandy-bomb.jpg";
+import terpQuencher from "@/assets/products/terp-quencher.jpg";
 
 export interface Product {
   id: number;
@@ -264,7 +272,7 @@ export const allProducts: Product[] = [
     brand: "JoJo Exotics",
     price: "$60",
     qty: 62,
-    image: null,
+    image: buttercupBiscotti,
     description: "Rich, buttery biscotti flavor with nutty undertones and a warm, toasty finish. Comfort food for your lungs.",
   },
   {
@@ -345,7 +353,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$60",
     qty: 11,
-    image: null,
+    image: atomicKandyBomb,
     description: "Explosive sour candy flavor that detonates on impact. High-potency with a long-lasting, euphoric afterglow.",
   },
   {
@@ -354,7 +362,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$60",
     qty: 5,
-    image: null,
+    image: pinkKandyBlasterz,
     description: "Pink lemonade sweetness blasted with candy gas. Playful, vibrant, and packs a surprising punch.",
   },
   {
@@ -383,7 +391,7 @@ export const allProducts: Product[] = [
     brand: "Breakfast Club LA",
     price: "$50",
     qty: 11,
-    image: null,
+    image: terpQuencher,
     description: "Juice-box terps that quench your thirst for flavor. Light, refreshing, and easy on the wallet.",
   },
   {
@@ -392,7 +400,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$50",
     qty: 4,
-    image: null,
+    image: fusionCherryBlast,
     description: "Cherry fusion with a blasted berry finish. Affordable exotics that don't skimp on flavor or potency.",
   },
   {
@@ -401,7 +409,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$50",
     qty: 1,
-    image: null,
+    image: invaderZ,
     description: "Alien-level terps with a sour, otherworldly flavor. Invade your senses with this cosmic smoke.",
   },
   {
@@ -410,7 +418,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$50",
     qty: 4,
-    image: null,
+    image: vibraniumRockCandy,
     description: "Unbreakable flavor with crystalline, rock-candy sweetness. Dense nugs with a powerful, long-lasting high.",
   },
   {
@@ -419,7 +427,7 @@ export const allProducts: Product[] = [
     brand: "Kandy Depo",
     price: "$50",
     qty: 8,
-    image: null,
+    image: gammaBertz,
     description: "Gamma-ray potency with a mixed berry burst. Radioactive flavor that glows with every exhale.",
   },
 ];
