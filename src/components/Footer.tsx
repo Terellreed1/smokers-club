@@ -2,112 +2,57 @@ import { Link } from "react-router-dom";
 import { Instagram } from "lucide-react";
 import logo from "@/assets/logo.png";
 
-const shopLinks = [
-  { label: "All Flower", to: "/shop" },
-  { label: "Indica", to: "/shop?strain=Indica" },
-  { label: "Sativa", to: "/shop?strain=Sativa" },
-  { label: "Hybrid", to: "/shop?strain=Hybrid" },
-];
-
-const companyLinks = [
-  { label: "About Us", to: "/about" },
-  { label: "Delivery", to: "/delivery" },
-  { label: "FAQ", to: "/faq" },
-  { label: "Merch", to: "https://www.luxurycourier.club/", external: true },
-];
-
-const legalLinks = [
-  { label: "Privacy Policy", to: "/privacy" },
-  { label: "Terms of Service", to: "/terms" },
-];
-
 const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="Luxury Smokers Club" className="h-10 w-10 object-contain opacity-80" />
-              <span className="font-serif text-base font-bold text-background/90">LSC</span>
-            </Link>
-            <p className="text-sm text-background/50 leading-relaxed mb-4">
-              Premium flower delivered to your door. Serving the DMV & East Coast.
-            </p>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20">
+        {/* Top — Logo & tagline centered */}
+        <div className="flex flex-col items-center text-center mb-14">
+          <img src={logo} alt="Luxury Smokers Club" className="h-16 w-16 object-contain mb-4 opacity-90" />
+          <p className="font-serif text-2xl sm:text-3xl text-background/90 mb-2">
+            Luxury Smokers Club
+          </p>
+          <p className="text-sm text-background/40 max-w-md">
+            Premium flower delivered to your door. Serving the DMV & East Coast.
+          </p>
+        </div>
+
+        {/* Links row */}
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mb-12">
+          <Link to="/shop" className="text-sm text-background/50 hover:text-background transition-colors">Shop</Link>
+          <Link to="/about" className="text-sm text-background/50 hover:text-background transition-colors">About</Link>
+          <Link to="/delivery" className="text-sm text-background/50 hover:text-background transition-colors">Delivery</Link>
+          <Link to="/faq" className="text-sm text-background/50 hover:text-background transition-colors">FAQ</Link>
+          <a href="https://www.luxurycourier.club/" target="_blank" rel="noopener noreferrer" className="text-sm text-background/50 hover:text-background transition-colors">Merch</a>
+          <Link to="/privacy" className="text-sm text-background/50 hover:text-background transition-colors">Privacy</Link>
+          <Link to="/terms" className="text-sm text-background/50 hover:text-background transition-colors">Terms</Link>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-background/10 mb-8" />
+
+        {/* Bottom row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-background/30">
+            © {new Date().getFullYear()} Luxury Smokers Club. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5">
             <a
               href="https://instagram.com/luxurycourierclub"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-background/50 hover:text-primary transition-colors"
+              className="text-background/40 hover:text-background transition-colors"
+              aria-label="Instagram"
             >
-              <Instagram size={16} />
-              @luxurycourierclub
+              <Instagram size={18} />
+            </a>
+            <a
+              href="mailto:admin@luxurycouriers.club"
+              className="text-xs text-background/30 hover:text-background transition-colors"
+            >
+              admin@luxurycouriers.club
             </a>
           </div>
-
-          {/* Shop */}
-          <div>
-            <h4 className="text-sm font-bold text-background/80 mb-4">Shop</h4>
-            <ul className="space-y-2.5">
-              {shopLinks.map((link) => (
-                <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-background/50 hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="text-sm font-bold text-background/80 mb-4">Company</h4>
-            <ul className="space-y-2.5">
-              {companyLinks.map((link) =>
-                link.external ? (
-                  <li key={link.label}>
-                    <a href={link.to} target="_blank" rel="noopener noreferrer" className="text-sm text-background/50 hover:text-primary transition-colors">
-                      {link.label}
-                    </a>
-                  </li>
-                ) : (
-                  <li key={link.label}>
-                    <Link to={link.to} className="text-sm text-background/50 hover:text-primary transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 className="text-sm font-bold text-background/80 mb-4">Legal</h4>
-            <ul className="space-y-2.5">
-              {legalLinks.map((link) => (
-                <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-background/50 hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="h-px bg-background/10 mb-6" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-background/30">
-            © {new Date().getFullYear()} Luxury Smokers Club. All rights reserved.
-          </p>
-          <a
-            href="mailto:admin@luxurycouriers.club"
-            className="text-xs text-background/30 hover:text-primary transition-colors"
-          >
-            admin@luxurycouriers.club
-          </a>
         </div>
       </div>
     </footer>
