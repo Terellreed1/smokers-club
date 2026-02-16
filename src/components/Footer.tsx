@@ -28,6 +28,20 @@ const Footer = () => {
           <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms</Link>
         </div>
 
+        {/* Legal Disclaimers */}
+        <div className="text-[10px] leading-relaxed text-muted-foreground space-y-4 mb-8">
+          <p>
+            <span className="font-bold text-foreground/80">WARNING:</span> CANCER AND REPRODUCTIVE HARM.{" "}
+            <a href="https://www.p65warnings.ca.gov" target="_blank" rel="noopener noreferrer" className="underline">www.p65warnings.ca.gov</a>
+          </p>
+          <p>
+            <span className="font-bold text-foreground/80">Legal Disclaimer:</span> This product contains less than 0.3% Δ9 THC and is compliant with the Industrial Hemp Farming Act Bill H.R. 525/S 359. This product is not available for shipment to the following states: Alaska, Arkansas, California, Colorado, Hawaii, Idaho, Kansas, Louisiana, Michigan, Montana, New Mexico, Oklahoma, Oregon, Puerto Rico, Rhode Island, Texas, Utah, Vermont and Washington. Products with total THC content above 0.3% must not be shipped to these states.
+          </p>
+          <p>
+            <span className="font-bold text-foreground/80">FDA Disclaimer:</span> These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure or prevent any disease. Must be 21 years or older to purchase from this website. This product is not intended for children, or pregnant or lactating women. Consult with a physician before use if you have a serious medical condition or use prescription medications. A Doctor's advice should be sought before using this and any dietary supplement product. All trademarks and copyrights are property of their respective owners and are not affiliated with nor do they endorse this product. By using this site, you agree to follow the Privacy Policy and all Terms &amp; Conditions printed on this site. Void Where Prohibited by Law. Products on this site contain less than 0.3% Δ9-THC. We do not ship/sell to states where Delta 8 is illegal.
+          </p>
+        </div>
+
         {/* Divider */}
         <div className="h-px bg-border mb-8" />
 
