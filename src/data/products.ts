@@ -1,16 +1,18 @@
-import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
+import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie-new.jpg";
 import cottonCandyClouds from "@/assets/products/cotton-candy-clouds-new.jpg";
 import eliteFrutaz from "@/assets/products/verzaza.jpg";
 import privateReserveFrutaz from "@/assets/products/super-bubble-gum.jpg";
 import zopBoyZourzop from "@/assets/products/squrtlezop.jpg";
-import teaTime from "@/assets/products/tea-time.png";
-import dragonfruitCandy from "@/assets/products/dragonfruit-candy.png";
+import teaTime from "@/assets/products/tea-time-new.jpg";
+import dragonfruitCandy from "@/assets/products/dragonfruit-candy-new.jpg";
 import zopmander from "@/assets/products/zopmander.jpg";
 import magicDope from "@/assets/products/magic-dope.jpg";
 import empireState from "@/assets/products/empire-state.jpg";
 import screwston from "@/assets/products/screwston.jpg";
 import skyami from "@/assets/products/skyami.jpg";
 import lostAngels from "@/assets/products/lost-angels.jpg";
+import returnOfSilverSurfer from "@/assets/products/return-of-silver-surfer.jpg";
+import mojosCandy from "@/assets/products/mojos-candy.jpg";
 
 export interface Product {
   id: number;
@@ -85,7 +87,7 @@ export const allProducts: Product[] = [
     brand: "Fumi x WSC",
     price: "$65",
     qty: 23,
-    image: null,
+    image: returnOfSilverSurfer,
     description: "A cosmic collaboration with silvery trichome coverage and a smooth, earthy diesel profile. Balanced hybrid energy for any occasion.",
   },
   {
@@ -243,7 +245,7 @@ export const allProducts: Product[] = [
     brand: "JoJo Exotics",
     price: "$60",
     qty: 33,
-    image: null,
+    image: mojosCandy,
     description: "Old-school candy vibes with a modern exotic twist. Sweet, fruity, and consistently smooth from JoJo Exotics.",
   },
   {
