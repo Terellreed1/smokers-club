@@ -5,7 +5,7 @@ import logo from "@/assets/logo.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-foreground rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-4" style={{ width: 'calc(100% - 2rem)', maxWidth: 'calc(100% - 2rem)' }}>
+    <section className="relative w-full overflow-hidden bg-foreground">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-16 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10">
         {/* Left content */}
         <motion.div
@@ -45,9 +45,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="w-80 h-80 xl:w-96 xl:h-96 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm">
-            <img src={logo} alt="Luxury Smokers Club" className="w-48 h-48 xl:w-64 xl:h-64 object-contain opacity-80 drop-shadow-2xl" />
-          </div>
+          <img src={logo} alt="Luxury Smokers Club" className="w-64 h-64 xl:w-80 xl:h-80 object-contain opacity-80 drop-shadow-2xl" />
         </motion.div>
       </div>
     </section>
