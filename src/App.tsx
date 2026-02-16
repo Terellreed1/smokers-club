@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { CartProvider } from "./contexts/CartContext";
 import AgeGate from "./components/AgeGate";
-import MusicPlayer from "./components/MusicPlayer";
+
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
@@ -55,7 +55,7 @@ const App = () => (
       <AgeGate>
         <CartProvider>
           <BrowserRouter>
-            <MusicPlayer />
+            
             <AnimatedRoutes />
           </BrowserRouter>
         </CartProvider>
