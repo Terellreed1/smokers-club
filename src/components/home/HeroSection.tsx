@@ -67,9 +67,15 @@ const HeroSection = () => {
         >
           <Link
             to="/shop"
-            className="px-10 py-3.5 bg-primary text-primary-foreground font-sans text-xs uppercase tracking-[0.2em] hover:bg-primary/90 transition-all duration-300"
+            className="group inline-flex flex-col items-center gap-1 font-sans text-xs uppercase tracking-[0.25em] text-background/90 hover:text-background transition-colors duration-300"
           >
             Shop Now
+            <motion.span
+              className="block h-px bg-background/60 group-hover:bg-background transition-colors duration-300"
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
+            />
           </Link>
         </motion.div>
       </motion.div>
