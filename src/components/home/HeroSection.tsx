@@ -16,13 +16,16 @@ const HeroSection = () => {
       className="relative w-full min-h-[100svh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
-      <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ y: videoY }}>
-        <iframe
-          src="https://www.youtube.com/embed/Y4FflVtzlE0?start=709&end=727&autoplay=1&mute=1&loop=1&playlist=Y4FflVtzlE0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&vq=hd1080"
-          allow="autoplay; encrypted-media"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[300%] border-0"
-          title="Hero background"
-        />
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
       </motion.div>
 
       {/* Dark overlay */}
