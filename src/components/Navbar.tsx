@@ -58,7 +58,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img src={logo} alt="Luxury Smokers Club" className="h-14 w-14 sm:h-20 sm:w-20 object-contain" />
             <span className="hidden sm:inline font-serif text-lg font-bold text-foreground">
-              Luxury Smokers Club
+              Luxury Courier Club
             </span>
           </Link>
 
