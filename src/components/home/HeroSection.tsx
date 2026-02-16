@@ -13,7 +13,7 @@ const HeroSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full min-h-[100svh] overflow-hidden flex items-center justify-center"
+      className="relative w-full h-[80svh] overflow-hidden flex items-center justify-center"
     >
       {/* Video Background */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: videoY }}>
@@ -24,7 +24,7 @@ const HeroSection = () => {
           playsInline
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
         >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          <source src="/videos/hero-bg.mp4?v=2" type="video/mp4" />
         </video>
       </motion.div>
 

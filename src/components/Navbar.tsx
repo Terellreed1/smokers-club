@@ -59,7 +59,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const isHomepage = location.pathname === "/";
-  const showSolid = scrolled || !isHomepage || mobileOpen;
+  const showSolid = true; // Always solid white navbar
 
   const handleMouseEnter = (label: string) => {
     if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
@@ -95,12 +95,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        showSolid
-          ? "bg-background/95 backdrop-blur-md border-b border-border/50 shadow-sm"
-          : "bg-transparent border-b border-transparent"
-      )}
+      className="sticky top-0 z-50 bg-background border-b border-border/50 shadow-sm"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
         {/* Logo */}
