@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Leaf, Wind, Cigarette, Gem, Candy, LayoutGrid } from "lucide-react";
 
 const categories = [
-  { name: "Flower", icon: "🌿", to: "/shop?category=Flower" },
-  { name: "Vapes", icon: "💨", to: "/shop?category=Vape" },
-  { name: "Pre-Rolls", icon: "🚬", to: "/shop?category=Pre-Roll" },
-  { name: "Concentrates", icon: "💎", to: "/shop?category=Concentrate" },
-  { name: "Edibles", icon: "🍬", to: "/shop?category=Edible" },
-  { name: "All Products", icon: "✦", to: "/shop" },
+  { name: "Flower", icon: Leaf, to: "/shop?category=Flower" },
+  { name: "Vapes", icon: Wind, to: "/shop?category=Vape" },
+  { name: "Pre-Rolls", icon: Cigarette, to: "/shop?category=Pre-Roll" },
+  { name: "Concentrates", icon: Gem, to: "/shop?category=Concentrate" },
+  { name: "Edibles", icon: Candy, to: "/shop?category=Edible" },
+  { name: "All Products", icon: LayoutGrid, to: "/shop" },
 ];
 
 const CategoryGrid = () => {
@@ -28,7 +29,7 @@ const CategoryGrid = () => {
                 transition={{ delay: i * 0.05 }}
                 whileHover={{ y: -4 }}
               >
-                <span className="text-2xl sm:text-3xl">{cat.icon}</span>
+                <cat.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" strokeWidth={1.5} />
                 <span className="text-[10px] sm:text-xs font-sans uppercase tracking-[0.15em] text-muted-foreground group-hover:text-foreground transition-colors">
                   {cat.name}
                 </span>
