@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        serif: ["Bodoni Moda", "Didot", "Georgia", "serif"],
         sans: ["DM Sans", "system-ui", "sans-serif"],
       },
       colors: {
