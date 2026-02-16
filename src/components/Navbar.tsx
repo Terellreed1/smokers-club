@@ -24,6 +24,7 @@ const navLinks: NavLinkType[] = [
   { label: "Shop", to: "/shop" },
   { label: "About", to: "/about" },
   { label: "Merch", to: "https://www.luxurycourier.club/", external: true },
+  { label: "Wholesale", to: "/wholesale" },
   { label: "Delivery", to: "/delivery" },
   { label: "FAQ", to: "/faq" },
 ];
