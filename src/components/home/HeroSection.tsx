@@ -5,7 +5,7 @@ import logo from "@/assets/logo.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full overflow-hidden" style={{ backgroundColor: 'hsl(120, 40%, 28%)' }}>
+    <section className="relative w-full overflow-hidden" style={{ backgroundColor: 'hsl(140, 35%, 15%)' }}>
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-16 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10">
         {/* Left content */}
         <motion.div
