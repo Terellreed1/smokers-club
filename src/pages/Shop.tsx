@@ -6,65 +6,17 @@ import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 
 import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
-import teaTime from "@/assets/products/tea-time.png";
-import dragonfruitCandy from "@/assets/products/dragonfruit-candy.png";
 import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
 import eliteFrutaz from "@/assets/products/elite-frutaz.png";
-import privateReserveFrutaz from "@/assets/products/private-reserve-frutaz.png";
-import zopBoyZourzop from "@/assets/products/zop-boy-zourzop.png";
-
-const placeholder = "/placeholder.svg";
 
 const allProducts = [
-  // $65 tier
-  { id: 1, name: "Verzaza", brand: "Frutaz", price: "$65", qty: 3, image: eliteFrutaz },
-  { id: 2, name: "Super Bubble Gum", brand: "Frutaz", price: "$65", qty: 3, image: privateReserveFrutaz },
-  { id: 3, name: "SqurtleZop", brand: "Zour Zop", price: "$65", qty: 4, image: zopBoyZourzop },
-  { id: 4, name: "ZopMander", brand: "Zour Zop", price: "$65", qty: 4, image: placeholder },
-  { id: 5, name: "Tea Time", brand: "Mammey's Bodega", price: "$65", qty: 0, image: teaTime },
   { id: 6, name: "Dirty Fantasy Slushie", brand: "JoJo Exotics", price: "$65", qty: 27, image: dirtyFantaSlushie },
-  { id: 7, name: "Return of Silver Surfer", brand: "Fumi x WSC", price: "$65", qty: 23, image: placeholder },
+  { id: 1, name: "Verzaza", brand: "Frutaz", price: "$65", qty: 3, image: eliteFrutaz },
   { id: 8, name: "Cotton Candy Clouds", brand: "Always Faded", price: "$65", qty: 2, image: cottonCandyClouds },
-  { id: 9, name: "Strawberry Kiwi Candy", brand: "Always Faded", price: "$65", qty: 0, image: placeholder },
-  { id: 10, name: "Cherry Bomb", brand: "Always Faded", price: "$65", qty: 0, image: placeholder },
-  { id: 11, name: "Cherry Pixie Stiks", brand: "Always Faded", price: "$65", qty: 0, image: placeholder },
-  { id: 12, name: "Tropical Gummy Bears", brand: "Always Faded", price: "$65", qty: 8, image: placeholder },
-  { id: 13, name: "Kamikaze Candy", brand: "Always Faded", price: "$65", qty: 2, image: placeholder },
-  { id: 14, name: "Dragonfruit Candy", brand: "Always Faded", price: "$65", qty: 3, image: dragonfruitCandy },
-  { id: 15, name: "Empire State", brand: "Super Candy Bros", price: "$65", qty: 52, image: placeholder },
-  { id: 16, name: "Lost Angels", brand: "Super Candy Bros", price: "$65", qty: 50, image: placeholder },
-  { id: 17, name: "Screwston", brand: "Super Candy Bros", price: "$65", qty: 49, image: placeholder },
-  { id: 18, name: "Skyami", brand: "Super Candy Bros", price: "$65", qty: 46, image: placeholder },
-  { id: 19, name: "Super Cherry Bubble Gum", brand: "Kandy Depo", price: "$65", qty: 17, image: placeholder },
-  { id: 20, name: "Blk Cherry Lemonhead", brand: "Kandy Depo", price: "$65", qty: 21, image: placeholder },
-  { id: 21, name: "Frozen Mochi Berry Bitez", brand: "Kandy Depo", price: "$65", qty: 28, image: placeholder },
-  { id: 22, name: "Blue Lemon Shock Z", brand: "Kandy Depo", price: "$65", qty: 23, image: placeholder },
-  // $60 tier
-  { id: 23, name: "Magic Dope", brand: "ESPN", price: "$60", qty: 13, image: placeholder },
-  { id: 24, name: "Mojos Candy", brand: "JoJo Exotics", price: "$60", qty: 33, image: placeholder },
-  { id: 25, name: "Buttercup Biscotti", brand: "JoJo Exotics", price: "$60", qty: 62, image: placeholder },
-  { id: 26, name: "Flying Cherry Kicks", brand: "Super Candy Bros", price: "$60", qty: 6, image: placeholder },
-  { id: 27, name: "Rainin Thunder", brand: "Super Candy Bros", price: "$60", qty: 9, image: placeholder },
-  { id: 28, name: "Sub Z", brand: "Super Candy Bros", price: "$60", qty: 4, image: placeholder },
-  { id: 29, name: "Hellfire Ringz", brand: "Super Candy Bros", price: "$60", qty: 9, image: placeholder },
-  { id: 30, name: "Twisted Berry Bitez", brand: "Super Candy Bros", price: "$60", qty: 11, image: placeholder },
-  { id: 31, name: "Hollywood Stunt Double", brand: "Super Candy Bros", price: "$60", qty: 10, image: placeholder },
-  { id: 32, name: "Super Sweet Blades", brand: "Super Candy Bros", price: "$60", qty: 13, image: placeholder },
-  { id: 33, name: "Zorro", brand: "Super Candy Bros", price: "$60", qty: 10, image: placeholder },
-  { id: 34, name: "Atomic Kandy Bomb", brand: "Kandy Depo", price: "$60", qty: 11, image: placeholder },
-  { id: 35, name: "Pink Kandy Blasterz", brand: "Kandy Depo", price: "$60", qty: 5, image: placeholder },
-  { id: 36, name: "Zabreakers", brand: "Kandy Depo", price: "$60", qty: 7, image: placeholder },
-  { id: 37, name: "Toxic Slime", brand: "Kandy Depo", price: "$60", qty: 11, image: placeholder },
-  // $50 tier
-  { id: 38, name: "Terp Quencher", brand: "Breakfast Club LA", price: "$50", qty: 11, image: placeholder },
-  { id: 39, name: "Fusion Cherry Blast", brand: "Kandy Depo", price: "$50", qty: 4, image: placeholder },
-  { id: 40, name: "Invader Z", brand: "Kandy Depo", price: "$50", qty: 1, image: placeholder },
-  { id: 41, name: "Vibranium Rock Candy", brand: "Kandy Depo", price: "$50", qty: 4, image: placeholder },
-  { id: 42, name: "Gamma Bertz", brand: "Kandy Depo", price: "$50", qty: 8, image: placeholder },
 ];
 
 const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand)))];
-const priceOptions = ["All", "$65", "$60", "$50"];
+const priceOptions = ["All", "$65"];
 
 const Shop = () => {
   const [brand, setBrand] = useState("All");
