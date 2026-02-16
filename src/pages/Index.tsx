@@ -8,6 +8,7 @@ import BrandCarousel from "@/components/home/BrandCarousel";
 import ProductsPreview from "@/components/home/ProductsPreview";
 import SocialProof from "@/components/home/SocialProof";
 import StoreInfo from "@/components/home/StoreInfo";
+import JoinClubPopup from "@/components/JoinClubPopup";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -41,6 +42,7 @@ const Index = () => {
         <SocialProof />
       </main>
       <Footer />
+      <JoinClubPopup />
     </motion.div>
   );
 };
