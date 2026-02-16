@@ -14,7 +14,7 @@ const StoreInfo = () => {
     <section className="py-12 sm:py-16 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-serif text-xl md:text-3xl text-foreground text-center mb-3">
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground text-center mb-3">
             Why Choose Us
           </h2>
           <p className="text-sm text-muted-foreground text-center mb-10 font-sans max-w-lg mx-auto">

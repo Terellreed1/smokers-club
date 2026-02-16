@@ -39,7 +39,7 @@ const SocialProof = () => {
               Verified Reviews
             </p>
           </div>
-          <h2 className="font-serif text-2xl md:text-4xl text-foreground">
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground">
             What They Say
           </h2>
         </ScrollReveal>
