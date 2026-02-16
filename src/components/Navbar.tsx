@@ -12,6 +12,11 @@ const categories = [
   { label: "Indica", to: "/shop?strain=Indica" },
   { label: "Sativa", to: "/shop?strain=Sativa" },
   { label: "Hybrid", to: "/shop?strain=Hybrid" },
+  { label: "Vapes", to: "/shop?category=vapes" },
+  { label: "Edibles", to: "/shop?category=edibles" },
+  { label: "Concentrates", to: "/shop?category=concentrates" },
+  { label: "Pre-Rolls", to: "/shop?category=pre-rolls" },
+  { label: "Accessories", to: "/shop?category=accessories" },
   { label: "Sale", to: "/shop?sale=true" },
 ];
 
