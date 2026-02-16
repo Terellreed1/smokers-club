@@ -14,9 +14,6 @@ const products = [
   { id: 6, name: "Dirty Fantasy Slushie", brand: "JoJo Exotics", weight: "3.5g", price: "$65", image: dirtyFantaSlushie, strain: "Hybrid" },
   { id: 1, name: "Verzaza", brand: "Frutaz", weight: "3.5g", price: "$65", image: eliteFrutaz, strain: "Sativa" },
   { id: 8, name: "Cotton Candy Clouds", brand: "Always Faded", weight: "3.5g", price: "$65", image: cottonCandyClouds, strain: "Indica" },
-  { id: 3, name: "Big Bag Buds", brand: "Backpack Boyz", weight: "7g", price: "$50", image: bigBagBuds, strain: "Hybrid" },
-  { id: 4, name: "Black Label", brand: "Kush Factory", weight: "3.5g", price: "$60", image: blackLabel, strain: "Indica" },
-  { id: 5, name: "El Jefe", brand: "High Tolerance", weight: "3.5g", price: "$60", image: elJefe, strain: "Sativa" },
 ];
 
 const ProductsPreview = () => {
