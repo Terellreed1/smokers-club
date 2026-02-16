@@ -29,36 +29,41 @@ const GoogleLogo = () => (
 
 const SocialProof = () => {
   return (
-    <section className="py-14 sm:py-20 px-4 sm:px-6 bg-secondary/30">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-2 mb-3">
+    <section className="py-16 sm:py-24 px-6 ivory-section">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4">
             <GoogleLogo />
-            <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
+            <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground">
+              Verified Reviews
+            </p>
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground">
-            What Our Customers Say
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground italic">
+            What They Say
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="bg-background rounded-2xl p-6 sm:p-8 text-center shadow-sm"
+              className="bg-background/60 p-6 sm:p-8 text-center transition-all duration-500"
             >
-              <div className="flex items-center justify-center gap-1.5 mb-5">
+              <div className="flex items-center justify-center gap-2 mb-6">
                 <GoogleLogo />
                 <div className="flex gap-0.5">
                   {Array.from({ length: review.rating }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star
+                      key={j}
+                      className="w-3.5 h-3.5 fill-gold text-gold"
+                    />
                   ))}
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+              <p className="text-sm text-muted-foreground leading-relaxed font-sans italic mb-6">
                 "{review.text}"
               </p>
-              <p className="text-sm font-semibold text-foreground">
+              <p className="text-xs font-sans uppercase editorial-spacing text-foreground/70">
                 {review.name}
               </p>
             </div>

@@ -29,29 +29,32 @@ const ProductsPreview = () => {
   };
 
   return (
-    <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground">
-          Popular Flower
-        </h2>
-        <div className="flex items-center gap-3">
+    <section className="py-12 sm:py-20 px-6 lg:px-12 max-w-7xl mx-auto">
+      <div className="flex items-end justify-between mb-10">
+        <div>
+          <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold mb-3">Featured</p>
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground italic">
+            Popular Flower
+          </h2>
+        </div>
+        <div className="flex items-center gap-4">
           <Link
             to="/shop"
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-xs font-sans uppercase tracking-[0.15em] text-muted-foreground hover:text-gold transition-colors duration-300"
           >
-            View All
+            View All →
           </Link>
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
-              className="p-2 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              className="p-2.5 border border-border/40 text-muted-foreground hover:text-gold hover:border-gold/50 transition-colors duration-300"
               aria-label="Scroll left"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-2 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              className="p-2.5 border border-border/40 text-muted-foreground hover:text-gold hover:border-gold/50 transition-colors duration-300"
               aria-label="Scroll right"
             >
               <ChevronRight size={18} />
@@ -62,42 +65,44 @@ const ProductsPreview = () => {
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
+        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4"
         style={{ overscrollBehaviorX: 'contain' }}
       >
         {products.map((product, i) => (
           <motion.div
             key={product.id}
-            className="snap-start shrink-0 w-[220px] sm:w-[260px] group"
-            initial={{ opacity: 0, y: 20 }}
+            className="snap-start shrink-0 w-[240px] sm:w-[280px] md:w-[300px] group"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.06, duration: 0.4 }}
+            transition={{ delay: i * 0.08, duration: 0.5 }}
           >
             <Link to={`/shop/${product.id}`} className="block">
-              <div className="aspect-square rounded-2xl bg-secondary overflow-hidden relative mb-3">
+              <div className="aspect-square bg-card border border-border/20 overflow-hidden relative mb-4">
                 <motion.img
                   src={product.image}
                   alt={product.name}
-                  className="absolute inset-0 w-full h-full object-contain p-5 drop-shadow-md"
-                  whileHover={{ scale: 1.06 }}
-                  transition={{ duration: 0.4 }}
+                  className="absolute inset-0 w-full h-full object-contain p-6 drop-shadow-lg"
+                  whileHover={{ scale: 1.08 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
-              <p className="text-xs font-medium text-muted-foreground mb-0.5">
+              <p className="text-[11px] font-sans uppercase tracking-[0.15em] text-muted-foreground mb-1">
                 {product.brand}
               </p>
-              <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
+              <h3 className="font-serif text-base sm:text-lg text-foreground group-hover:text-gold transition-colors duration-300 leading-tight">
                 {product.name}
               </h3>
-              <div className="flex items-center gap-2 mt-1.5">
+              <div className="flex items-center gap-2 mt-2">
                 <span className="text-xs text-muted-foreground">{product.weight}</span>
-                <span className="text-muted-foreground/40">·</span>
-                <span className="text-sm font-bold text-primary">{product.price}</span>
+                <span className="text-muted-foreground/30">|</span>
+                <span className="text-sm font-sans font-medium text-gold">{product.price}</span>
               </div>
-              <span className="inline-block mt-2 text-[10px] font-semibold uppercase tracking-wider bg-secondary text-muted-foreground px-2.5 py-1 rounded-full">
-                {product.strain}
-              </span>
+              <div className="mt-3">
+                <span className="text-[10px] font-sans uppercase tracking-wider border border-border/50 px-2.5 py-1 text-muted-foreground">
+                  {product.strain}
+                </span>
+              </div>
             </Link>
           </motion.div>
         ))}

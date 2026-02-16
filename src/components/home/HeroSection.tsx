@@ -1,56 +1,92 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const HeroSection = () => {
-  return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/90">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10">
-        {/* Left content */}
-        <motion.div
-          className="flex-1 text-center lg:text-left z-10"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight mb-6">
-            Premium Cannabis,{" "}
-            <span className="block">Delivered.</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-white/80 font-sans mb-8 max-w-lg mx-auto lg:mx-0">
-            Curated luxury flower, vapes, and edibles. Same-day delivery across the East Coast.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
-            <Link
-              to="/shop"
-              className="inline-flex items-center gap-2 px-8 py-4 min-h-[48px] bg-white text-primary font-semibold text-sm rounded-full hover:bg-white/90 transition-all shadow-lg"
-            >
-              Shop Now
-              <ArrowRight size={16} />
-            </Link>
-            <Link
-              to="/delivery"
-              className="inline-flex items-center gap-2 px-8 py-4 min-h-[48px] bg-white/15 text-white font-semibold text-sm rounded-full hover:bg-white/25 transition-all backdrop-blur-sm"
-            >
-              Delivery Info
-            </Link>
-          </div>
-        </motion.div>
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
 
-        {/* Right decorative area */}
-        <motion.div
-          className="flex-1 relative hidden lg:flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+  const videoY = useTransform(scrollY, [0, 800], [0, 250]);
+  const videoScale = useTransform(scrollY, [0, 800], [1, 1.15]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.75]);
+  const contentY = useTransform(scrollY, [0, 600], [0, -60]);
+  const contentOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative w-full h-[85svh] overflow-hidden flex items-end"
+    >
+      {/* Video Background */}
+      <motion.div
+        className="absolute inset-[-10%] pointer-events-none"
+        style={{ y: videoY, scale: videoScale }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
         >
-          <div className="w-80 h-80 xl:w-96 xl:h-96 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-            <div className="w-64 h-64 xl:w-80 xl:h-80 rounded-full bg-white/10 flex items-center justify-center">
-              <div className="w-48 h-48 xl:w-64 xl:h-64 rounded-full bg-white/10" />
-            </div>
-          </div>
+          <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/small-vecteezy_camera-moves-along-medical-cannabis-plants-grown-under_7386213_small_pndozl.mp4" type="video/mp4" />
+        </video>
+      </motion.div>
+
+      {/* Dark overlay */}
+      <motion.div className="absolute inset-0 bg-black" style={{ opacity: overlayOpacity }} />
+
+      {/* Subtle gold gradient at bottom */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/40 to-transparent" />
+
+      {/* Hero Content */}
+      <motion.div
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-16 sm:pb-20"
+        style={{ y: contentY, opacity: contentOpacity }}
+      >
+        <motion.h1
+          className="font-serif font-bold uppercase text-white leading-[0.9] tracking-tight mb-6"
+          style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+        >
+          <span className="block">Luxury</span>
+          <span className="block">
+            Smokers{" "}
+            <span className="text-gold">Club</span>
+          </span>
+        </motion.h1>
+
+        <motion.p
+          className="font-sans text-sm sm:text-base text-white/50 uppercase tracking-[0.15em] mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          Premium Cannabis · Serving the East Coast
+        </motion.p>
+
+        <motion.div
+          className="flex items-center gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+        >
+          <Link
+            to="/shop"
+            className="px-8 py-3.5 min-h-[44px] flex items-center justify-center gold-gradient text-primary-foreground font-sans text-[11px] font-semibold uppercase tracking-[0.2em] hover:opacity-90 transition-all duration-300"
+          >
+            Shop Now
+          </Link>
+          <Link
+            to="/delivery"
+            className="px-8 py-3.5 min-h-[44px] flex items-center justify-center border border-white/20 text-white font-sans text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-white/10 transition-all duration-300"
+          >
+            Delivery Info
+          </Link>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
