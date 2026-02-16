@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/hero-logo.png";
+import logo from "@/assets/logo.png";
 
 const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"));
