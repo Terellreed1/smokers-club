@@ -84,9 +84,7 @@ const Navbar = () => {
       "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 py-6",
       link.disabled
         ? "text-muted-foreground/30 cursor-not-allowed"
-        : showSolid
-          ? isActive(link) ? "text-gold" : "text-muted-foreground"
-          : isActive(link) ? "text-gold" : "text-background/80 hover:text-gold"
+        : isActive(link) ? "text-gold" : "text-foreground/70 hover:text-gold"
     );
 
   return (
@@ -201,10 +199,7 @@ const Navbar = () => {
           >
             <Link
               to="/cart"
-              className={cn(
-                "relative p-2 transition-colors duration-300",
-                showSolid ? "text-foreground hover:text-gold" : "text-background hover:text-gold"
-              )}
+              className="relative p-2 transition-colors duration-300 text-foreground hover:text-gold"
               aria-label="Shopping cart"
             >
               <NavCartIcon size={20} />
@@ -229,10 +224,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center gap-3">
           <Link
             to="/cart"
-            className={cn(
-              "relative p-2 transition-colors duration-300",
-              showSolid ? "text-foreground" : "text-background"
-            )}
+            className="relative p-2 transition-colors duration-300 text-foreground"
             aria-label="Shopping cart"
           >
             <NavCartIcon size={20} />
@@ -249,10 +241,7 @@ const Navbar = () => {
           </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={cn(
-              "transition-colors duration-300",
-              showSolid ? "text-foreground" : "text-background"
-            )}
+            className="transition-colors duration-300 text-foreground"
             aria-label="Toggle menu"
           >
             <AnimatePresence mode="wait">
