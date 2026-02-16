@@ -81,10 +81,10 @@ const Navbar = () => {
 
   const linkClasses = (link: NavLinkType) =>
     cn(
-      "flex items-center gap-1 text-xs font-sans uppercase editorial-spacing transition-colors duration-300 py-6",
+      "flex items-center gap-1.5 text-[13px] font-sans uppercase tracking-[0.2em] transition-colors duration-300 py-6",
       link.disabled
         ? "text-muted-foreground/30 cursor-not-allowed"
-        : isActive(link) ? "text-gold" : "text-foreground/70 hover:text-gold"
+        : isActive(link) ? "text-gold" : "text-foreground/80 hover:text-gold"
     );
 
   return (
@@ -99,20 +99,20 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
+        <Link to="/" className="flex items-center group shrink-0">
           <motion.img
             src={logo}
             alt="Luxury Couriers"
-            className="h-14 w-14 object-contain"
+            className="h-16 w-16 object-contain"
             whileHover={{ scale: 1.08, rotate: -2 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           />
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Links — spread across center */}
+        <div className="hidden lg:flex items-center justify-center flex-1 gap-10 xl:gap-14">
           {navLinks.map((link, i) => (
             <motion.div
               key={link.label}
@@ -190,8 +190,8 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Cart */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Cart (desktop) */}
+        <div className="hidden lg:flex items-center gap-4 shrink-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -221,7 +221,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle + Cart */}
-        <div className="md:hidden flex items-center gap-3">
+        <div className="lg:hidden flex items-center gap-3">
           <Link
             to="/cart"
             className="relative p-2 transition-colors duration-300 text-foreground"
@@ -263,7 +263,7 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="md:hidden bg-background border-t border-border/50 overflow-hidden"
+            className="lg:hidden bg-background border-t border-border/50 overflow-hidden"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
