@@ -7,7 +7,7 @@ import ProductsPreview from "@/components/home/ProductsPreview";
 
 import SocialProof from "@/components/home/SocialProof";
 import JoinClubPopup from "@/components/JoinClubPopup";
-import MusicPlayer from "@/components/MusicPlayer";
+
 
 const Index = () => {
   return (
@@ -23,7 +23,7 @@ const Index = () => {
       </main>
       <Footer />
       <JoinClubPopup />
-      <MusicPlayer />
+      
     </div>
   );
 };
