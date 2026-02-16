@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
+import ScrollReveal from "@/components/home/ScrollReveal";
 import {
   Accordion,
   AccordionContent,
@@ -54,25 +56,34 @@ const FAQ = () => {
     <PageLayout>
       <div className="py-16 md:py-24 px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Support</p>
-            <h1 className="font-serif text-4xl md:text-6xl text-foreground">FAQ</h1>
-          </div>
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Support</p>
+              <h1 className="font-serif text-4xl md:text-6xl text-foreground">FAQ</h1>
+            </div>
+          </ScrollReveal>
 
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, i) => (
-              <AccordionItem
+              <motion.div
                 key={i}
-                value={`item-${i}`}
-                className="border border-border/50 px-8 data-[state=open]:border-border transition-colors duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
               >
-                <AccordionTrigger className="font-serif text-lg text-foreground hover:text-muted-foreground hover:no-underline py-6">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed font-sans pb-6">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+                <AccordionItem
+                  value={`item-${i}`}
+                  className="border border-border/50 px-8 data-[state=open]:border-border transition-colors duration-300"
+                >
+                  <AccordionTrigger className="font-serif text-lg text-foreground hover:text-muted-foreground hover:no-underline py-6">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground leading-relaxed font-sans pb-6">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
         </div>

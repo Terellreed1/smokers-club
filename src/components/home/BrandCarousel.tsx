@@ -34,8 +34,8 @@ const BrandCarousel = () => {
                   src={brand.logo}
                   alt={brand.name}
                   className="h-14 sm:h-20 md:h-28 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500"
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  whileHover={{ scale: 1.15, y: -8, rotate: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
                 />
               </Link>
             ))}
