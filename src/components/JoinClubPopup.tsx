@@ -65,7 +65,7 @@ const JoinClubPopup = () => {
                 <img
                   src={logo}
                   alt="Luxury Smokers Club"
-                  className="h-20 w-20 object-contain mx-auto mb-6"
+                  className="h-40 w-40 object-contain mx-auto mb-6"
                 />
 
                 {/* Heading */}
