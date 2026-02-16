@@ -66,6 +66,16 @@ const HeroSection = () => {
           Smokers Club
         </motion.h1>
 
+        <motion.p
+          className="font-sans text-sm sm:text-base text-white/60 tracking-wide mb-8"
+          style={{ y: headlineY, opacity: contentOpacity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          Premium Cannabis Products
+        </motion.p>
+
         <motion.div
           className="flex items-center gap-4"
           style={{ y: ctaY, opacity: contentOpacity }}
