@@ -7,10 +7,22 @@ import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 import { allProducts, brandOptions, priceOptions, type Product } from "@/data/products";
 
+const comingSoonCategories = ["vapes", "edibles", "concentrates", "pre-rolls", "accessories"];
+
+const categoryLabels: Record<string, string> = {
+  vapes: "Vapes",
+  edibles: "Edibles",
+  concentrates: "Concentrates",
+  "pre-rolls": "Pre-Rolls",
+  accessories: "Accessories",
+};
+
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const strainFilter = searchParams.get("strain");
   const saleFilter = searchParams.get("sale") === "true";
+  const categoryFilter = searchParams.get("category");
+  const isComingSoon = categoryFilter && comingSoonCategories.includes(categoryFilter);
 
   const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState("All");
@@ -59,6 +71,29 @@ const Shop = () => {
             </div>
           </ScrollReveal>
 
+          {isComingSoon ? (
+            <motion.div
+              className="text-center py-24 sm:py-32"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Coming Soon</p>
+              <h2 className="font-serif text-3xl sm:text-5xl text-foreground mb-4">
+                {categoryLabels[categoryFilter] || categoryFilter}
+              </h2>
+              <p className="text-muted-foreground max-w-md mx-auto mb-8">
+                We're curating the finest selection for you. Stay tuned — something special is on the way.
+              </p>
+              <Link
+                to="/shop"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-foreground text-background font-semibold text-sm rounded-full hover:opacity-90 transition-opacity"
+              >
+                Browse Flower
+              </Link>
+            </motion.div>
+          ) : (
+
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
             {/* Filters */}
             <ScrollReveal delay={0.1} direction="left">
@@ -95,6 +130,7 @@ const Shop = () => {
               )}
             </StaggerContainer>
           </div>
+          )}
         </div>
       </div>
     </PageLayout>
