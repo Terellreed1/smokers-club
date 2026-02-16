@@ -5,8 +5,8 @@ import HeroSection from "@/components/home/HeroSection";
 
 import BrandCarousel from "@/components/home/BrandCarousel";
 import ProductsPreview from "@/components/home/ProductsPreview";
+import LiveInventory from "@/components/home/LiveInventory";
 import SocialProof from "@/components/home/SocialProof";
-import StoreInfo from "@/components/home/StoreInfo";
 import JoinClubPopup from "@/components/JoinClubPopup";
 
 const pageVariants = {
@@ -35,8 +35,8 @@ const Index = () => {
         <HeroSection />
         
         <BrandCarousel />
+        <LiveInventory />
         <ProductsPreview />
-        <StoreInfo />
         <SocialProof />
       </main>
       <Footer />
