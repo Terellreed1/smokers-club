@@ -12,6 +12,7 @@ const categories = [
   { label: "Indica", to: "/shop?strain=Indica" },
   { label: "Sativa", to: "/shop?strain=Sativa" },
   { label: "Hybrid", to: "/shop?strain=Hybrid" },
+  { label: "Sale", to: "/shop?sale=true" },
 ];
 
 interface NavLinkType {

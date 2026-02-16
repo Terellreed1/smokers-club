@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ImageOff } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
@@ -8,6 +8,10 @@ import TiltCard from "@/components/TiltCard";
 import { allProducts, brandOptions, priceOptions, type Product } from "@/data/products";
 
 const Shop = () => {
+  const [searchParams] = useSearchParams();
+  const strainFilter = searchParams.get("strain");
+  const saleFilter = searchParams.get("sale") === "true";
+
   const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState("All");
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -16,6 +20,8 @@ const Shop = () => {
     if (brand !== "All" && p.brand !== brand) return false;
     if (price !== "All" && p.price !== price) return false;
     if (inStockOnly && p.qty <= 0) return false;
+    if (strainFilter && p.strain !== strainFilter) return false;
+    if (saleFilter && !p.onSale) return false;
     return true;
   });
 
