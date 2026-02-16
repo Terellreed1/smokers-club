@@ -2,19 +2,11 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { allProducts } from "@/data/products";
 
-import dirtyFantaSlushie from "@/assets/products/dirty-fanta-slushie.png";
-import eliteFrutaz from "@/assets/products/elite-frutaz.png";
-import cottonCandyClouds from "@/assets/products/cotton-candy-clouds.png";
-import bigBagBuds from "@/assets/products/big-bag-buds.png";
-import blackLabel from "@/assets/products/black-label.png";
-import elJefe from "@/assets/products/el-jefe.png";
-
-const products = [
-  { id: 6, name: "Dirty Fantasy Slushie", brand: "JoJo Exotics", weight: "3.5g", price: "$65", image: dirtyFantaSlushie, strain: "Hybrid" },
-  { id: 1, name: "Verzaza", brand: "Frutaz", weight: "3.5g", price: "$65", image: eliteFrutaz, strain: "Sativa" },
-  { id: 8, name: "Cotton Candy Clouds", brand: "Always Faded", weight: "3.5g", price: "$65", image: cottonCandyClouds, strain: "Indica" },
-];
+// Featured products by ID
+const featuredIds = [6, 1, 8];
+const products = allProducts.filter((p) => featuredIds.includes(p.id));
 
 const ProductsPreview = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -73,13 +65,15 @@ const ProductsPreview = () => {
           >
             <Link to={`/shop/${product.id}`} className="block">
               <div className="aspect-square rounded-2xl bg-secondary overflow-hidden relative mb-3">
-                <motion.img
-                  src={product.image}
-                  alt={product.name}
-                  className="absolute inset-0 w-full h-full object-contain p-5 drop-shadow-md"
-                  whileHover={{ scale: 1.06 }}
-                  transition={{ duration: 0.4 }}
-                />
+                {product.image && (
+                  <motion.img
+                    src={product.image}
+                    alt={product.name}
+                    className="absolute inset-0 w-full h-full object-contain p-5 drop-shadow-md"
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ duration: 0.4 }}
+                  />
+                )}
               </div>
               <p className="text-xs font-medium text-muted-foreground mb-0.5">
                 {product.brand}
@@ -88,13 +82,8 @@ const ProductsPreview = () => {
                 {product.name}
               </h3>
               <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-xs text-muted-foreground">{product.weight}</span>
-                <span className="text-muted-foreground/40">·</span>
                 <span className="text-sm font-bold text-primary">{product.price}</span>
               </div>
-              <span className="inline-block mt-2 text-[10px] font-semibold uppercase tracking-wider bg-secondary text-muted-foreground px-2.5 py-1 rounded-full">
-                {product.strain}
-              </span>
             </Link>
           </motion.div>
         ))}
