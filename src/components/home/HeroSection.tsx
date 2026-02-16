@@ -5,8 +5,18 @@ import logo from "@/assets/logo.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full overflow-hidden" style={{ backgroundColor: 'hsl(140, 35%, 15%)' }}>
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-16 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10">
+    <section className="relative w-full overflow-hidden bg-black">
+      {/* Video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-60"
+      >
+        <source src="/videos/hero-bg.mp4" type="video/mp4" />
+      </video>
+      <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 py-16 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10">
         {/* Left content */}
         <motion.div
           className="flex-1 text-center lg:text-left z-10"
