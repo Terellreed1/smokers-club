@@ -57,11 +57,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="w-[90vw] max-w-sm text-center px-6">
+          <div className="w-[92vw] max-w-sm text-center px-4 sm:px-6">
             <img
               src={logo}
               alt="Luxury Smokers Club"
-              className="mx-auto -mt-16 mb-0 w-80 h-80 sm:w-[416px] sm:h-[416px] object-contain"
+              className="mx-auto -mt-8 sm:-mt-16 mb-0 w-52 h-52 sm:w-80 sm:h-80 object-contain"
             />
 
             {!denied ? (
