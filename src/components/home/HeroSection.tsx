@@ -61,7 +61,7 @@ const HeroSection = () => {
         </motion.p>
 
         <motion.p
-          className="font-sans text-xs sm:text-sm text-background/50 tracking-wide mb-8"
+          className="font-sans text-xs sm:text-sm text-background/80 tracking-widest mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.8 }}
