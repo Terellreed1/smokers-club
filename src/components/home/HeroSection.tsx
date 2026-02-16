@@ -75,13 +75,13 @@ const HeroSection = () => {
         >
           <Link
             to="/shop"
-            className="px-8 py-3.5 bg-primary text-primary-foreground font-sans text-xs font-semibold uppercase tracking-[0.15em] hover:bg-primary/90 transition-all duration-300 rounded-full"
+            className="px-6 sm:px-8 py-3 sm:py-3.5 min-h-[44px] flex items-center justify-center bg-primary text-primary-foreground font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.15em] hover:bg-primary/90 transition-all duration-300 rounded-full"
           >
             Shop Now
           </Link>
           <Link
             to="/delivery"
-            className="px-8 py-3.5 bg-white/10 backdrop-blur-sm text-white font-sans text-xs font-semibold uppercase tracking-[0.15em] hover:bg-white/20 transition-all duration-300 rounded-full"
+            className="px-6 sm:px-8 py-3 sm:py-3.5 min-h-[44px] flex items-center justify-center bg-white/10 backdrop-blur-sm text-white font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.15em] hover:bg-white/20 transition-all duration-300 rounded-full"
           >
             Delivery Info
           </Link>
