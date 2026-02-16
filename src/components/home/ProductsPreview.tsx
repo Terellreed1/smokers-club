@@ -64,7 +64,7 @@ const ProductsPreview = () => {
             transition={{ delay: i * 0.06, duration: 0.4 }}
           >
             <Link to={`/shop/${product.id}`} className="block">
-              <div className="aspect-square rounded-2xl bg-secondary overflow-hidden relative mb-3">
+              <div className="aspect-square rounded-2xl bg-white overflow-hidden relative mb-3">
                 {product.image && (
                   <motion.img
                     src={product.image}

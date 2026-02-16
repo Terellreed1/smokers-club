@@ -59,7 +59,7 @@ const ProductDetail = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
             {/* Image */}
             <ScrollReveal direction="left">
-              <div className="aspect-[3/4] overflow-hidden relative bg-secondary/50 rounded-2xl">
+              <div className="aspect-[3/4] overflow-hidden relative bg-white rounded-2xl">
                 {product.image ? (
                   <motion.img
                     src={product.image}
