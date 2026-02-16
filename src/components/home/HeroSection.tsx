@@ -15,11 +15,11 @@ const HeroSection = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight mb-6">
-            Premium Cannabis,{" "}
+            Premium Flower,{" "}
             <span className="block">Delivered.</span>
           </h1>
           <p className="text-lg sm:text-xl text-white/70 font-sans mb-8 max-w-lg mx-auto lg:mx-0">
-            Curated luxury flower, vapes, and edibles. Same-day delivery across the East Coast.
+            Curated luxury flower from top brands. Same-day delivery across the East Coast.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
             <Link
