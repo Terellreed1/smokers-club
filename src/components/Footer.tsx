@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20">
         {/* Top — Logo & tagline centered */}
         <div className="flex flex-col items-center text-center mb-14">
-          <img src={logo} alt="Luxury Smokers Club" className="h-16 w-16 object-contain mb-4 opacity-90" />
+          <img src={logo} alt="Luxury Courier Club" className="h-32 w-32 object-contain mb-4 opacity-90" />
           <p className="font-serif text-2xl sm:text-3xl text-foreground/90 mb-2">
             Luxury Courier Club
           </p>
