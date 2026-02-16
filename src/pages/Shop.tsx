@@ -17,22 +17,52 @@ const categoryLabels: Record<string, string> = {
   accessories: "Accessories",
 };
 
+const strainOptions = ["All", "Indica", "Sativa", "Hybrid"];
+const categoryOptions = ["All", "Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls", "Accessories"];
+
 const Shop = () => {
-  const [searchParams] = useSearchParams();
-  const strainFilter = searchParams.get("strain");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlStrain = searchParams.get("strain");
   const saleFilter = searchParams.get("sale") === "true";
-  const categoryFilter = searchParams.get("category");
-  const isComingSoon = categoryFilter && comingSoonCategories.includes(categoryFilter);
+  const urlCategory = searchParams.get("category");
+  const isComingSoon = urlCategory && comingSoonCategories.includes(urlCategory);
 
   const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState("All");
-  const [inStockOnly, setInStockOnly] = useState(false);
+  const [strain, setStrain] = useState(urlStrain || "All");
+  const [category, setCategory] = useState(
+    urlCategory ? categoryLabels[urlCategory] || "All" : "All"
+  );
+
+  const handleStrainChange = (v: string) => {
+    setStrain(v);
+    if (v === "All") {
+      searchParams.delete("strain");
+    } else {
+      searchParams.set("strain", v);
+    }
+    searchParams.delete("category");
+    searchParams.delete("sale");
+    setSearchParams(searchParams);
+  };
+
+  const handleCategoryChange = (v: string) => {
+    setCategory(v);
+    const key = v.toLowerCase().replace("-", "-");
+    if (v === "All" || v === "Flower") {
+      searchParams.delete("category");
+    } else {
+      searchParams.set("category", key === "pre-rolls" ? "pre-rolls" : key);
+    }
+    searchParams.delete("strain");
+    searchParams.delete("sale");
+    setSearchParams(searchParams);
+  };
 
   const filtered = allProducts.filter((p) => {
     if (brand !== "All" && p.brand !== brand) return false;
     if (price !== "All" && p.price !== price) return false;
-    if (inStockOnly && p.qty <= 0) return false;
-    if (strainFilter && p.strain !== strainFilter) return false;
+    if (strain !== "All" && p.strain !== strain) return false;
     if (saleFilter && !p.onSale) return false;
     return true;
   });
@@ -80,7 +110,7 @@ const Shop = () => {
             >
               <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Coming Soon</p>
               <h2 className="font-serif text-3xl sm:text-5xl text-foreground mb-4">
-                {categoryLabels[categoryFilter] || categoryFilter}
+                {urlCategory ? (categoryLabels[urlCategory] || urlCategory) : ""}
               </h2>
               <p className="text-muted-foreground max-w-md mx-auto mb-8">
                 We're curating the finest selection for you. Stay tuned — something special is on the way.
@@ -98,20 +128,10 @@ const Shop = () => {
             {/* Filters */}
             <ScrollReveal delay={0.1} direction="left">
               <aside>
+                <FilterGroup label="Category" options={categoryOptions} value={category} onChange={handleCategoryChange} />
+                <FilterGroup label="Strain" options={strainOptions} value={strain} onChange={handleStrainChange} />
                 <FilterGroup label="Brand" options={brandOptions} value={brand} onChange={setBrand} />
                 <FilterGroup label="Price" options={priceOptions} value={price} onChange={setPrice} />
-                <div className="mb-8">
-                  <motion.button
-                    onClick={() => setInStockOnly(!inStockOnly)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`text-xs font-sans px-4 py-2 border transition-all duration-300 ${
-                      inStockOnly ? "border-foreground text-foreground bg-foreground/5" : "border-border/50 text-muted-foreground hover:border-foreground/30"
-                    }`}
-                  >
-                    In Stock Only
-                  </motion.button>
-                </div>
               </aside>
             </ScrollReveal>
 
