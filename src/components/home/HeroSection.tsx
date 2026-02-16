@@ -41,7 +41,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Luxury Smokers Club — Premium Cannabis
+          Luxury Smokers Club
         </motion.p>
 
         <motion.h1
@@ -50,11 +50,9 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
         >
-          Elevating your
+          Luxury
           <br />
-          cannabis
-          <br />
-          experience.
+          Smokers Club
         </motion.h1>
 
         <motion.div
