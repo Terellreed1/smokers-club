@@ -12,9 +12,9 @@ const categories = [
 
 const CategoryGrid = () => {
   return (
-    <section className="py-14 sm:py-20 px-4 sm:px-6">
+    <section className="py-10 sm:py-14 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="font-serif text-2xl md:text-4xl text-foreground mb-10">
+        <h2 className="font-serif text-xl md:text-3xl text-foreground mb-8">
           Shop by Category
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">

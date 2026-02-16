@@ -36,11 +36,11 @@ const products = [
 
 const ProductsPreview = () => {
   return (
-    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-end justify-between mb-16">
+        <div className="flex items-end justify-between mb-10">
           <ScrollReveal>
-            <h2 className="font-serif text-3xl md:text-5xl text-foreground">
+            <h2 className="font-serif text-2xl md:text-4xl text-foreground">
               Featured Products
             </h2>
           </ScrollReveal>
