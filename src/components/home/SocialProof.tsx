@@ -1,5 +1,4 @@
 import { Star } from "lucide-react";
-import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
 
 const reviews = [
   {
@@ -30,51 +29,41 @@ const GoogleLogo = () => (
 
 const SocialProof = () => {
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-secondary/30">
-      <div className="max-w-6xl mx-auto">
-        <ScrollReveal className="text-center mb-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
+    <section className="py-14 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="flex items-center justify-center gap-2 mb-3">
             <GoogleLogo />
-            <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground">
-              Verified Reviews
-            </p>
+            <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
           </div>
-          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl text-foreground">
-            What They Say
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground">
+            What Our Customers Say
           </h2>
-        </ScrollReveal>
+        </div>
 
-        <StaggerContainer
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          staggerDelay={0.12}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="bg-background/60 p-6 sm:p-8 text-center transition-all duration-500"
+              className="bg-background rounded-2xl p-6 sm:p-8 text-center shadow-sm"
             >
-              {/* Google icon + stars */}
-              <div className="flex items-center justify-center gap-2 mb-6">
+              <div className="flex items-center justify-center gap-1.5 mb-5">
                 <GoogleLogo />
                 <div className="flex gap-0.5">
                   {Array.from({ length: review.rating }).map((_, j) => (
-                    <Star
-                      key={j}
-                      className="w-3.5 h-3.5 fill-[#FBBC05] text-[#FBBC05]"
-                    />
+                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed font-sans italic mb-6">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 "{review.text}"
               </p>
-              <p className="text-xs font-sans uppercase editorial-spacing text-foreground/70">
+              <p className="text-sm font-semibold text-foreground">
                 {review.name}
               </p>
             </div>
           ))}
-        </StaggerContainer>
-
+        </div>
       </div>
     </section>
   );
