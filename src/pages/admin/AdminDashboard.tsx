@@ -433,40 +433,36 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
 // ─── Reviews Section ──────────────────────────────────────────────
 const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | "PUT" | "DELETE", b?: object) => Promise<unknown> }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [products, setProducts] = useState<{ id: string; name: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
   const [editing, setEditing] = useState<Review | null>(null);
-  const [form, setForm] = useState({ author_name: "", rating: 5, body: "", product_id: "", show_on_homepage: false, active: true });
+  const [form, setForm] = useState({ author_name: "", rating: 5, body: "", show_on_homepage: true, active: true });
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [rev, prod] = await Promise.all([
-        callAdmin("reviews", "GET"),
-        supabase.from("products").select("id, name").order("name").then((r) => r.data || []),
-      ]);
-      setReviews(rev as Review[]);
-      setProducts(prod as { id: string; name: string }[]);
+      const all = (await callAdmin("reviews", "GET")) as Review[];
+      // Only show homepage reviews here
+      setReviews(all.filter((r) => r.show_on_homepage));
     } catch {}
     setLoading(false);
   }, [callAdmin]);
 
   useEffect(() => { load(); }, [load]);
 
-  const openAdd = () => { setForm({ author_name: "", rating: 5, body: "", product_id: "", show_on_homepage: false, active: true }); setModal("add"); };
+  const openAdd = () => { setForm({ author_name: "", rating: 5, body: "", show_on_homepage: true, active: true }); setModal("add"); };
   const openEdit = (r: Review) => {
     setEditing(r);
-    setForm({ author_name: r.author_name, rating: r.rating, body: r.body, product_id: r.product_id || "", show_on_homepage: r.show_on_homepage, active: r.active });
+    setForm({ author_name: r.author_name, rating: r.rating, body: r.body, show_on_homepage: r.show_on_homepage, active: r.active });
     setModal("edit");
   };
 
   const save = async () => {
     setSaving(true);
     try {
-      const payload = { ...form, product_id: form.product_id || null };
+      const payload = { ...form, show_on_homepage: true, product_id: null };
       if (modal === "add") await callAdmin("reviews", "POST", payload);
       else await callAdmin("reviews", "PUT", { id: editing!.id, ...payload });
       await load(); setModal(null);
@@ -479,22 +475,21 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
     setDeleteId(null);
   };
 
-  const f = (k: string, v: string | number | boolean) => setForm((prev) => ({ ...prev, [k]: v }));
-
-  // Quick toggle show_on_homepage
-  const toggleHomepage = async (r: Review) => {
+  const toggleActive = async (r: Review) => {
     try {
-      await callAdmin("reviews", "PUT", { id: r.id, show_on_homepage: !r.show_on_homepage });
+      await callAdmin("reviews", "PUT", { id: r.id, active: !r.active });
       await load();
     } catch (e) { alert("Update failed: " + e); }
   };
 
+  const f = (k: string, v: string | number | boolean) => setForm((prev) => ({ ...prev, [k]: v }));
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-2">
         <div>
-          <h2 className="text-foreground text-xl font-semibold">Reviews</h2>
-          <p className="text-muted-foreground text-xs mt-0.5">{reviews.length} total · {reviews.filter(r => r.show_on_homepage).length} on homepage</p>
+          <h2 className="text-foreground text-xl font-semibold">Homepage Reviews</h2>
+          <p className="text-muted-foreground text-xs mt-0.5">Google-style testimonials shown on the homepage · {reviews.length} total</p>
         </div>
         <div className="flex gap-2">
           <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all"><RefreshCw size={14} /></button>
@@ -503,29 +498,27 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
           </button>
         </div>
       </div>
+      <p className="text-muted-foreground text-xs mb-6">These appear in the "What Our Customers Say" section on the homepage.</p>
 
       {loading ? <div className="text-muted-foreground text-sm text-center py-16">Loading…</div> : (
         <div className="space-y-2">
           {reviews.map((r) => (
-            <div key={r.id} className={`p-4 rounded-xl border flex gap-4 transition-colors ${r.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-40"}`}>
+            <div key={r.id} className={`p-4 rounded-xl border flex gap-4 transition-colors ${r.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-50"}`}>
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <div className="flex items-center gap-2 mb-1">
                   <p className="text-foreground text-sm font-medium">{r.author_name}</p>
                   <StarRating rating={r.rating} />
-                  {r.show_on_homepage && (
-                    <span className="text-[9px] bg-blue-50 text-blue-500 border border-blue-200 px-1.5 py-0.5 rounded uppercase tracking-wider">Homepage</span>
-                  )}
+                  {!r.active && <span className="text-[9px] bg-black/8 text-muted-foreground px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
                 </div>
                 <p className="text-muted-foreground text-xs line-clamp-2">{r.body}</p>
-                {r.products?.name && <p className="text-black/30 text-[10px] mt-1">re: {r.products.name}</p>}
               </div>
               <div className="flex items-center gap-1 flex-shrink-0">
                 <button
-                  onClick={() => toggleHomepage(r)}
-                  title={r.show_on_homepage ? "Remove from homepage" : "Show on homepage"}
-                  className={`p-2 rounded-lg text-xs transition-all ${r.show_on_homepage ? "text-blue-500 bg-blue-50 hover:bg-blue-100" : "text-muted-foreground hover:text-blue-500 hover:bg-blue-50"}`}
+                  onClick={() => toggleActive(r)}
+                  title={r.active ? "Hide review" : "Show review"}
+                  className={`p-2 rounded-lg text-xs font-medium transition-all ${r.active ? "text-emerald-600 bg-emerald-50 hover:bg-emerald-100" : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"}`}
                 >
-                  HP
+                  {r.active ? "On" : "Off"}
                 </button>
                 <button onClick={() => openEdit(r)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all"><Pencil size={13} /></button>
                 <button onClick={() => setDeleteId(r.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all"><Trash2 size={13} /></button>
@@ -537,7 +530,7 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
 
       <AnimatePresence>
         {modal && (
-          <Modal title={modal === "add" ? "Add Review" : "Edit Review"} onClose={() => setModal(null)}>
+          <Modal title={modal === "add" ? "Add Homepage Review" : "Edit Review"} onClose={() => setModal(null)}>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Customer Name">
@@ -552,26 +545,13 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
               <Field label="Review Text">
                 <textarea className={inputCls + " min-h-[80px] resize-none"} value={form.body} onChange={(e) => f("body", e.target.value)} placeholder="What did they say?" />
               </Field>
-              <Field label="Linked Product (optional)">
-                <div className="relative">
-                  <select className={selectCls} value={form.product_id} onChange={(e) => f("product_id", e.target.value)}>
-                    <option value="">None</option>
-                    {products.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-                  </select>
-                  <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={form.active} onChange={(e) => f("active", e.target.checked)} className="sr-only" />
+                <div className={`w-8 h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
+                  <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                 </div>
-              </Field>
-              <div className="flex gap-6">
-                {([["show_on_homepage", "Show on Homepage", form.show_on_homepage], ["active", "Active", form.active]] as [string, string, boolean][]).map(([key, label, val]) => (
-                  <label key={key} className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={val} onChange={(e) => f(key, e.target.checked)} className="sr-only" />
-                    <div className={`w-8 h-4 rounded-full transition-colors relative ${val ? "bg-emerald-500" : "bg-black/15"}`}>
-                      <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: val ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
-                    </div>
-                    <span className="text-muted-foreground text-xs">{label}</span>
-                  </label>
-                ))}
-              </div>
+                <span className="text-muted-foreground text-xs">Visible on homepage</span>
+              </label>
               <div className="flex gap-2 pt-2">
                 <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
                 <button onClick={save} disabled={saving} className="flex-1 py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg disabled:opacity-40">
@@ -583,7 +563,7 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
         )}
         {deleteId && (
           <Modal title="Delete Review" onClose={() => setDeleteId(null)}>
-            <p className="text-muted-foreground text-sm mb-6">Remove this review permanently?</p>
+            <p className="text-muted-foreground text-sm mb-6">Remove this review from the homepage permanently?</p>
             <div className="flex gap-2">
               <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
               <button onClick={() => remove(deleteId)} className="flex-1 py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg">Delete</button>
@@ -594,6 +574,7 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
     </div>
   );
 };
+
 
 // ─── Analytics Section ────────────────────────────────────────────
 const AnalyticsSection = () => {
