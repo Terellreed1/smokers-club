@@ -44,10 +44,10 @@ const JoinClubPopup = () => {
           {/* Modal */}
           <motion.div
             className="fixed inset-0 z-[101] flex items-center justify-center p-4"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 40, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 320, damping: 28, mass: 0.8 }}
           >
             <div className="relative bg-background w-full max-w-md shadow-2xl rounded-2xl mx-4">
               {/* Close button */}
