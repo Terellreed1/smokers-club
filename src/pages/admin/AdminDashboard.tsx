@@ -663,7 +663,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       {/* Sidebar */}
       <aside className="w-56 flex-shrink-0 border-r border-black/8 flex flex-col">
         <div className="p-6 border-b border-black/8 flex flex-col items-start">
-          <img src={logoImg} alt="Logo" className="h-24 mb-2" />
+          <img src={logoImg} alt="Logo" className="h-48 mb-2" />
           <p className="text-black/30 text-[10px] uppercase tracking-widest">Admin Panel</p>
         </div>
         <nav className="flex-1 p-3">
