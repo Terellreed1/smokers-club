@@ -683,12 +683,12 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
             </button>
           ))}
         </nav>
-        <div className="p-3 border-t border-black/8">
+        <div className="p-4 border-t border-black/8">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-all"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 border border-red-200 hover:bg-red-50 transition-all"
           >
-            <LogOut size={15} /> Logout
+            <LogOut size={14} /> Log Out
           </button>
         </div>
       </aside>
