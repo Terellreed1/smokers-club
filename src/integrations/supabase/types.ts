@@ -14,6 +14,155 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          token?: string
+        }
+        Relationships: []
+      }
+      faq_items: {
+        Row: {
+          active: boolean
+          answer: string
+          created_at: string
+          id: string
+          question: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          answer: string
+          created_at?: string
+          id?: string
+          question: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          answer?: string
+          created_at?: string
+          id?: string
+          question?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          active: boolean
+          brand: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          is_new: boolean
+          name: string
+          on_sale: boolean
+          price: string
+          product_type: string
+          qty: number
+          sort_order: number
+          strain: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          brand: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_new?: boolean
+          name: string
+          on_sale?: boolean
+          price: string
+          product_type?: string
+          qty?: number
+          sort_order?: number
+          strain?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          brand?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_new?: boolean
+          name?: string
+          on_sale?: boolean
+          price?: string
+          product_type?: string
+          qty?: number
+          sort_order?: number
+          strain?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          active: boolean
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          product_id: string | null
+          rating: number
+          show_on_homepage: boolean
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          product_id?: string | null
+          rating?: number
+          show_on_homepage?: boolean
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          product_id?: string | null
+          rating?: number
+          show_on_homepage?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wholesale_inquiries: {
         Row: {
           company_address: string

@@ -2,3 +2,9 @@ project_id = "bsmujjrfwyqlfdqnjpes"
 
 [functions.send-wholesale-inquiry]
 verify_jwt = false
+
+[functions.admin-auth]
+verify_jwt = false
+
+[functions.admin-data]
+verify_jwt = false

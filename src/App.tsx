@@ -21,6 +21,7 @@ import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Wholesale from "./pages/Wholesale";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const AnimatedRoutes = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/wholesale" element={<Wholesale />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

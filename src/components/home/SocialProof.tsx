@@ -1,21 +1,19 @@
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
-const reviews = [
-  {
-    name: "Marcus T.",
-    text: "Best premium selection in the DMV. The service is unmatched — they truly treat you like family.",
-    rating: 5,
-  },
-  {
-    name: "Jade W.",
-    text: "From packaging to product quality, everything screams luxury. My go-to for top-shelf flower.",
-    rating: 5,
-  },
-  {
-    name: "Devon R.",
-    text: "Fast delivery, incredible strains. Luxury Couriers understands the culture and the craft.",
-    rating: 5,
-  },
+interface Review {
+  id: string;
+  author_name: string;
+  rating: number;
+  body: string;
+}
+
+// Fallback static reviews shown if DB has none
+const fallbackReviews: Review[] = [
+  { id: "1", author_name: "Marcus T.", rating: 5, body: "Best premium selection in the DMV. The service is unmatched — they truly treat you like family." },
+  { id: "2", author_name: "Jade W.", rating: 5, body: "From packaging to product quality, everything screams luxury. My go-to for top-shelf flower." },
+  { id: "3", author_name: "Devon R.", rating: 5, body: "Fast delivery, incredible strains. Luxury Couriers understands the culture and the craft." },
 ];
 
 const GoogleLogo = () => (
@@ -28,6 +26,21 @@ const GoogleLogo = () => (
 );
 
 const SocialProof = () => {
+  const [reviews, setReviews] = useState<Review[]>(fallbackReviews);
+
+  useEffect(() => {
+    supabase
+      .from("reviews")
+      .select("id, author_name, rating, body")
+      .eq("active", true)
+      .eq("show_on_homepage", true)
+      .order("created_at", { ascending: false })
+      .limit(6)
+      .then(({ data }) => {
+        if (data && data.length > 0) setReviews(data);
+      });
+  }, []);
+
   return (
     <section className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
@@ -36,17 +49,12 @@ const SocialProof = () => {
             <GoogleLogo />
             <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
           </div>
-          <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground">
-            What Our Customers Say
-          </h2>
+          <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground">What Our Customers Say</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
-          {reviews.map((review, i) => (
-            <div
-              key={i}
-              className="bg-background rounded-2xl p-5 sm:p-6 md:p-8 text-center shadow-sm"
-            >
+          {reviews.map((review) => (
+            <div key={review.id} className="bg-background rounded-2xl p-5 sm:p-6 md:p-8 text-center shadow-sm">
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 <GoogleLogo />
                 <div className="flex gap-0.5">
@@ -55,12 +63,8 @@ const SocialProof = () => {
                   ))}
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                "{review.text}"
-              </p>
-              <p className="text-sm font-semibold text-foreground">
-                {review.name}
-              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">"{review.body}"</p>
+              <p className="text-sm font-semibold text-foreground">{review.author_name}</p>
             </div>
           ))}
         </div>
