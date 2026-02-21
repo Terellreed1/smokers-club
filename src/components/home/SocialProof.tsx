@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Review {
@@ -9,7 +10,6 @@ interface Review {
   body: string;
 }
 
-// Fallback static reviews shown if DB has none
 const fallbackReviews: Review[] = [
   { id: "1", author_name: "Marcus T.", rating: 5, body: "Best premium selection in the DMV. The service is unmatched — they truly treat you like family." },
   { id: "2", author_name: "Jade W.", rating: 5, body: "From packaging to product quality, everything screams luxury. My go-to for top-shelf flower." },
@@ -25,8 +25,12 @@ const GoogleLogo = () => (
   </svg>
 );
 
+const DURATION = 5000;
+
 const SocialProof = () => {
   const [reviews, setReviews] = useState<Review[]>(fallbackReviews);
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     supabase
@@ -35,39 +39,81 @@ const SocialProof = () => {
       .eq("active", true)
       .eq("show_on_homepage", true)
       .order("created_at", { ascending: false })
-      .limit(6)
+      .limit(10)
       .then(({ data }) => {
         if (data && data.length > 0) setReviews(data);
       });
   }, []);
 
+  const next = useCallback(() => {
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % reviews.length);
+  }, [reviews.length]);
+
+  // Auto-advance
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    const timer = setInterval(next, DURATION);
+    return () => clearInterval(timer);
+  }, [next, reviews.length]);
+
+  const review = reviews[current];
+
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? 80 : -80, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? -80 : 80, opacity: 0 }),
+  };
+
   return (
     <section className="py-10 sm:py-14 lg:py-20 px-4 sm:px-6 bg-secondary/30">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-2 mb-2 sm:mb-3">
-            <GoogleLogo />
-            <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
-          </div>
-          <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground">What Our Customers Say</h2>
+      <div className="max-w-xl mx-auto text-center">
+        <div className="flex items-center justify-center gap-2 mb-2 sm:mb-3">
+          <GoogleLogo />
+          <p className="text-sm font-medium text-muted-foreground">Verified Reviews</p>
+        </div>
+        <h2 className="font-serif text-xl sm:text-3xl lg:text-4xl text-foreground mb-8">What Our Customers Say</h2>
+
+        <div className="relative overflow-hidden min-h-[140px] flex items-center justify-center">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={review.id}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+              className="w-full"
+            >
+              <div className="flex items-center justify-center gap-0.5 mb-4">
+                {Array.from({ length: review.rating }).map((_, j) => (
+                  <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4 italic">
+                "{review.body}"
+              </p>
+              <p className="text-sm font-semibold text-foreground">{review.author_name}</p>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
-          {reviews.map((review) => (
-            <div key={review.id} className="bg-background rounded-2xl p-5 sm:p-6 md:p-8 text-center shadow-sm">
-              <div className="flex items-center justify-center gap-1.5 mb-5">
-                <GoogleLogo />
-                <div className="flex gap-0.5">
-                  {Array.from({ length: review.rating }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">"{review.body}"</p>
-              <p className="text-sm font-semibold text-foreground">{review.author_name}</p>
-            </div>
-          ))}
-        </div>
+        {/* Dots */}
+        {reviews.length > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {reviews.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  i === current ? "bg-foreground w-4" : "bg-foreground/20"
+                }`}
+                aria-label={`Review ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
