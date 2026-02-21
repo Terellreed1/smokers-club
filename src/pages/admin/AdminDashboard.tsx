@@ -19,6 +19,7 @@ interface Product {
   image_url: string | null;
   description: string;
   is_new: boolean;
+  sold_out: boolean;
   strain: string | null;
   product_type: string;
   active: boolean;
@@ -46,7 +47,7 @@ interface Review {
 
 const STRAIN_OPTIONS = ["None", "Indica", "Sativa", "Hybrid"];
 const TYPE_OPTIONS = ["Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls", "Accessories", "Other"];
-const PRICE_PRESETS = ["$50", "$55", "$60", "$65", "$70", "$75", "$80"];
+const BRAND_OPTIONS = ["Luxury Courier Club", "Backpack Boyz", "Cookies", "Jungle Boys", "Connected", "Alien Labs", "Other"];
 
 // ─── Sidebar Nav ─────────────────────────────────────────────────
 const navItems = [
@@ -111,7 +112,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
   const [editing, setEditing] = useState<Product | null>(null);
-  const [form, setForm] = useState({ name: "", brand: "", price: "$65", qty: 0, image_url: "", description: "", strain: "None", product_type: "Flower", is_new: false, active: true });
+  const [form, setForm] = useState({ name: "", brand: "Luxury Courier Club", price: "$65", image_url: "", description: "", strain: "None", product_type: "Flower", sold_out: false, active: true });
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -124,13 +125,13 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
   useEffect(() => { load(); }, [load]);
 
   const openAdd = () => {
-    setForm({ name: "", brand: "", price: "$65", qty: 0, image_url: "", description: "", strain: "None", product_type: "Flower", is_new: false, active: true });
+    setForm({ name: "", brand: "Luxury Courier Club", price: "$65", image_url: "", description: "", strain: "None", product_type: "Flower", sold_out: false, active: true });
     setModal("add");
   };
 
   const openEdit = (p: Product) => {
     setEditing(p);
-    setForm({ name: p.name, brand: p.brand, price: p.price, qty: p.qty, image_url: p.image_url || "", description: p.description, strain: p.strain || "None", product_type: p.product_type, is_new: p.is_new, active: p.active });
+    setForm({ name: p.name, brand: p.brand, price: p.price, image_url: p.image_url || "", description: p.description, strain: p.strain || "None", product_type: p.product_type, sold_out: p.sold_out, active: p.active });
     setModal("edit");
   };
 
@@ -190,14 +191,13 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="text-foreground text-sm font-medium truncate">{p.name}</p>
-                  {p.is_new && <span className="text-[9px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded uppercase tracking-wider">New</span>}
+                  {p.sold_out && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded uppercase tracking-wider">Sold Out</span>}
                   {!p.active && <span className="text-[9px] bg-black/8 text-muted-foreground px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
                 </div>
                 <p className="text-muted-foreground text-xs mt-0.5">{p.brand} · {p.product_type} {p.strain ? `· ${p.strain}` : ""}</p>
               </div>
               <div className="text-right flex-shrink-0">
                 <p className="text-foreground text-sm font-medium">{p.price}</p>
-                <p className="text-muted-foreground text-xs">qty: {p.qty}</p>
               </div>
               <div className="flex gap-1 flex-shrink-0">
                 <button onClick={() => openEdit(p)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all">
@@ -221,22 +221,17 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                   <input className={inputCls} value={form.name} onChange={(e) => f("name", e.target.value)} placeholder="Product name" />
                 </Field>
                 <Field label="Brand">
-                  <input className={inputCls} value={form.brand} onChange={(e) => f("brand", e.target.value)} placeholder="Brand name" />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Price">
                   <div className="relative">
-                    <select className={selectCls} value={form.price} onChange={(e) => f("price", e.target.value)}>
-                      {PRICE_PRESETS.map((pr) => <option key={pr}>{pr}</option>)}
+                    <select className={selectCls} value={form.brand} onChange={(e) => f("brand", e.target.value)}>
+                      {BRAND_OPTIONS.map((b) => <option key={b}>{b}</option>)}
                     </select>
                     <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                   </div>
                 </Field>
-                <Field label="Quantity">
-                  <input type="number" className={inputCls} value={form.qty} onChange={(e) => f("qty", parseInt(e.target.value) || 0)} min={0} />
-                </Field>
               </div>
+              <Field label="Price">
+                <input className={inputCls} value={form.price} onChange={(e) => f("price", e.target.value)} placeholder="$65" />
+              </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Strain">
                   <div className="relative">
@@ -284,11 +279,11 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
               </Field>
               <div className="flex gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={form.is_new} onChange={(e) => f("is_new", e.target.checked)} className="sr-only" />
-                  <div className={`w-8 h-4 rounded-full transition-colors relative ${form.is_new ? "bg-emerald-500" : "bg-black/15"}`}>
-                    <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.is_new ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
+                  <input type="checkbox" checked={form.sold_out} onChange={(e) => f("sold_out", e.target.checked)} className="sr-only" />
+                  <div className={`w-8 h-4 rounded-full transition-colors relative ${form.sold_out ? "bg-red-500" : "bg-black/15"}`}>
+                    <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.sold_out ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                   </div>
-                  <span className="text-muted-foreground text-xs">Mark as New</span>
+                  <span className="text-muted-foreground text-xs">Sold Out</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={form.active} onChange={(e) => f("active", e.target.checked)} className="sr-only" />

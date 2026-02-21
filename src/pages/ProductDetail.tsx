@@ -151,7 +151,11 @@ const ProductDetail = () => {
               <div className="flex flex-col justify-center">
                 {product.is_new && <span className="text-xs font-sans uppercase editorial-spacing text-primary mb-4">New Drop</span>}
                 <h1 className="font-serif text-3xl md:text-4xl text-foreground mb-2">{product.name}</h1>
-                <p className="text-lg text-muted-foreground mb-8">{product.price}</p>
+                <p className="text-lg text-muted-foreground mb-4">{product.price}</p>
+
+                {product.description && (
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-8">{product.description}</p>
+                )}
 
                 <div className="flex items-center gap-6 mb-12">
                   <div className="flex items-center border border-border/50">
