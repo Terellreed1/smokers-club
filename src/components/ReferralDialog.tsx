@@ -108,23 +108,14 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close */}
-              <motion.button
-                onClick={onClose}
-                className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors z-10"
-                whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}
-              >
-                <span className="text-sm leading-none">✕</span>
-              </motion.button>
-
-              {/* Tab switcher */}
-              <div className="flex border-b border-border">
+              {/* Tab switcher with close */}
+              <div className="flex border-b border-border relative">
                 {(["join", "share"] as const).map((t) => (
                   <button
                     key={t}
                     onClick={() => setTab(t)}
                     className={cn(
-                      "flex-1 py-3.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-all duration-300",
+                      "flex-1 py-3.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-all duration-300 pr-2",
                       tab === t
                         ? "text-foreground border-b-2 border-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -133,6 +124,13 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                     {t === "join" ? "Join the Club" : "Share the Club"}
                   </button>
                 ))}
+                <motion.button
+                  onClick={onClose}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}
+                >
+                  <span className="text-sm leading-none">✕</span>
+                </motion.button>
               </div>
 
               <AnimatePresence mode="wait">
