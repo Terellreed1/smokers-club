@@ -102,7 +102,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
           />
           <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
-              className="relative w-full max-w-[340px] bg-background pointer-events-auto rounded-2xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-[400px] bg-background pointer-events-auto rounded-2xl overflow-hidden shadow-2xl"
               initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
