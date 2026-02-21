@@ -153,9 +153,6 @@ const ProductCard = ({ product }: { product: Product }) => (
           <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
         </div>
       )}
-      <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-1">{product.brand}</p>
-      <h3 className="font-serif text-sm sm:text-lg text-foreground group-hover:text-foreground/70 transition-colors duration-300">{product.name}</h3>
-      <p className="text-sm font-sans text-foreground/60 mt-1">{product.price}</p>
     </Link>
   </TiltCard>
 );

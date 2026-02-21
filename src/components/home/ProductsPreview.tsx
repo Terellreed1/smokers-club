@@ -56,11 +56,6 @@ const ProductsPreview = () => {
                   <ImageOff size={32} strokeWidth={1} />
                 </div>
               )}
-              <p className="text-xs font-medium text-muted-foreground mb-0.5">{product.brand}</p>
-              <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{product.name}</h3>
-              <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-sm font-bold text-primary">{product.price}</span>
-              </div>
             </Link>
           </motion.div>
         ))}
