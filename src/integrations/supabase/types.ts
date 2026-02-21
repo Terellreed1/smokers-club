@@ -111,6 +111,7 @@ export type Database = {
           price: string
           product_type: string
           qty: number
+          sold_out: boolean
           sort_order: number
           strain: string | null
           updated_at: string
@@ -128,6 +129,7 @@ export type Database = {
           price: string
           product_type?: string
           qty?: number
+          sold_out?: boolean
           sort_order?: number
           strain?: string | null
           updated_at?: string
@@ -145,6 +147,7 @@ export type Database = {
           price?: string
           product_type?: string
           qty?: number
+          sold_out?: boolean
           sort_order?: number
           strain?: string | null
           updated_at?: string

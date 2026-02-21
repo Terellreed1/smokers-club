@@ -38,7 +38,7 @@ const Shop = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [brand, setBrand] = useState("All");
-  const [price, setPrice] = useState("All");
+  const [maxPrice, setMaxPrice] = useState(200);
   const [strain, setStrain] = useState(urlStrain || "All");
   const [category, setCategory] = useState(urlCategory ? categoryLabels[urlCategory] || "All" : "All");
 
@@ -49,8 +49,7 @@ const Shop = () => {
     });
   }, []);
 
-  const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand)))];
-  const priceOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.price))).sort((a, b) => parseInt(b.replace("$", "")) - parseInt(a.replace("$", "")))];
+  const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand).filter(Boolean)))];
 
   const handleStrainChange = (v: string) => {
     setStrain(v);
@@ -69,7 +68,8 @@ const Shop = () => {
 
   const filtered = allProducts.filter((p) => {
     if (brand !== "All" && p.brand !== brand) return false;
-    if (price !== "All" && p.price !== price) return false;
+    const priceNum = parseInt(p.price.replace(/[^0-9]/g, "")) || 0;
+    if (priceNum > maxPrice) return false;
     if (strain !== "All" && p.strain !== strain) return false;
     if (category !== "All" && p.product_type !== category) return false;
     if (saleFilter && !p.is_new) return false;
@@ -111,10 +111,28 @@ const Shop = () => {
             <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
               <ScrollReveal delay={0.1} direction="left">
                 <aside>
-                  <FilterGroup label="Category" options={categoryOptions} value={category} onChange={handleCategoryChange} />
+                 <FilterGroup label="Category" options={categoryOptions} value={category} onChange={handleCategoryChange} />
                   <FilterGroup label="Strain" options={strainOptions} value={strain} onChange={handleStrainChange} />
                   <FilterGroup label="Brand" options={brandOptions} value={brand} onChange={setBrand} />
-                  <FilterGroup label="Price" options={priceOptions} value={price} onChange={setPrice} />
+                  <div className="mb-8">
+                    <h4 className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Max Price</h4>
+                    <div className="space-y-2">
+                      <input
+                        type="range"
+                        min={10}
+                        max={200}
+                        step={5}
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                        className="w-full accent-foreground"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>$10</span>
+                        <span className="text-foreground font-medium">${maxPrice}</span>
+                        <span>$200</span>
+                      </div>
+                    </div>
+                  </div>
                 </aside>
               </ScrollReveal>
 
