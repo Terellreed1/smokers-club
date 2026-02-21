@@ -135,7 +135,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                     transition={{ duration: 0.2 }}
                     className="px-5 pt-5 pb-5"
                   >
-                    <img src={logo} alt="Luxury Courier Club" className="h-28 w-28 object-contain mx-auto mb-4" />
+                    <img src={logo} alt="Luxury Courier Club" className="h-36 w-36 object-contain mx-auto mb-4" />
                     <h2 className="font-serif text-xl text-foreground leading-tight">
                       Join the<br /><span className="italic">Club.</span>
                     </h2>
@@ -179,7 +179,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                     transition={{ duration: 0.2 }}
                   >
                     <div className="px-5 pt-5 pb-4">
-                      <img src={logo} alt="Luxury Courier Club" className="h-28 w-28 object-contain mx-auto mb-4" />
+                      <img src={logo} alt="Luxury Courier Club" className="h-36 w-36 object-contain mx-auto mb-4" />
                       <h2 className="font-serif text-xl text-foreground leading-tight">
                         Share the<br /><span className="italic">Club.</span>
                       </h2>
