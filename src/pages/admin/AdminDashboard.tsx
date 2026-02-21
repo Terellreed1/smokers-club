@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Package, HelpCircle, Star, BarChart3, LogOut,
   Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
-  ExternalLink, Image as ImageIcon, Users,
+  ExternalLink, Image as ImageIcon, Users, Menu,
 } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 import logoImg from "@/assets/logo.png";
@@ -77,20 +77,21 @@ const StarRating = ({ rating, onChange }: { rating: number; onChange?: (r: numbe
 // ─── Modal wrapper ────────────────────────────────────────────────
 const Modal = ({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) => (
   <motion.div
-    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm"
+    className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/20 backdrop-blur-sm"
     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+    onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
   >
     <motion.div
-      className="bg-white border border-black/10 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
+      className="bg-white border border-black/10 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl"
       initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 10 }}
     >
-      <div className="flex items-center justify-between p-6 border-b border-black/8">
+      <div className="flex items-center justify-between p-4 sm:p-6 border-b border-black/8 sticky top-0 bg-white z-10">
         <h3 className="text-foreground font-semibold">{title}</h3>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
+        <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors p-1 -mr-1">
           <X size={18} />
         </button>
       </div>
-      <div className="p-6">{children}</div>
+      <div className="p-4 sm:p-6">{children}</div>
     </motion.div>
   </motion.div>
 );
@@ -105,6 +106,17 @@ const Field = ({ label, children, hint }: { label: string; children: React.React
 
 const inputCls = "w-full bg-transparent border border-black/15 text-foreground placeholder-black/25 px-3 py-2.5 text-sm rounded-lg focus:outline-none focus:border-black/40 transition-colors";
 const selectCls = inputCls + " appearance-none";
+
+// ─── Section Header ───────────────────────────────────────────────
+const SectionHeader = ({ title, subtitle, actions }: { title: string; subtitle: string; actions: React.ReactNode }) => (
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+    <div>
+      <h2 className="text-foreground text-xl font-semibold">{title}</h2>
+      <p className="text-muted-foreground text-xs mt-0.5">{subtitle}</p>
+    </div>
+    <div className="flex gap-2 flex-shrink-0">{actions}</div>
+  </div>
+);
 
 // ─── Products Section ─────────────────────────────────────────────
 const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | "PUT" | "DELETE", b?: object) => Promise<unknown> }) => {
@@ -156,20 +168,20 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-foreground text-xl font-semibold">Products</h2>
-          <p className="text-muted-foreground text-xs mt-0.5">{products.length} items in catalog</p>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all">
-            <RefreshCw size={14} />
-          </button>
-          <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
-            <Plus size={14} /> Add Product
-          </button>
-        </div>
-      </div>
+      <SectionHeader
+        title="Products"
+        subtitle={`${products.length} items in catalog`}
+        actions={
+          <>
+            <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all">
+              <RefreshCw size={14} />
+            </button>
+            <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
+              <Plus size={14} /> <span className="hidden sm:inline">Add Product</span><span className="sm:hidden">Add</span>
+            </button>
+          </>
+        }
+      />
 
       {loading ? (
         <div className="text-muted-foreground text-sm text-center py-16">Loading…</div>
@@ -179,9 +191,9 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
             <motion.div
               key={p.id}
               layout
-              className={`flex items-center gap-4 p-4 rounded-xl border transition-colors ${p.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-40"}`}
+              className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border transition-colors ${p.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-40"}`}
             >
-              <div className="w-12 h-12 rounded-lg bg-black/5 border border-black/8 overflow-hidden flex-shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-black/5 border border-black/8 overflow-hidden flex-shrink-0">
                 {p.image_url ? (
                   <img src={p.image_url} alt={p.name} className="w-full h-full object-cover" />
                 ) : (
@@ -189,21 +201,21 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <p className="text-foreground text-sm font-medium truncate">{p.name}</p>
                   {p.sold_out && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded uppercase tracking-wider">Sold Out</span>}
                   {!p.active && <span className="text-[9px] bg-black/8 text-muted-foreground px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
                 </div>
-                <p className="text-muted-foreground text-xs mt-0.5">{p.brand} · {p.product_type} {p.strain ? `· ${p.strain}` : ""}</p>
+                <p className="text-muted-foreground text-xs mt-0.5 truncate">{p.brand} · {p.product_type} {p.strain ? `· ${p.strain}` : ""}</p>
               </div>
-              <div className="text-right flex-shrink-0">
+              <div className="text-right flex-shrink-0 hidden sm:block">
                 <p className="text-foreground text-sm font-medium">{p.price}</p>
               </div>
-              <div className="flex gap-1 flex-shrink-0">
-                <button onClick={() => openEdit(p)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all">
+              <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
+                <button onClick={() => openEdit(p)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
                   <Pencil size={13} />
                 </button>
-                <button onClick={() => setDeleteId(p.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all">
+                <button onClick={() => setDeleteId(p.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
                   <Trash2 size={13} />
                 </button>
               </div>
@@ -216,7 +228,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
         {modal && (
           <Modal title={modal === "add" ? "Add Product" : "Edit Product"} onClose={() => setModal(null)}>
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Name">
                   <input className={inputCls} value={form.name} onChange={(e) => f("name", e.target.value)} placeholder="Product name" />
                 </Field>
@@ -232,7 +244,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
               <Field label="Price">
                 <input className={inputCls} value={form.price} onChange={(e) => f("price", e.target.value)} placeholder="$65" />
               </Field>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Strain">
                   <div className="relative">
                     <select className={selectCls} value={form.strain} onChange={(e) => f("strain", e.target.value)}>
@@ -278,24 +290,24 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                 />
               </Field>
               <div className="flex gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer min-h-[44px]">
                   <input type="checkbox" checked={form.sold_out} onChange={(e) => f("sold_out", e.target.checked)} className="sr-only" />
-                  <div className={`w-8 h-4 rounded-full transition-colors relative ${form.sold_out ? "bg-red-500" : "bg-black/15"}`}>
-                    <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.sold_out ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
+                  <div className={`w-10 h-5 sm:w-8 sm:h-4 rounded-full transition-colors relative ${form.sold_out ? "bg-red-500" : "bg-black/15"}`}>
+                    <div className="absolute top-0.5 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-transform" style={{ transform: form.sold_out ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                   </div>
                   <span className="text-muted-foreground text-xs">Sold Out</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer min-h-[44px]">
                   <input type="checkbox" checked={form.active} onChange={(e) => f("active", e.target.checked)} className="sr-only" />
-                  <div className={`w-8 h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
-                    <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
+                  <div className={`w-10 h-5 sm:w-8 sm:h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
+                    <div className="absolute top-0.5 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-transform" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                   </div>
                   <span className="text-muted-foreground text-xs">Active / Visible</span>
                 </label>
               </div>
               <div className="flex gap-2 pt-2">
-                <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg hover:border-foreground/30 transition-colors">Cancel</button>
-                <button onClick={save} disabled={saving} className="flex-1 py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg hover:opacity-80 disabled:opacity-40 transition-all">
+                <button onClick={() => setModal(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg hover:border-foreground/30 transition-colors">Cancel</button>
+                <button onClick={save} disabled={saving} className="flex-1 py-3 sm:py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg hover:opacity-80 disabled:opacity-40 transition-all">
                   {saving ? "Saving…" : "Save Product"}
                 </button>
               </div>
@@ -306,8 +318,8 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
           <Modal title="Confirm Delete" onClose={() => setDeleteId(null)}>
             <p className="text-muted-foreground text-sm mb-6">This will permanently remove the product. This cannot be undone.</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
-              <button onClick={() => remove(deleteId)} className="flex-1 py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">Delete</button>
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
+              <button onClick={() => remove(deleteId)} className="flex-1 py-3 sm:py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">Delete</button>
             </div>
           </Modal>
         )}
@@ -356,30 +368,30 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-foreground text-xl font-semibold">FAQ</h2>
-          <p className="text-muted-foreground text-xs mt-0.5">{items.length} questions</p>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all"><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
-            <Plus size={14} /> Add Question
-          </button>
-        </div>
-      </div>
+      <SectionHeader
+        title="FAQ"
+        subtitle={`${items.length} questions`}
+        actions={
+          <>
+            <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all"><RefreshCw size={14} /></button>
+            <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
+              <Plus size={14} /> <span className="hidden sm:inline">Add Question</span><span className="sm:hidden">Add</span>
+            </button>
+          </>
+        }
+      />
 
       {loading ? <div className="text-muted-foreground text-sm text-center py-16">Loading…</div> : (
         <div className="space-y-2">
           {items.map((item) => (
-            <div key={item.id} className={`p-4 rounded-xl border flex gap-4 transition-colors ${item.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-40"}`}>
-              <div className="flex-1">
+            <div key={item.id} className={`p-3 sm:p-4 rounded-xl border flex gap-3 sm:gap-4 transition-colors ${item.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-40"}`}>
+              <div className="flex-1 min-w-0">
                 <p className="text-foreground text-sm font-medium">{item.question}</p>
                 <p className="text-muted-foreground text-xs mt-1 line-clamp-2">{item.answer}</p>
               </div>
-              <div className="flex gap-1 flex-shrink-0">
-                <button onClick={() => openEdit(item)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all"><Pencil size={13} /></button>
-                <button onClick={() => setDeleteId(item.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all"><Trash2 size={13} /></button>
+              <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
+                <button onClick={() => openEdit(item)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Pencil size={13} /></button>
+                <button onClick={() => setDeleteId(item.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Trash2 size={13} /></button>
               </div>
             </div>
           ))}
@@ -396,16 +408,16 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
               <Field label="Answer">
                 <textarea className={inputCls + " min-h-[100px] resize-none"} value={form.answer} onChange={(e) => f("answer", e.target.value)} placeholder="Your answer…" />
               </Field>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-2 cursor-pointer min-h-[44px]">
                 <input type="checkbox" checked={form.active} onChange={(e) => f("active", e.target.checked)} className="sr-only" />
-                <div className={`w-8 h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
-                  <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
+                <div className={`w-10 h-5 sm:w-8 sm:h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
+                  <div className="absolute top-0.5 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-transform" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                 </div>
                 <span className="text-muted-foreground text-xs">Visible on FAQ page</span>
               </label>
               <div className="flex gap-2 pt-2">
-                <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
-                <button onClick={save} disabled={saving} className="flex-1 py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg disabled:opacity-40">
+                <button onClick={() => setModal(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
+                <button onClick={save} disabled={saving} className="flex-1 py-3 sm:py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg disabled:opacity-40">
                   {saving ? "Saving…" : "Save"}
                 </button>
               </div>
@@ -416,8 +428,8 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
           <Modal title="Delete FAQ" onClose={() => setDeleteId(null)}>
             <p className="text-muted-foreground text-sm mb-6">Remove this question permanently?</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
-              <button onClick={() => remove(deleteId)} className="flex-1 py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg">Delete</button>
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
+              <button onClick={() => remove(deleteId)} className="flex-1 py-3 sm:py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg">Delete</button>
             </div>
           </Modal>
         )}
@@ -440,7 +452,6 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
     setLoading(true);
     try {
       const all = (await callAdmin("reviews", "GET")) as Review[];
-      // Only show homepage reviews here
       setReviews(all.filter((r) => r.show_on_homepage));
     } catch {}
     setLoading(false);
@@ -482,42 +493,42 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <h2 className="text-foreground text-xl font-semibold">Homepage Reviews</h2>
-          <p className="text-muted-foreground text-xs mt-0.5">Google-style testimonials shown on the homepage · {reviews.length} total</p>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all"><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
-            <Plus size={14} /> Add Review
-          </button>
-        </div>
-      </div>
+      <SectionHeader
+        title="Homepage Reviews"
+        subtitle={`Google-style testimonials · ${reviews.length} total`}
+        actions={
+          <>
+            <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all"><RefreshCw size={14} /></button>
+            <button onClick={openAdd} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 transition-opacity">
+              <Plus size={14} /> <span className="hidden sm:inline">Add Review</span><span className="sm:hidden">Add</span>
+            </button>
+          </>
+        }
+      />
       <p className="text-muted-foreground text-xs mb-6">These appear in the "What Our Customers Say" section on the homepage.</p>
 
       {loading ? <div className="text-muted-foreground text-sm text-center py-16">Loading…</div> : (
         <div className="space-y-2">
           {reviews.map((r) => (
-            <div key={r.id} className={`p-4 rounded-xl border flex gap-4 transition-colors ${r.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-50"}`}>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+            <div key={r.id} className={`p-3 sm:p-4 rounded-xl border flex gap-3 sm:gap-4 transition-colors ${r.active ? "border-black/8 hover:bg-black/2" : "border-black/5 opacity-50"}`}>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <p className="text-foreground text-sm font-medium">{r.author_name}</p>
                   <StarRating rating={r.rating} />
                   {!r.active && <span className="text-[9px] bg-black/8 text-muted-foreground px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
                 </div>
                 <p className="text-muted-foreground text-xs line-clamp-2">{r.body}</p>
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0">
+              <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
                 <button
                   onClick={() => toggleActive(r)}
                   title={r.active ? "Hide review" : "Show review"}
-                  className={`p-2 rounded-lg text-xs font-medium transition-all ${r.active ? "text-emerald-600 bg-emerald-50 hover:bg-emerald-100" : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"}`}
+                  className={`p-2 rounded-lg text-xs font-medium transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center ${r.active ? "text-emerald-600 bg-emerald-50 hover:bg-emerald-100" : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"}`}
                 >
                   {r.active ? "On" : "Off"}
                 </button>
-                <button onClick={() => openEdit(r)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all"><Pencil size={13} /></button>
-                <button onClick={() => setDeleteId(r.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all"><Trash2 size={13} /></button>
+                <button onClick={() => openEdit(r)} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-black/5 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Pencil size={13} /></button>
+                <button onClick={() => setDeleteId(r.id)} className="p-2 text-muted-foreground hover:text-red-500 rounded-lg hover:bg-red-50 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Trash2 size={13} /></button>
               </div>
             </div>
           ))}
@@ -528,7 +539,7 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
         {modal && (
           <Modal title={modal === "add" ? "Add Homepage Review" : "Edit Review"} onClose={() => setModal(null)}>
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Customer Name">
                   <input className={inputCls} value={form.author_name} onChange={(e) => f("author_name", e.target.value)} placeholder="John D." />
                 </Field>
@@ -541,16 +552,16 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
               <Field label="Review Text">
                 <textarea className={inputCls + " min-h-[80px] resize-none"} value={form.body} onChange={(e) => f("body", e.target.value)} placeholder="What did they say?" />
               </Field>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-2 cursor-pointer min-h-[44px]">
                 <input type="checkbox" checked={form.active} onChange={(e) => f("active", e.target.checked)} className="sr-only" />
-                <div className={`w-8 h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
-                  <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
+                <div className={`w-10 h-5 sm:w-8 sm:h-4 rounded-full transition-colors relative ${form.active ? "bg-emerald-500" : "bg-black/15"}`}>
+                  <div className="absolute top-0.5 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-transform" style={{ transform: form.active ? "translateX(1.25rem)" : "translateX(0.125rem)" }} />
                 </div>
                 <span className="text-muted-foreground text-xs">Visible on homepage</span>
               </label>
               <div className="flex gap-2 pt-2">
-                <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
-                <button onClick={save} disabled={saving} className="flex-1 py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg disabled:opacity-40">
+                <button onClick={() => setModal(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
+                <button onClick={save} disabled={saving} className="flex-1 py-3 sm:py-2.5 text-sm bg-foreground text-background font-semibold rounded-lg disabled:opacity-40">
                   {saving ? "Saving…" : "Save"}
                 </button>
               </div>
@@ -561,8 +572,8 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
           <Modal title="Delete Review" onClose={() => setDeleteId(null)}>
             <p className="text-muted-foreground text-sm mb-6">Remove this review from the homepage permanently?</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
-              <button onClick={() => remove(deleteId)} className="flex-1 py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg">Delete</button>
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-border rounded-lg">Cancel</button>
+              <button onClick={() => remove(deleteId)} className="flex-1 py-3 sm:py-2.5 text-sm bg-red-500 text-white font-semibold rounded-lg">Delete</button>
             </div>
           </Modal>
         )}
@@ -600,35 +611,35 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-foreground text-xl font-semibold">Referrals</h2>
-          <p className="text-muted-foreground text-xs mt-0.5">Track referral codes and signups</p>
-        </div>
-        <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all">
-          <RefreshCw size={14} />
-        </button>
-      </div>
+      <SectionHeader
+        title="Referrals"
+        subtitle="Track referral codes and signups"
+        actions={
+          <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all">
+            <RefreshCw size={14} />
+          </button>
+        }
+      />
 
       {loading ? (
         <div className="text-muted-foreground text-sm text-center py-16">Loading…</div>
       ) : data ? (
         <>
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="border border-black/8 rounded-xl p-6">
-              <p className="text-foreground text-3xl font-light">{data.stats.totalCodes}</p>
-              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Total Codes</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+            <div className="border border-black/8 rounded-xl p-4 sm:p-6">
+              <p className="text-foreground text-2xl sm:text-3xl font-light">{data.stats.totalCodes}</p>
+              <p className="text-muted-foreground text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Total Codes</p>
             </div>
-            <div className="border border-black/8 rounded-xl p-6">
-              <p className="text-foreground text-3xl font-light">{data.stats.totalSignups}</p>
-              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Total Signups</p>
+            <div className="border border-black/8 rounded-xl p-4 sm:p-6">
+              <p className="text-foreground text-2xl sm:text-3xl font-light">{data.stats.totalSignups}</p>
+              <p className="text-muted-foreground text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Total Signups</p>
             </div>
-            <div className="border border-black/8 rounded-xl p-6">
-              <p className="text-foreground text-3xl font-light">
+            <div className="border border-black/8 rounded-xl p-4 sm:p-6 col-span-2 sm:col-span-1">
+              <p className="text-foreground text-2xl sm:text-3xl font-light">
                 {data.stats.totalCodes > 0 ? ((data.stats.totalSignups / data.stats.totalCodes) * 100).toFixed(1) + "%" : "0%"}
               </p>
-              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Conversion</p>
+              <p className="text-muted-foreground text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Conversion</p>
             </div>
           </div>
 
@@ -642,10 +653,10 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                 <div key={rc.id}>
                   <button
                     onClick={() => setExpanded(expanded === rc.id ? null : rc.id)}
-                    className="w-full flex items-center gap-4 p-4 rounded-xl border border-black/8 hover:bg-black/2 transition-colors text-left"
+                    className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border border-black/8 hover:bg-black/2 transition-colors text-left min-h-[56px]"
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-mono text-sm font-bold text-foreground tracking-wider">{rc.code}</span>
                         {rc.total_signups > 0 && (
                           <span className="text-[9px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded uppercase tracking-wider">
@@ -653,14 +664,14 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                           </span>
                         )}
                       </div>
-                      <p className="text-muted-foreground text-xs mt-0.5">
+                      <p className="text-muted-foreground text-xs mt-0.5 truncate">
                         Created {new Date(rc.created_at).toLocaleDateString()}
                         {rc.creator_email && ` · ${rc.creator_email}`}
                       </p>
                     </div>
                     <ChevronDown
                       size={14}
-                      className={`text-muted-foreground transition-transform ${expanded === rc.id ? "rotate-180" : ""}`}
+                      className={`text-muted-foreground transition-transform flex-shrink-0 ${expanded === rc.id ? "rotate-180" : ""}`}
                     />
                   </button>
 
@@ -673,13 +684,13 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="ml-6 border-l border-black/10 pl-4 py-2 space-y-2">
+                        <div className="ml-4 sm:ml-6 border-l border-black/10 pl-3 sm:pl-4 py-2 space-y-2">
                           {rc.referral_signups.map((s) => (
-                            <div key={s.id} className="flex items-center gap-3 text-xs">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 -ml-[1.3125rem]" />
-                              <span className="text-foreground font-medium">{s.referred_email}</span>
+                            <div key={s.id} className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3 text-xs">
+                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 -ml-[1.0625rem] sm:-ml-[1.3125rem] hidden sm:block" />
+                              <span className="text-foreground font-medium truncate">{s.referred_email}</span>
                               {s.referred_name && <span className="text-muted-foreground">({s.referred_name})</span>}
-                              <span className="text-muted-foreground ml-auto">{new Date(s.created_at).toLocaleDateString()}</span>
+                              <span className="text-muted-foreground sm:ml-auto">{new Date(s.created_at).toLocaleDateString()}</span>
                             </div>
                           ))}
                         </div>
@@ -692,7 +703,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                       >
-                        <p className="text-muted-foreground text-xs py-3 pl-10">No signups yet for this code.</p>
+                        <p className="text-muted-foreground text-xs py-3 pl-8 sm:pl-10">No signups yet for this code.</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -729,21 +740,21 @@ const AnalyticsSection = () => {
       </div>
 
       {/* Site Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-10">
         {[
           { label: "Products", value: stats.productCount },
           { label: "Reviews", value: stats.reviewCount },
           { label: "FAQ Items", value: stats.faqCount },
         ].map(({ label, value }) => (
-          <div key={label} className="border border-black/8 rounded-xl p-6">
-            <p className="text-foreground text-3xl font-light">{value}</p>
-            <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">{label}</p>
+          <div key={label} className="border border-black/8 rounded-xl p-4 sm:p-6">
+            <p className="text-foreground text-2xl sm:text-3xl font-light">{value}</p>
+            <p className="text-muted-foreground text-[10px] sm:text-xs mt-1 uppercase tracking-wider">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Stripe */}
-      <div className="border border-black/8 rounded-xl p-6 mb-4">
+      <div className="border border-black/8 rounded-xl p-4 sm:p-6 mb-4">
         <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Stripe</p>
         <h3 className="text-foreground font-semibold mb-1">Payment Dashboard</h3>
         <p className="text-muted-foreground text-sm leading-relaxed mb-4">View real-time revenue, transactions, and customer data directly in Stripe.</p>
@@ -751,7 +762,7 @@ const AnalyticsSection = () => {
           href="https://dashboard.stripe.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-xs border border-foreground text-foreground px-4 py-2 rounded-lg font-medium hover:bg-foreground hover:text-background transition-all"
+          className="inline-flex items-center gap-2 text-xs border border-foreground text-foreground px-4 py-2.5 rounded-lg font-medium hover:bg-foreground hover:text-background transition-all"
         >
           Open Stripe Dashboard <ExternalLink size={11} />
         </a>
@@ -783,16 +794,87 @@ interface AdminDashboardProps {
 const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const { callAdmin, logout } = useAdmin();
   const [section, setSection] = useState("products");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
     onLogout();
   };
 
+  const handleNavClick = (id: string) => {
+    setSection(id);
+    setMobileNavOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Sidebar */}
-      <aside className="w-56 flex-shrink-0 border-r border-black/8 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col md:flex-row">
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between p-3 border-b border-black/8 bg-white sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            className="p-2 text-foreground rounded-lg hover:bg-black/5 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+          >
+            <Menu size={20} />
+          </button>
+          <img src={logoImg} alt="Logo" className="h-8" />
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-red-500 border border-red-200 hover:bg-red-50 transition-all min-h-[44px]"
+        >
+          <LogOut size={14} /> Log Out
+        </button>
+      </div>
+
+      {/* Mobile Nav Drawer */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 z-40 bg-black/20 md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileNavOpen(false)}
+            />
+            <motion.div
+              className="fixed left-0 top-0 bottom-0 w-64 bg-white z-50 shadow-xl md:hidden flex flex-col"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            >
+              <div className="p-4 border-b border-black/8 flex items-center justify-between">
+                <img src={logoImg} alt="Logo" className="h-16" />
+                <button onClick={() => setMobileNavOpen(false)} className="p-2 text-muted-foreground min-w-[44px] min-h-[44px] flex items-center justify-center">
+                  <X size={18} />
+                </button>
+              </div>
+              <nav className="flex-1 p-3">
+                {navItems.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    onClick={() => handleNavClick(id)}
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm mb-1 transition-all min-h-[48px] ${
+                      section === id
+                        ? "bg-black/8 text-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-black/4"
+                    }`}
+                  >
+                    <Icon size={16} />
+                    {label}
+                    {section === id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-foreground/40" />}
+                  </button>
+                ))}
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-56 flex-shrink-0 border-r border-black/8 flex-col">
         <div className="p-6 border-b border-black/8 flex flex-col items-start">
           <img src={logoImg} alt="Logo" className="h-48 mb-2" />
           <p className="text-black/30 text-[10px] uppercase tracking-widest">Admin Panel</p>
@@ -826,7 +908,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-8 max-w-4xl">
+        <div className="p-4 sm:p-6 md:p-8 max-w-4xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={section}
