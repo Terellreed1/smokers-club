@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ImageOff } from "lucide-react";
+import { ImageOff, Eye } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
+import QuickView from "@/components/QuickView";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Product {
@@ -30,6 +31,7 @@ const categoryOptions = ["All", "Flower", "Vapes", "Edibles", "Concentrates", "P
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [quickViewId, setQuickViewId] = useState<string | null>(null);
   const urlStrain = searchParams.get("strain");
   const saleFilter = searchParams.get("sale") === "true";
   const urlCategory = searchParams.get("category");
@@ -143,7 +145,7 @@ const Shop = () => {
                   ))
                 ) : (
                   <>
-                    {filtered.map((product) => <ProductCard key={product.id} product={product} />)}
+                    {filtered.map((product) => <ProductCard key={product.id} product={product} onQuickView={setQuickViewId} />)}
                     {filtered.length === 0 && (
                       <div className="col-span-full text-center py-20">
                         <p className="font-serif text-2xl text-muted-foreground">No products match your filters</p>
@@ -156,21 +158,30 @@ const Shop = () => {
           )}
         </div>
       </div>
+      <QuickView productId={quickViewId} onClose={() => setQuickViewId(null)} />
     </PageLayout>
   );
 };
 
-const ProductCard = ({ product }: { product: Product }) => (
-  <TiltCard className="relative">
-    <Link to={`/shop/${product.id}`} className="group block">
-      {product.image_url ? (
-        <motion.img src={product.image_url} alt={product.name} className="w-full aspect-[3/4] object-contain mb-4" whileHover={{ scale: 1.04 }} transition={{ duration: 0.4 }} />
-      ) : (
-        <div className="aspect-[3/4] mb-4 flex flex-col items-center justify-center text-muted-foreground/40">
-          <ImageOff size={40} strokeWidth={1} />
-          <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
-        </div>
-      )}
+const ProductCard = ({ product, onQuickView }: { product: Product; onQuickView: (id: string) => void }) => (
+  <TiltCard className="relative group">
+    <Link to={`/shop/${product.id}`} className="block">
+      <div className="relative">
+        {product.image_url ? (
+          <motion.img src={product.image_url} alt={product.name} className="w-full aspect-[3/4] object-contain mb-4" whileHover={{ scale: 1.04 }} transition={{ duration: 0.4 }} />
+        ) : (
+          <div className="aspect-[3/4] mb-4 flex flex-col items-center justify-center text-muted-foreground/40">
+            <ImageOff size={40} strokeWidth={1} />
+            <span className="text-[10px] mt-2 uppercase tracking-wider">No Photo</span>
+          </div>
+        )}
+        <button
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(product.id); }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-[10px] font-sans uppercase editorial-spacing bg-background/90 backdrop-blur-sm text-foreground px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-foreground hover:text-background shadow-sm"
+        >
+          <Eye size={12} /> Quick View
+        </button>
+      </div>
       <div className="text-center">
         <h3 className="font-serif text-sm text-foreground">{product.name}</h3>
         <p className="text-xs text-muted-foreground mt-1">{product.price}</p>
