@@ -21,7 +21,7 @@ const ProductsPreview = () => {
       .select("id, name, brand, price, image_url")
       .eq("active", true)
       .order("sort_order")
-      .limit(4)
+      .limit(2)
       .then(({ data }) => setProducts(data || []));
   }, []);
 
