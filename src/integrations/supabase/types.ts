@@ -119,6 +119,65 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_codes: {
+        Row: {
+          code: string
+          created_at: string
+          creator_email: string | null
+          creator_name: string | null
+          id: string
+          total_signups: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          creator_email?: string | null
+          creator_name?: string | null
+          id?: string
+          total_signups?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          creator_email?: string | null
+          creator_name?: string | null
+          id?: string
+          total_signups?: number
+        }
+        Relationships: []
+      }
+      referral_signups: {
+        Row: {
+          created_at: string
+          id: string
+          referral_code_id: string
+          referred_email: string
+          referred_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referral_code_id: string
+          referred_email: string
+          referred_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referral_code_id?: string
+          referred_email?: string
+          referred_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_signups_referral_code_id_fkey"
+            columns: ["referral_code_id"]
+            isOneToOne: false
+            referencedRelation: "referral_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           active: boolean
@@ -213,7 +272,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_referral_count: {
+        Args: { code_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
