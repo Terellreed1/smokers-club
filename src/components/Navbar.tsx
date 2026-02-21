@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Gift } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavCartIcon from "@/components/NavCartIcon";
+import ReferralDialog from "@/components/ReferralDialog";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/hero-logo.png";
@@ -38,6 +39,7 @@ const navLinks: NavLinkType[] = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [referralOpen, setReferralOpen] = useState(false);
   const location = useLocation();
   const { totalItems } = useCart();
 
@@ -100,7 +102,15 @@ const Navbar = () => {
           </div>
 
           {/* Right side */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setReferralOpen(true)}
+              className="p-2 text-foreground hover:text-primary transition-colors"
+              aria-label="Share referral"
+            >
+              <Gift size={20} />
+            </button>
+
             <Link
               to="/cart"
               className="relative p-2 text-foreground hover:text-primary transition-colors"
@@ -203,6 +213,7 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
+      <ReferralDialog open={referralOpen} onClose={() => setReferralOpen(false)} />
     </>
   );
 };
