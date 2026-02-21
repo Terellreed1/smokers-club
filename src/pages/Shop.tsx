@@ -49,7 +49,7 @@ const Shop = () => {
     });
   }, []);
 
-  const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand).filter(Boolean)))];
+  const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand).filter(Boolean))).sort()];
 
   const handleStrainChange = (v: string) => {
     setStrain(v);
