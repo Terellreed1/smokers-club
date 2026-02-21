@@ -114,21 +114,21 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "create" || req.method === "POST") {
+    if (action === "create") {
       const { data, error } = await supabase.from("faq_items").insert(body).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         status: error ? 400 : 201,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "update" || req.method === "PUT") {
+    if (action === "update") {
       const { id, ...rest } = body;
       const { data, error } = await supabase.from("faq_items").update(rest).eq("id", id as string).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "delete" || req.method === "DELETE") {
+    if (action === "delete") {
       const { error } = await supabase.from("faq_items").delete().eq("id", body.id as string);
       return new Response(JSON.stringify(error ? { error } : { ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -144,21 +144,21 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "create" || req.method === "POST") {
+    if (action === "create") {
       const { data, error } = await supabase.from("reviews").insert(body).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         status: error ? 400 : 201,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "update" || req.method === "PUT") {
+    if (action === "update") {
       const { id, ...rest } = body;
       const { data, error } = await supabase.from("reviews").update(rest).eq("id", id as string).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (action === "delete" || req.method === "DELETE") {
+    if (action === "delete") {
       const { error } = await supabase.from("reviews").delete().eq("id", body.id as string);
       return new Response(JSON.stringify(error ? { error } : { ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
