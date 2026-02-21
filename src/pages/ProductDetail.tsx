@@ -106,14 +106,7 @@ const ProductDetail = () => {
 
             <ScrollReveal delay={0.15}>
               <div className="flex flex-col justify-center">
-                <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-2">{product.brand}</p>
-                <h1 className="font-serif text-3xl md:text-5xl text-foreground mb-2">{product.name}</h1>
                 {product.is_new && <span className="text-xs font-sans uppercase editorial-spacing text-primary mb-4">New Drop</span>}
-                {product.strain && product.strain !== "None" && (
-                  <span className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-2">{product.strain}</span>
-                )}
-                <p className="font-serif text-3xl text-foreground mb-8">{product.price}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed font-sans mb-10">{product.description}</p>
 
                 <div className="flex items-center gap-6 mb-12">
                   <div className="flex items-center border border-border/50">
