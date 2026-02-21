@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Gift } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavCartIcon from "@/components/NavCartIcon";
 import ReferralDialog from "@/components/ReferralDialog";
@@ -105,10 +105,17 @@ const Navbar = () => {
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setReferralOpen(true)}
-              className="p-2 text-foreground hover:text-primary transition-colors"
+              className="hidden sm:block px-3 py-1.5 text-[10px] font-sans uppercase wide-spacing text-muted-foreground hover:text-foreground border border-border hover:border-foreground rounded-full transition-all duration-300"
               aria-label="Share referral"
             >
-              <Gift size={20} />
+              Refer
+            </button>
+            <button
+              onClick={() => setReferralOpen(true)}
+              className="sm:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Share referral"
+            >
+              <span className="text-xs font-sans uppercase wide-spacing">Refer</span>
             </button>
 
             <Link
