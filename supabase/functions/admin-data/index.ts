@@ -27,8 +27,29 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
 
+  const url = new URL(req.url);
+  const resource = url.searchParams.get("resource");
+  const action = url.searchParams.get("action") || req.method;
+
+  // For GET requests, check auth from Authorization header
+  // For POST requests, check auth from body or Authorization header
+  let token: string | null = null;
   const authHeader = req.headers.get("Authorization");
-  const token = authHeader?.replace("Bearer ", "") || null;
+  token = authHeader?.replace("Bearer ", "") || null;
+
+  let body: Record<string, unknown> = {};
+  if (req.method === "POST") {
+    try {
+      body = await req.json();
+    } catch {
+      body = {};
+    }
+    // Allow token from body as fallback
+    if (!token && body.token) {
+      token = body.token as string;
+    }
+  }
+
   const isAdmin = await verifyAdmin(supabase, token);
 
   if (!isAdmin) {
@@ -38,12 +59,9 @@ Deno.serve(async (req) => {
     });
   }
 
-  const url = new URL(req.url);
-  const resource = url.searchParams.get("resource");
-
   // ── PRODUCTS ──
   if (resource === "products") {
-    if (req.method === "GET") {
+    if (action === "GET" || req.method === "GET") {
       const { data, error } = await supabase
         .from("products")
         .select("*")
@@ -52,25 +70,36 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "POST") {
-      const body = await req.json();
+    if (action === "create") {
       const { data, error } = await supabase.from("products").insert(body).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         status: error ? 400 : 201,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "PUT") {
-      const body = await req.json();
+    if (action === "update") {
       const { id, ...rest } = body;
-      const { data, error } = await supabase.from("products").update(rest).eq("id", id).select().single();
+      const { data, error } = await supabase.from("products").update(rest).eq("id", id as string).select().single();
+      return new Response(JSON.stringify(error ? { error } : data), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (action === "delete") {
+      const { error } = await supabase.from("products").delete().eq("id", body.id as string);
+      return new Response(JSON.stringify(error ? { error } : { ok: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    // Legacy support for PUT/DELETE methods
+    if (req.method === "PUT") {
+      const { id, ...rest } = body;
+      const { data, error } = await supabase.from("products").update(rest).eq("id", id as string).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     if (req.method === "DELETE") {
-      const body = await req.json();
-      const { error } = await supabase.from("products").delete().eq("id", body.id);
+      const { error } = await supabase.from("products").delete().eq("id", body.id as string);
       return new Response(JSON.stringify(error ? { error } : { ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -79,31 +108,28 @@ Deno.serve(async (req) => {
 
   // ── FAQ ──
   if (resource === "faq") {
-    if (req.method === "GET") {
+    if (action === "GET" || req.method === "GET") {
       const { data, error } = await supabase.from("faq_items").select("*").order("sort_order");
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "POST") {
-      const body = await req.json();
+    if (action === "create" || req.method === "POST") {
       const { data, error } = await supabase.from("faq_items").insert(body).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         status: error ? 400 : 201,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "PUT") {
-      const body = await req.json();
+    if (action === "update" || req.method === "PUT") {
       const { id, ...rest } = body;
-      const { data, error } = await supabase.from("faq_items").update(rest).eq("id", id).select().single();
+      const { data, error } = await supabase.from("faq_items").update(rest).eq("id", id as string).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "DELETE") {
-      const body = await req.json();
-      const { error } = await supabase.from("faq_items").delete().eq("id", body.id);
+    if (action === "delete" || req.method === "DELETE") {
+      const { error } = await supabase.from("faq_items").delete().eq("id", body.id as string);
       return new Response(JSON.stringify(error ? { error } : { ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -112,31 +138,28 @@ Deno.serve(async (req) => {
 
   // ── REVIEWS ──
   if (resource === "reviews") {
-    if (req.method === "GET") {
+    if (action === "GET" || req.method === "GET") {
       const { data, error } = await supabase.from("reviews").select("*, products(name)").order("created_at", { ascending: false });
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "POST") {
-      const body = await req.json();
+    if (action === "create" || req.method === "POST") {
       const { data, error } = await supabase.from("reviews").insert(body).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         status: error ? 400 : 201,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "PUT") {
-      const body = await req.json();
+    if (action === "update" || req.method === "PUT") {
       const { id, ...rest } = body;
-      const { data, error } = await supabase.from("reviews").update(rest).eq("id", id).select().single();
+      const { data, error } = await supabase.from("reviews").update(rest).eq("id", id as string).select().single();
       return new Response(JSON.stringify(error ? { error } : data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (req.method === "DELETE") {
-      const body = await req.json();
-      const { error } = await supabase.from("reviews").delete().eq("id", body.id);
+    if (action === "delete" || req.method === "DELETE") {
+      const { error } = await supabase.from("reviews").delete().eq("id", body.id as string);
       return new Response(JSON.stringify(error ? { error } : { ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -145,7 +168,7 @@ Deno.serve(async (req) => {
 
   // ── REFERRALS ──
   if (resource === "referrals") {
-    if (req.method === "GET") {
+    if (action === "GET" || req.method === "GET") {
       const { data: codes, error: codesErr } = await supabase
         .from("referral_codes")
         .select("*, referral_signups(id, referred_name, referred_email, created_at)")
@@ -157,7 +180,6 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Summary stats
       const { count: totalCodes } = await supabase
         .from("referral_codes")
         .select("id", { count: "exact", head: true });
