@@ -220,7 +220,7 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
-      <ReferralDialog open={referralOpen} onClose={() => setReferralOpen(false)} />
+      <ReferralDialog open={referralOpen} onClose={() => setReferralOpen(false)} initialTab="share" />
     </>
   );
 };
