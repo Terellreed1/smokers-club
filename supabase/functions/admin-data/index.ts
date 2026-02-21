@@ -143,6 +143,37 @@ Deno.serve(async (req) => {
     }
   }
 
+  // ── REFERRALS ──
+  if (resource === "referrals") {
+    if (req.method === "GET") {
+      const { data: codes, error: codesErr } = await supabase
+        .from("referral_codes")
+        .select("*, referral_signups(id, referred_name, referred_email, created_at)")
+        .order("total_signups", { ascending: false });
+      
+      if (codesErr) {
+        return new Response(JSON.stringify({ error: codesErr }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Summary stats
+      const { count: totalCodes } = await supabase
+        .from("referral_codes")
+        .select("id", { count: "exact", head: true });
+      const { count: totalSignups } = await supabase
+        .from("referral_signups")
+        .select("id", { count: "exact", head: true });
+
+      return new Response(JSON.stringify({
+        codes: codes || [],
+        stats: { totalCodes: totalCodes || 0, totalSignups: totalSignups || 0 },
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+  }
+
   return new Response(JSON.stringify({ error: "Not found" }), {
     status: 404,
     headers: { ...corsHeaders, "Content-Type": "application/json" },

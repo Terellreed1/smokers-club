@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Package, HelpCircle, Star, BarChart3, LogOut,
   Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
-  ExternalLink, Image as ImageIcon,
+  ExternalLink, Image as ImageIcon, Users,
 } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 import logoImg from "@/assets/logo.png";
@@ -53,6 +53,7 @@ const navItems = [
   { id: "products", label: "Products", icon: Package },
   { id: "faq", label: "FAQ", icon: HelpCircle },
   { id: "reviews", label: "Reviews", icon: Star },
+  { id: "referrals", label: "Referrals", icon: Users },
   { id: "analytics", label: "Analytics", icon: BarChart3 },
 ];
 
@@ -575,6 +576,141 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
   );
 };
 
+// ─── Referrals Section ────────────────────────────────────────────
+interface ReferralCode {
+  id: string;
+  code: string;
+  creator_name: string | null;
+  creator_email: string | null;
+  total_signups: number;
+  created_at: string;
+  referral_signups: { id: string; referred_name: string | null; referred_email: string; created_at: string }[];
+}
+
+const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | "PUT" | "DELETE", b?: object) => Promise<unknown> }) => {
+  const [data, setData] = useState<{ codes: ReferralCode[]; stats: { totalCodes: number; totalSignups: number } } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const result = await callAdmin("referrals", "GET") as { codes: ReferralCode[]; stats: { totalCodes: number; totalSignups: number } };
+      setData(result);
+    } catch {}
+    setLoading(false);
+  }, [callAdmin]);
+
+  useEffect(() => { load(); }, [load]);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-foreground text-xl font-semibold">Referrals</h2>
+          <p className="text-muted-foreground text-xs mt-0.5">Track referral codes and signups</p>
+        </div>
+        <button onClick={load} className="p-2.5 text-muted-foreground hover:text-foreground border border-border hover:border-foreground/30 rounded-lg transition-all">
+          <RefreshCw size={14} />
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="text-muted-foreground text-sm text-center py-16">Loading…</div>
+      ) : data ? (
+        <>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="border border-black/8 rounded-xl p-6">
+              <p className="text-foreground text-3xl font-light">{data.stats.totalCodes}</p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Total Codes</p>
+            </div>
+            <div className="border border-black/8 rounded-xl p-6">
+              <p className="text-foreground text-3xl font-light">{data.stats.totalSignups}</p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Total Signups</p>
+            </div>
+            <div className="border border-black/8 rounded-xl p-6">
+              <p className="text-foreground text-3xl font-light">
+                {data.stats.totalCodes > 0 ? ((data.stats.totalSignups / data.stats.totalCodes) * 100).toFixed(1) + "%" : "0%"}
+              </p>
+              <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wider">Conversion</p>
+            </div>
+          </div>
+
+          {/* Top Referrers */}
+          <h3 className="text-foreground text-sm font-semibold mb-3 uppercase tracking-wider">All Referral Codes</h3>
+          {data.codes.length === 0 ? (
+            <p className="text-muted-foreground text-sm text-center py-8">No referral codes yet.</p>
+          ) : (
+            <div className="space-y-2">
+              {data.codes.map((rc) => (
+                <div key={rc.id}>
+                  <button
+                    onClick={() => setExpanded(expanded === rc.id ? null : rc.id)}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl border border-black/8 hover:bg-black/2 transition-colors text-left"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-sm font-bold text-foreground tracking-wider">{rc.code}</span>
+                        {rc.total_signups > 0 && (
+                          <span className="text-[9px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                            {rc.total_signups} signup{rc.total_signups !== 1 ? "s" : ""}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-muted-foreground text-xs mt-0.5">
+                        Created {new Date(rc.created_at).toLocaleDateString()}
+                        {rc.creator_email && ` · ${rc.creator_email}`}
+                      </p>
+                    </div>
+                    <ChevronDown
+                      size={14}
+                      className={`text-muted-foreground transition-transform ${expanded === rc.id ? "rotate-180" : ""}`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {expanded === rc.id && rc.referral_signups.length > 0 && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="ml-6 border-l border-black/10 pl-4 py-2 space-y-2">
+                          {rc.referral_signups.map((s) => (
+                            <div key={s.id} className="flex items-center gap-3 text-xs">
+                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 -ml-[1.3125rem]" />
+                              <span className="text-foreground font-medium">{s.referred_email}</span>
+                              {s.referred_name && <span className="text-muted-foreground">({s.referred_name})</span>}
+                              <span className="text-muted-foreground ml-auto">{new Date(s.created_at).toLocaleDateString()}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                    {expanded === rc.id && rc.referral_signups.length === 0 && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-muted-foreground text-xs py-3 pl-10">No signups yet for this code.</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      ) : null}
+    </div>
+  );
+};
+
 
 // ─── Analytics Section ────────────────────────────────────────────
 const AnalyticsSection = () => {
@@ -707,6 +843,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
               {section === "products" && <ProductsSection callAdmin={callAdmin} />}
               {section === "faq" && <FaqSection callAdmin={callAdmin} />}
               {section === "reviews" && <ReviewsSection callAdmin={callAdmin} />}
+              {section === "referrals" && <ReferralsSection callAdmin={callAdmin} />}
               {section === "analytics" && <AnalyticsSection />}
             </motion.div>
           </AnimatePresence>
