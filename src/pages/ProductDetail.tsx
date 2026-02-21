@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ImageOff, ArrowLeft, Plus, Minus, ShoppingBag } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal from "@/components/home/ScrollReveal";
@@ -27,10 +27,18 @@ interface Review {
   body: string;
 }
 
+interface ProductImage {
+  id: string;
+  image_url: string;
+  sort_order: number;
+}
+
 const ProductDetail = () => {
   const { id } = useParams();
   const { addItem } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
+  const [images, setImages] = useState<ProductImage[]>([]);
+  const [selectedImg, setSelectedImg] = useState(0);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -41,9 +49,11 @@ const ProductDetail = () => {
     Promise.all([
       supabase.from("products").select("*").eq("id", id).eq("active", true).single(),
       supabase.from("reviews").select("id, author_name, rating, body").eq("product_id", id).eq("active", true).order("created_at", { ascending: false }).limit(10),
-    ]).then(([{ data: prod }, { data: revs }]) => {
+      supabase.from("product_images").select("id, image_url, sort_order").eq("product_id", id).order("sort_order"),
+    ]).then(([{ data: prod }, { data: revs }, { data: imgs }]) => {
       setProduct(prod);
       setReviews(revs || []);
+      setImages(imgs || []);
       setLoading(false);
     });
   }, [id]);
@@ -90,15 +100,48 @@ const ProductDetail = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
             <ScrollReveal direction="left">
-              <div className="aspect-[3/4] overflow-hidden relative rounded-2xl">
-                {product.image_url ? (
-                  <motion.img src={product.image_url} alt={product.name} className="absolute inset-0 w-full h-full object-contain"
-                    initial={{ scale: 1.1, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground/40">
-                    <ImageOff size={64} strokeWidth={1} />
-                    <span className="text-xs mt-3 uppercase tracking-wider">No Photo Yet</span>
+              <div className="space-y-3">
+                {/* Main image */}
+                <div className="aspect-[3/4] overflow-hidden relative rounded-2xl">
+                  <AnimatePresence mode="wait">
+                    {images.length > 0 ? (
+                      <motion.img
+                        key={images[selectedImg]?.id}
+                        src={images[selectedImg]?.image_url}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-contain"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    ) : product.image_url ? (
+                      <motion.img src={product.image_url} alt={product.name} className="absolute inset-0 w-full h-full object-contain"
+                        initial={{ scale: 1.1, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground/40">
+                        <ImageOff size={64} strokeWidth={1} />
+                        <span className="text-xs mt-3 uppercase tracking-wider">No Photo Yet</span>
+                      </div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Thumbnails */}
+                {images.length > 1 && (
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {images.map((img, i) => (
+                      <button
+                        key={img.id}
+                        onClick={() => setSelectedImg(i)}
+                        className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                          selectedImg === i ? "border-foreground" : "border-transparent opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
