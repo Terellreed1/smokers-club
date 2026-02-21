@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Copy, Share2, Link2, Check, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const generateCode = () => {
@@ -38,11 +37,11 @@ const ReferralDialog = ({ open, onClose }: ReferralDialogProps) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedField(field);
-      setTimeout(() => setCopiedField(null), 2000);
+      setTimeout(() => setCopiedField(null), 2200);
     } catch {}
   }, []);
 
-  const handleShare = useCallback(async () => {
+  const handleNativeShare = useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({ title: "Luxury Courier Club", text: shareMessage });
@@ -56,139 +55,152 @@ const ReferralDialog = ({ open, onClose }: ReferralDialogProps) => {
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
+          {/* Cinematic backdrop */}
           <motion.div
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-foreground/70 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
             onClick={onClose}
           />
 
-          {/* Dialog */}
+          {/* Panel */}
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center pointer-events-none"
           >
             <motion.div
-              className="relative w-full max-w-md bg-background border border-border/40 rounded-3xl p-8 pointer-events-auto shadow-2xl"
-              initial={{ scale: 0.9, y: 30, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: 20, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 350, damping: 30 }}
+              className="relative w-full max-w-[420px] bg-background pointer-events-auto rounded-t-3xl sm:rounded-3xl overflow-hidden"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "60%", opacity: 0 }}
+              transition={{ type: "spring", stiffness: 280, damping: 32, mass: 0.9 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close */}
-              <button
-                onClick={onClose}
-                className="absolute top-5 right-5 p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-              >
-                <X size={18} />
-              </button>
+              {/* Drag handle (mobile) */}
+              <div className="sm:hidden flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 rounded-full bg-border" />
+              </div>
 
-              {/* Header */}
+              {/* Header band */}
+              <div className="relative px-8 pt-8 pb-6">
+                <motion.button
+                  onClick={onClose}
+                  className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  whileHover={{ rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-lg leading-none">✕</span>
+                </motion.button>
+
+                <motion.p
+                  className="text-[10px] font-sans uppercase wide-spacing text-muted-foreground mb-3"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 }}
+                >
+                  Referral Program
+                </motion.p>
+                <motion.h2
+                  className="font-serif text-3xl text-foreground leading-tight"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  Share the
+                  <br />
+                  <span className="italic">Club.</span>
+                </motion.h2>
+                <motion.p
+                  className="text-sm text-muted-foreground mt-3 leading-relaxed max-w-[300px]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.28 }}
+                >
+                  Both you and your friend receive waived fees on the next qualifying drop.
+                </motion.p>
+              </div>
+
+              {/* Divider */}
+              <div className="mx-8 h-px bg-border" />
+
+              {/* Code section */}
               <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1 }}
-                className="mb-6"
+                className="px-8 py-5"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-full bg-foreground flex items-center justify-center">
-                    <Gift size={18} className="text-background" />
-                  </div>
-                  <h2 className="font-serif text-2xl text-foreground">Share & Earn</h2>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Invite a friend — you both get waived fees on your next qualifying drop.
+                <p className="text-[10px] font-sans uppercase wide-spacing text-muted-foreground mb-3">
+                  Your Code
                 </p>
-              </motion.div>
-
-              {/* Referral Code */}
-              <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.15 }}
-                className="mb-5"
-              >
-                <label className="text-[10px] font-sans uppercase tracking-[0.2em] text-muted-foreground mb-2 block">
-                  Your Referral Code
-                </label>
-                <div className="border border-border/50 rounded-2xl p-4 flex flex-col items-center gap-2 bg-muted/20">
-                  <span className="font-mono text-2xl font-bold tracking-[0.15em] text-foreground">{code}</span>
-                  <CopyButton
+                <div className="flex items-center justify-between">
+                  <span className="font-serif text-2xl tracking-[0.2em] text-foreground">{code}</span>
+                  <CopyPill
                     onClick={() => handleCopy(code, "code")}
                     copied={copiedField === "code"}
-                    label="Copy code"
                   />
                 </div>
               </motion.div>
 
-              {/* Shareable Link */}
+              <div className="mx-8 h-px bg-border" />
+
+              {/* Link section */}
               <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mb-5"
+                className="px-8 py-5"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
               >
-                <label className="text-[10px] font-sans uppercase tracking-[0.2em] text-muted-foreground mb-2 block">
-                  Shareable Link
-                </label>
-                <div className="border border-border/50 rounded-2xl p-4 flex flex-col items-center gap-2 bg-muted/20">
-                  <div className="flex items-center gap-2 text-sm text-foreground/80">
-                    <Link2 size={14} className="text-muted-foreground shrink-0" />
-                    <span className="font-mono text-xs truncate max-w-[260px]">{referralLink}</span>
-                  </div>
-                  <CopyButton
+                <p className="text-[10px] font-sans uppercase wide-spacing text-muted-foreground mb-3">
+                  Your Link
+                </p>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-sans text-muted-foreground truncate">{referralLink}</span>
+                  <CopyPill
                     onClick={() => handleCopy(referralLink, "link")}
                     copied={copiedField === "link"}
-                    label="Copy link"
                   />
                 </div>
               </motion.div>
 
-              {/* Share Message */}
+              <div className="mx-8 h-px bg-border" />
+
+              {/* Share section */}
               <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.25 }}
-                className="mb-6"
+                className="px-8 pt-5 pb-8"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
               >
-                <label className="text-[10px] font-sans uppercase tracking-[0.2em] text-muted-foreground mb-2 block">
-                  Share Referral
-                </label>
-                <div className="border border-border/50 rounded-2xl p-4 bg-muted/20">
-                  <p className="text-xs font-semibold text-foreground mb-1">Message to send</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">{shareMessage}</p>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={handleShare}
-                      className="flex items-center gap-2 px-4 py-2 bg-foreground text-background text-xs font-semibold uppercase tracking-wider rounded-full hover:bg-foreground/85 transition-colors"
-                    >
-                      <Share2 size={13} />
-                      Share
-                    </button>
-                    <CopyButton
-                      onClick={() => handleCopy(shareMessage, "message")}
-                      copied={copiedField === "message"}
-                      label="Copy"
-                      inline
-                    />
-                  </div>
+                <p className="text-[10px] font-sans uppercase wide-spacing text-muted-foreground mb-3">
+                  Quick Share
+                </p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4 italic">
+                  "{shareMessage}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <motion.button
+                    onClick={handleNativeShare}
+                    className="flex-1 h-12 bg-foreground text-background font-sans text-xs uppercase wide-spacing rounded-full hover:bg-foreground/85 transition-colors"
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    Share Now
+                  </motion.button>
+                  <motion.button
+                    onClick={() => handleCopy(shareMessage, "message")}
+                    className={cn(
+                      "h-12 px-5 border rounded-full font-sans text-xs uppercase wide-spacing transition-all duration-300",
+                      copiedField === "message"
+                        ? "border-foreground text-foreground bg-foreground/5"
+                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                    )}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    {copiedField === "message" ? "Copied" : "Copy"}
+                  </motion.button>
                 </div>
               </motion.div>
-
-              {/* Footer */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-[11px] text-center text-muted-foreground"
-              >
-                Copy the code or link and send it to someone you trust.
-              </motion.p>
             </motion.div>
           </motion.div>
         </>
@@ -197,37 +209,20 @@ const ReferralDialog = ({ open, onClose }: ReferralDialogProps) => {
   );
 };
 
-/* Small copy button */
-const CopyButton = ({
-  onClick,
-  copied,
-  label,
-  inline,
-}: {
-  onClick: () => void;
-  copied: boolean;
-  label: string;
-  inline?: boolean;
-}) => (
-  <button
+/* Minimal copy pill */
+const CopyPill = ({ onClick, copied }: { onClick: () => void; copied: boolean }) => (
+  <motion.button
     onClick={onClick}
     className={cn(
-      "flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors",
-      inline && "px-3 py-2 border border-border/50 rounded-full"
+      "shrink-0 h-8 px-4 rounded-full font-sans text-[11px] uppercase editorial-spacing transition-all duration-300 border",
+      copied
+        ? "border-foreground text-foreground bg-foreground/5"
+        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
     )}
+    whileTap={{ scale: 0.93 }}
   >
-    <AnimatePresence mode="wait">
-      {copied ? (
-        <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex items-center gap-1.5 text-foreground">
-          <Check size={13} /> Copied!
-        </motion.span>
-      ) : (
-        <motion.span key="copy" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex items-center gap-1.5">
-          <Copy size={13} /> {label}
-        </motion.span>
-      )}
-    </AnimatePresence>
-  </button>
+    {copied ? "Copied" : "Copy"}
+  </motion.button>
 );
 
 export default ReferralDialog;
