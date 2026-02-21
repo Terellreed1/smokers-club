@@ -46,9 +46,23 @@ export function useAdmin() {
 
   const callAdmin = async (resource: string, method: "GET" | "POST" | "PUT" | "DELETE", body?: object) => {
     const t = localStorage.getItem(TOKEN_KEY);
-    const { data, error } = await supabase.functions.invoke(`admin-data?resource=${resource}`, {
-      method,
-      body,
+    
+    // Map legacy methods to POST with action param for edge function compatibility
+    let actualMethod: "GET" | "POST" = "GET";
+    let action = "";
+    if (method === "GET") {
+      actualMethod = "GET";
+    } else {
+      actualMethod = "POST";
+      if (method === "POST") action = "create";
+      else if (method === "PUT") action = "update";
+      else if (method === "DELETE") action = "delete";
+    }
+
+    const queryAction = action ? `&action=${action}` : "";
+    const { data, error } = await supabase.functions.invoke(`admin-data?resource=${resource}${queryAction}`, {
+      method: actualMethod,
+      body: actualMethod === "POST" ? body : undefined,
       headers: { Authorization: `Bearer ${t}` },
     });
     if (error) throw error;
