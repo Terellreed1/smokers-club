@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import logo from "@/assets/logo.png";
 
 const generateCode = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -134,7 +135,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                     transition={{ duration: 0.2 }}
                     className="px-5 pt-5 pb-5"
                   >
-                    <p className="text-[10px] font-sans uppercase wide-spacing text-muted-foreground mb-3">Membership</p>
+                    <img src={logo} alt="Luxury Courier Club" className="h-16 w-16 object-contain mx-auto mb-4" />
                     <h2 className="font-serif text-xl text-foreground leading-tight">
                       Join the<br /><span className="italic">Club.</span>
                     </h2>
