@@ -126,10 +126,13 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                 ))}
                 <motion.button
                   onClick={onClose}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-                  whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-muted-foreground/50 hover:text-foreground transition-colors"
+                  whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                 >
-                  <span className="text-sm leading-none">✕</span>
+                  <div className="w-3.5 h-3.5 relative">
+                    <span className="absolute inset-0 rotate-45 bg-current" style={{ width: '100%', height: '1px', top: '50%' }} />
+                    <span className="absolute inset-0 -rotate-45 bg-current" style={{ width: '100%', height: '1px', top: '50%' }} />
+                  </div>
                 </motion.button>
               </div>
 
