@@ -41,12 +41,8 @@ const AccessDenied = () => (
         <img src={heroLogo} alt="Luxury Courier Club" className="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-contain" />
       </motion.div>
 
-      {/* Diamond divider */}
-      <motion.div className="flex items-center justify-center gap-3 mb-10" {...stagger(1)}>
-        <div className="h-px flex-1 max-w-[80px]" style={{ background: "linear-gradient(90deg, transparent, #B8972E)" }} />
-        <div className="w-2 h-2 rotate-45" style={{ background: "#B8972E" }} />
-        <div className="h-px flex-1 max-w-[80px]" style={{ background: "linear-gradient(270deg, transparent, #B8972E)" }} />
-      </motion.div>
+      {/* Gold rule divider */}
+      <motion.div className="mx-auto mb-10 h-px w-48" style={{ background: "linear-gradient(90deg, transparent, #B8972E, transparent)" }} {...stagger(1)} />
 
       {/* Headline */}
       <motion.h1
