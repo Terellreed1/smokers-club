@@ -5,7 +5,7 @@ const Merch = () => {
     <PageLayout>
       <div className="w-full" style={{ height: "calc(100vh - 64px)" }}>
         <iframe
-          src="https://luxurycourier.club/"
+          src="https://www.luxurysmokersclub.com/"
           title="Luxury Courier Club Merch"
           className="w-full h-full border-0"
           allow="payment"
