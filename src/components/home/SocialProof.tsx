@@ -11,9 +11,9 @@ interface Review {
 }
 
 const fallbackReviews: Review[] = [
-  { id: "1", author_name: "Marcus T.", rating: 5, body: "Best premium selection in the DMV. The service is unmatched — they truly treat you like family." },
-  { id: "2", author_name: "Jade W.", rating: 5, body: "From packaging to product quality, everything screams luxury. My go-to for top-shelf flower." },
-  { id: "3", author_name: "Devon R.", rating: 5, body: "Fast delivery, incredible strains. Luxury Couriers understands the culture and the craft." },
+  { id: "1", author_name: "Brianna C.", rating: 5, body: "Smells exactly like cotton candy, it's wild. The smoke is so smooth too — best I've had in a long time." },
+  { id: "2", author_name: "Marcus T.", rating: 5, body: "Delivery was fast and discreet. Packaging was premium — felt like I ordered from a real luxury brand. Will be a regular customer." },
+  { id: "3", author_name: "Jasmine R.", rating: 5, body: "The Ice Cream strain was fire. These guys only carry top shelf — you can tell they're selective about what they put on the menu." },
 ];
 
 const GoogleLogo = () => (
@@ -29,8 +29,8 @@ const ReviewCard = ({ review, index }: { review: Review; index: number }) => (
   <motion.div
     className="p-6 sm:p-8 flex flex-col h-full"
     style={{
-      background: "#161A14",
-      border: "1px solid rgba(201,168,76,0.12)",
+      background: "#131810",
+      border: "1px solid rgba(201,168,76,0.08)",
     }}
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -44,13 +44,18 @@ const ReviewCard = ({ review, index }: { review: Review; index: number }) => (
       ))}
     </div>
 
+    {/* Divider */}
+    <div className="h-px w-full mb-5" style={{ background: "rgba(201,168,76,0.1)" }} />
+
     {/* Quote */}
     <p
-      className="text-base sm:text-lg leading-relaxed flex-1 mb-5"
+      className="text-base sm:text-lg leading-relaxed flex-1 mb-6"
       style={{
         fontFamily: "'Cormorant Garamond', serif",
         fontStyle: "italic",
-        color: "rgba(232,220,200,0.8)",
+        fontWeight: 300,
+        color: "#F0EBE0",
+        lineHeight: 1.65,
       }}
     >
       "{review.body}"
@@ -58,8 +63,8 @@ const ReviewCard = ({ review, index }: { review: Review; index: number }) => (
 
     {/* Author */}
     <p
-      className="text-xs font-sans font-medium uppercase"
-      style={{ letterSpacing: "0.1em", color: "rgba(201,168,76,0.5)" }}
+      className="text-[11px] font-sans font-semibold uppercase"
+      style={{ letterSpacing: "0.15em", color: "#C9A84C" }}
     >
       {review.author_name}
     </p>
@@ -88,7 +93,6 @@ const SocialProof = () => {
 
   const displayReviews = reviews.slice(0, 3);
 
-  // Mobile carousel
   const next = useCallback(() => {
     setDirection(1);
     setCurrent((prev) => (prev + 1) % displayReviews.length);
@@ -109,29 +113,34 @@ const SocialProof = () => {
   return (
     <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{ background: "#0D110E" }}>
       <div className="max-w-6xl mx-auto">
-        {/* Google badge */}
-        <div className="flex justify-center mb-4">
+        {/* Header row */}
+        <div className="flex items-center gap-2 mb-2">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2"
-            style={{ background: "#161A14", border: "1px solid rgba(201,168,76,0.15)" }}
+            className="inline-flex items-center gap-2 px-3 py-1.5"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
           >
             <GoogleLogo />
-            <span className="text-[11px] font-sans font-medium uppercase" style={{ letterSpacing: "0.12em", color: "rgba(201,168,76,0.5)" }}>
+            <span className="text-[10px] font-sans font-medium uppercase" style={{ letterSpacing: "0.1em", color: "rgba(160,144,112,0.6)" }}>
               Verified Reviews
             </span>
           </div>
         </div>
 
-        {/* Heading */}
+        <p
+          className="text-[11px] font-sans font-semibold uppercase mb-3"
+          style={{ letterSpacing: "0.3em", color: "#C9A84C" }}
+        >
+          What They're Saying
+        </p>
+
         <h2
-          className="text-center text-2xl sm:text-3xl lg:text-4xl font-light mb-4"
-          style={{ fontFamily: "'Cormorant Garamond', serif", color: "#e8dcc8" }}
+          className="text-2xl sm:text-3xl lg:text-4xl mb-2"
+          style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, color: "#F0EBE0" }}
         >
           What Our Customers Say
         </h2>
 
-        {/* Gold rule */}
-        <div className="mx-auto h-px w-20 mb-12" style={{ background: "linear-gradient(90deg, transparent, #C9A84C, transparent)" }} />
+        <div className="h-px w-12 mb-10" style={{ background: "#C9A84C" }} />
 
         {/* Desktop: 3-card grid */}
         <div className="hidden md:grid grid-cols-3 gap-5">
@@ -160,7 +169,6 @@ const SocialProof = () => {
             </AnimatePresence>
           </div>
 
-          {/* Gold dash dots */}
           {displayReviews.length > 1 && (
             <div className="flex items-center justify-center gap-2 mt-6">
               {displayReviews.map((_, i) => (
