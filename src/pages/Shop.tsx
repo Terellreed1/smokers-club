@@ -395,9 +395,13 @@ const DualRangeSlider = ({
 
 /* ── Product Card ── */
 const ProductCard = ({ product, onQuickView }: { product: Product; onQuickView: (id: string) => void }) => {
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
-  return (
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ id: parseInt(product.id) || Date.now(), name: product.name, brand: product.brand || "", price: product.price, image: product.image_url || "" });
+  };
     <div
       className="group transition-all duration-300 hover:-translate-y-1"
       style={{
