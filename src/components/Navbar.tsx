@@ -21,6 +21,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [inHero, setInHero] = useState(false);
   const [referralOpen, setReferralOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const location = useLocation();
   const { totalItems, justAdded } = useCart();
   const observerRef = useRef<IntersectionObserver | null>(null);
