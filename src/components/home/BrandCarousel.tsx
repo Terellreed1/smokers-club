@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import alwaysFaded from "@/assets/brands/always-faded.png";
 import mameys from "@/assets/brands/mameys.png";
@@ -45,22 +44,28 @@ const brands = [
 
 const BrandCarousel = () => {
   return (
-    <section className="py-12 overflow-hidden" style={{ background: "#0D110E" }}>
+    <section
+      className="py-12 overflow-hidden"
+      style={{
+        background: "#090C09",
+        borderTop: "1px solid rgba(201,168,76,0.1)",
+        borderBottom: "1px solid rgba(201,168,76,0.1)",
+      }}
+    >
       {/* Heading */}
       <div className="text-center mb-8">
         <p
-          className="text-[11px] font-sans font-medium uppercase mb-3"
-          style={{ letterSpacing: "0.2em", color: "rgba(201,168,76,0.5)" }}
+          className="text-[11px] font-sans font-semibold uppercase"
+          style={{ letterSpacing: "0.35em", color: "#C9A84C" }}
         >
           Top Brands
         </p>
-        <div className="mx-auto h-px w-16" style={{ background: "linear-gradient(90deg, transparent, #C9A84C, transparent)" }} />
       </div>
 
       <div className="relative">
-        {/* Gold gradient fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: "linear-gradient(90deg, #0D110E, transparent)" }} />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: "linear-gradient(270deg, #0D110E, transparent)" }} />
+        {/* Gradient fades */}
+        <div className="absolute left-0 top-0 bottom-0 w-28 z-10 pointer-events-none" style={{ background: "linear-gradient(90deg, #090C09, transparent)" }} />
+        <div className="absolute right-0 top-0 bottom-0 w-28 z-10 pointer-events-none" style={{ background: "linear-gradient(270deg, #090C09, transparent)" }} />
 
         <div className="flex animate-scroll items-center">
           {[...brands, ...brands].map((brand, i) => (
@@ -69,11 +74,10 @@ const BrandCarousel = () => {
               to={`/shop?brand=${brand.slug}`}
               className="flex-shrink-0 px-6 sm:px-10 md:px-14 flex items-center justify-center group"
             >
-              <motion.img
+              <img
                 src={brand.logo}
                 alt={brand.name}
-                className="h-14 sm:h-20 md:h-24 w-auto object-contain opacity-70 group-hover:opacity-100 transition-all duration-300"
-                whileHover={{ scale: 1.08 }}
+                className="h-14 sm:h-20 md:h-24 w-auto object-contain opacity-50 group-hover:opacity-100 transition-all duration-300"
               />
             </Link>
           ))}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useCart } from "@/contexts/CartContext";
 import QuickView from "@/components/QuickView";
 import heroLogo from "@/assets/hero-logo.png";
 
@@ -15,12 +16,13 @@ interface Product {
   image_url: string | null;
 }
 
-const strainFilters = ["All", "Indica", "Sativa", "Hybrid"];
+const strainFilters = ["All Flower", "Indica", "Sativa", "Hybrid"];
 
 const ProductsPreview = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [quickViewId, setQuickViewId] = useState<string | null>(null);
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("All Flower");
+  const { addToCart } = useCart();
 
   useEffect(() => {
     supabase
@@ -32,185 +34,219 @@ const ProductsPreview = () => {
       .then(({ data }) => setProducts(data || []));
   }, []);
 
-  const filtered = activeFilter === "All"
+  const filtered = activeFilter === "All Flower"
     ? products
     : products.filter((p) => p.strain?.toLowerCase() === activeFilter.toLowerCase());
 
   return (
-    <section
-      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8"
-      style={{ background: "#0D110E" }}
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Heading */}
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-10 h-px" style={{ background: "#C9A84C" }} />
-          <h2
-            className="text-2xl sm:text-3xl lg:text-4xl font-light"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: "#e8dcc8", letterSpacing: "0.05em" }}
-          >
-            Popular Flower
-          </h2>
-        </div>
-
-        {/* Filter pills */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+    <>
+      {/* Filter bar */}
+      <div
+        style={{
+          background: "rgba(19,24,16,0.8)",
+          borderTop: "1px solid rgba(201,168,76,0.15)",
+          borderBottom: "1px solid rgba(201,168,76,0.15)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto scrollbar-hide">
           {strainFilters.map((f) => (
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className="px-4 sm:px-5 py-2 text-[10px] sm:text-xs font-sans font-medium uppercase transition-all duration-300"
+              className="px-4 sm:px-6 py-3.5 text-[10px] sm:text-[11px] font-sans font-semibold uppercase whitespace-nowrap transition-all duration-200"
               style={{
-                letterSpacing: "0.15em",
-                border: "1px solid",
-                borderColor: activeFilter === f ? "#C9A84C" : "rgba(201,168,76,0.3)",
-                background: activeFilter === f ? "#C9A84C" : "transparent",
-                color: activeFilter === f ? "#0D110E" : "#C9A84C",
-              }}
-              onMouseEnter={(e) => {
-                if (activeFilter !== f) {
-                  e.currentTarget.style.background = "rgba(201,168,76,0.1)";
-                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeFilter !== f) {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)";
-                }
+                letterSpacing: "0.2em",
+                color: activeFilter === f ? "#C9A84C" : "rgba(160,144,112,0.6)",
+                borderBottom: activeFilter === f ? "2px solid #C9A84C" : "2px solid transparent",
+                background: "none",
               }}
             >
               {f}
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Gold divider */}
-        <div className="h-px w-full mb-8" style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.4), transparent)" }} />
-
-        {/* Product grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-          {filtered.map((product, i) => (
-            <motion.div
-              key={product.id}
-              className="group"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.04, duration: 0.4 }}
+      <section
+        className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8"
+        style={{ background: "#0D110E" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          {/* Section header */}
+          <div className="mb-8">
+            <p
+              className="text-[11px] font-sans font-semibold uppercase mb-3"
+              style={{ letterSpacing: "0.3em", color: "#C9A84C" }}
             >
-              <Link to={`/shop/${product.id}`} className="block">
-                <div
-                  className="overflow-hidden transition-all duration-300 group-hover:-translate-y-1"
-                  style={{
-                    background: "#161A14",
-                    border: "1px solid rgba(201,168,76,0)",
-                    boxShadow: "none",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)";
-                    e.currentTarget.style.boxShadow = "0 8px 24px -8px rgba(0,0,0,0.5), 0 0 12px -4px rgba(201,168,76,0.08)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(201,168,76,0)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                >
-                  {/* Image */}
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    {product.image_url ? (
-                      <>
+              Curated Selection
+            </p>
+            <div className="flex items-center justify-between">
+              <h2
+                className="text-2xl sm:text-3xl lg:text-4xl"
+                style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, color: "#F0EBE0" }}
+              >
+                Popular Flower
+              </h2>
+              <Link
+                to="/shop"
+                className="hidden sm:inline-flex text-[11px] font-sans font-semibold uppercase transition-colors duration-200"
+                style={{ letterSpacing: "0.15em", color: "#C9A84C" }}
+              >
+                View All →
+              </Link>
+            </div>
+            <div className="h-px w-12 mt-4" style={{ background: "#C9A84C" }} />
+          </div>
+
+          {/* Product grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+            {filtered.map((product, i) => (
+              <motion.div
+                key={product.id}
+                className="group"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.04, duration: 0.4 }}
+              >
+                <Link to={`/shop/${product.id}`} className="block">
+                  <div
+                    className="overflow-hidden transition-all duration-350 group-hover:-translate-y-[5px]"
+                    style={{
+                      background: "#131810",
+                      border: "1px solid rgba(201,168,76,0.08)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)";
+                      e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(201,168,76,0.05)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(201,168,76,0.08)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-square overflow-hidden">
+                      {product.image_url ? (
                         <img
                           src={product.image_url}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        {/* Dark overlay to blend into card */}
-                        <div className="absolute inset-0 pointer-events-none" style={{ background: "rgba(0,0,0,0.15)" }} />
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: "#1a1e17" }}>
-                        <img src={heroLogo} alt="" className="w-16 h-16 opacity-20" />
+                      ) : (
+                        <div
+                          className="w-full h-full flex items-center justify-center"
+                          style={{ background: "linear-gradient(135deg, #1a2a1a 0%, #0f1a0f 100%)" }}
+                        >
+                          <img src={heroLogo} alt="" className="w-16 h-16 opacity-15" />
+                        </div>
+                      )}
+
+                      {/* Strain badge */}
+                      {product.strain && (
+                        <span
+                          className="absolute top-3 left-3 z-10 text-[9px] sm:text-[10px] font-sans font-semibold uppercase px-2.5 py-1"
+                          style={{
+                            letterSpacing: "0.18em",
+                            color: "#C9A84C",
+                            border: "1px solid #C9A84C",
+                            background: "rgba(13,17,14,0.85)",
+                            backdropFilter: "blur(4px)",
+                          }}
+                        >
+                          {product.strain}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Card body */}
+                    <div className="p-3 sm:p-4">
+                      <h3
+                        className="text-sm sm:text-base mb-0.5"
+                        style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, color: "#F0EBE0" }}
+                      >
+                        {product.name}
+                      </h3>
+                      <p
+                        className="text-[10px] font-sans uppercase mb-3"
+                        style={{ letterSpacing: "0.12em", color: "rgba(160,144,112,0.6)" }}
+                      >
+                        {product.brand}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span
+                          className="text-sm font-sans font-medium"
+                          style={{ color: "#C9A84C", letterSpacing: "0.05em" }}
+                        >
+                          {product.price}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            addToCart({
+                              id: product.id,
+                              name: product.name,
+                              brand: product.brand,
+                              price: product.price,
+                              image_url: product.image_url,
+                              strain: product.strain,
+                            });
+                          }}
+                          className="text-[10px] font-sans font-semibold uppercase px-3 py-1.5 transition-all duration-250 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0"
+                          style={{
+                            letterSpacing: "0.15em",
+                            color: "#C9A84C",
+                            border: "1px solid rgba(201,168,76,0.4)",
+                            background: "transparent",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = "#C9A84C";
+                            e.currentTarget.style.color = "#0D110E";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = "transparent";
+                            e.currentTarget.style.color = "#C9A84C";
+                          }}
+                        >
+                          Add +
+                        </button>
                       </div>
-                    )}
-
-                    {/* Strain badge top-left */}
-                    {product.strain && (
-                      <span
-                        className="absolute top-2 left-2 z-10 text-[9px] font-sans uppercase px-2 py-0.5"
-                        style={{
-                          letterSpacing: "0.12em",
-                          color: "#C9A84C",
-                          border: "1px solid rgba(201,168,76,0.35)",
-                          background: "rgba(13,17,14,0.8)",
-                          backdropFilter: "blur(4px)",
-                        }}
-                      >
-                        {product.strain}
-                      </span>
-                    )}
-
-                    {/* Hover Quick View */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-center pb-4">
-                      <button
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickViewId(product.id); }}
-                        className="flex items-center gap-1.5 text-[10px] font-sans uppercase px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300"
-                        style={{
-                          letterSpacing: "0.15em",
-                          background: "rgba(201,168,76,0.9)",
-                          color: "#0a0a0a",
-                        }}
-                      >
-                        <Eye size={12} /> Quick View
-                      </button>
                     </div>
                   </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
 
-                  {/* Info */}
-                  <div className="p-3 sm:p-4">
-                    <h3
-                      className="text-sm sm:text-base font-light leading-snug mb-1"
-                      style={{ fontFamily: "'Cormorant Garamond', serif", color: "#e8dcc8" }}
-                    >
-                      {product.name}
-                    </h3>
-                    <p className="text-xs font-sans font-light" style={{ color: "rgba(201,168,76,0.6)" }}>
-                      {product.price}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+          {/* Browse Full Menu */}
+          <div className="flex justify-center mt-12 sm:mt-16">
+            <Link
+              to="/shop"
+              className="inline-flex items-center gap-2 px-10 py-4 text-[11px] font-sans font-semibold uppercase transition-all duration-300"
+              style={{
+                letterSpacing: "0.2em",
+                border: "1px solid #C9A84C",
+                color: "#C9A84C",
+                background: "transparent",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#C9A84C";
+                e.currentTarget.style.color = "#0D110E";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "#C9A84C";
+              }}
+            >
+              Browse Full Menu →
+            </Link>
+          </div>
         </div>
 
-        {/* Browse Full Menu CTA */}
-        <div className="flex justify-center mt-10 sm:mt-14">
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 px-8 py-3.5 text-xs font-sans font-medium uppercase transition-all duration-300"
-            style={{
-              letterSpacing: "0.15em",
-              border: "1px solid rgba(201,168,76,0.4)",
-              color: "#C9A84C",
-              background: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(201,168,76,0.08)";
-              e.currentTarget.style.borderColor = "#C9A84C";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)";
-            }}
-          >
-            Browse Full Menu →
-          </Link>
-        </div>
-      </div>
-
-      <QuickView productId={quickViewId} onClose={() => setQuickViewId(null)} />
-    </section>
+        <QuickView productId={quickViewId} onClose={() => setQuickViewId(null)} />
+      </section>
+    </>
   );
 };
 
