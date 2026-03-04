@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Instagram } from "lucide-react";
+import { Menu, X, Instagram, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavCartIcon from "@/components/NavCartIcon";
 import ReferralDialog from "@/components/ReferralDialog";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/hero-logo.png";
 
 const navLinks = [
