@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useCart } from "@/contexts/CartContext";
 import QuickView from "@/components/QuickView";
 import heroLogo from "@/assets/hero-logo.png";
 
