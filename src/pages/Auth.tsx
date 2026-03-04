@@ -18,8 +18,19 @@ const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) navigate("/account");
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session) {
+        // Update profile with signup details if available
+        if (event === "SIGNED_IN") {
+          const stored = sessionStorage.getItem("lcc_signup_data");
+          if (stored) {
+            const data = JSON.parse(stored);
+            await supabase.from("profiles").update(data).eq("id", session.user.id);
+            sessionStorage.removeItem("lcc_signup_data");
+          }
+        }
+        navigate("/account");
+      }
     });
   }, [navigate]);
 
