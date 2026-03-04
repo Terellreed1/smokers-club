@@ -49,6 +49,13 @@ const Auth = () => {
           },
         });
         if (error) throw error;
+        // Store profile data to save after email verification
+        sessionStorage.setItem("lcc_signup_data", JSON.stringify({
+          first_name: firstName || null,
+          last_name: lastName || null,
+          phone: phone || null,
+          birthday: birthday || null,
+        }));
         toast.success("Check your email to verify your account!");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
