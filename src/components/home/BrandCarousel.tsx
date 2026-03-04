@@ -17,7 +17,6 @@ import hb from "@/assets/brands/hb.png";
 import julatoNyc from "@/assets/brands/julato-nyc.png";
 import painNetwork from "@/assets/brands/pain-network.png";
 import highMonkey from "@/assets/brands/high-monkey.png";
-import zourZop from "@/assets/brands/zour-zop.png";
 import donMerfos from "@/assets/brands/don-merfos.png";
 
 const brands = [
