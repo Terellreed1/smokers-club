@@ -74,7 +74,6 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) =>
               link.external ? (
@@ -83,23 +82,25 @@ const Navbar = () => {
                   href={link.to}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium transition-colors"
-                  style={{ color: "rgba(232,220,200,0.6)" }}
+                  className="relative text-[11px] font-sans font-medium uppercase transition-colors group"
+                  style={{ letterSpacing: "0.15em", color: "rgba(160,144,112,0.6)" }}
                   onMouseEnter={(e) => { e.currentTarget.style.color = "#C9A84C"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(232,220,200,0.6)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(160,144,112,0.6)"; }}
                 >
                   {link.label}
+                  <span className="absolute bottom-[-3px] left-0 w-0 h-px group-hover:w-full transition-all duration-300" style={{ background: "#C9A84C" }} />
                 </a>
               ) : (
                 <Link
                   key={link.label}
                   to={link.to}
-                  className="text-sm font-medium transition-colors"
-                  style={{ color: location.pathname === link.to ? "#C9A84C" : "rgba(232,220,200,0.6)" }}
+                  className="relative text-[11px] font-sans font-medium uppercase transition-colors group"
+                  style={{ letterSpacing: "0.15em", color: location.pathname === link.to ? "#C9A84C" : "rgba(160,144,112,0.6)" }}
                   onMouseEnter={(e) => { if (location.pathname !== link.to) e.currentTarget.style.color = "#C9A84C"; }}
-                  onMouseLeave={(e) => { if (location.pathname !== link.to) e.currentTarget.style.color = "rgba(232,220,200,0.6)"; }}
+                  onMouseLeave={(e) => { if (location.pathname !== link.to) e.currentTarget.style.color = "rgba(160,144,112,0.6)"; }}
                 >
                   {link.label}
+                  <span className="absolute bottom-[-3px] left-0 h-px transition-all duration-300" style={{ width: location.pathname === link.to ? "100%" : "0%", background: "#C9A84C" }} />
                 </Link>
               )
             )}
