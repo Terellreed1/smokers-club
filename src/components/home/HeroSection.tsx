@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import heroLogo from "@/assets/hero-logo.png";
 
 const FALLBACK_IMAGE = "https://res.cloudinary.com/ddfe8uqth/image/upload/q_auto,f_auto/cannabis-hero-fallback_placeholder.jpg";
 
@@ -10,7 +9,6 @@ const HeroSection = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
 
-  // Expose hero ref for navbar IntersectionObserver
   useEffect(() => {
     if (heroRef.current) {
       window.__lccHeroEl = heroRef.current;
@@ -20,7 +18,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={heroRef} className="relative w-full overflow-hidden bg-black min-h-[85svh] sm:min-h-[80svh] flex items-center">
+    <section ref={heroRef} className="relative w-full overflow-hidden bg-black min-h-[100svh] flex items-center">
       {/* Static fallback image */}
       <img
         src={FALLBACK_IMAGE}
@@ -39,56 +37,103 @@ const HeroSection = () => {
       >
         <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/medium-vecteezy_camera-moves-along-medical-cannabis-plants-grown-under_7386213_medium_tgvc7r.mp4" type="video/mp4" />
       </video>
-      {/* Overlay */}
-      <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.5)" }} />
 
-      <div className="relative w-full max-w-7xl mx-auto px-5 sm:px-10 lg:px-14 py-12 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
-        {/* Left content */}
+      {/* Cinematic vignette — heavier on left */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.25) 100%)",
+        }}
+      />
+      {/* Warm gold tint */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(160deg, rgba(184,151,46,0.1) 0%, rgba(184,151,46,0.04) 50%, transparent 100%)",
+        }}
+      />
+      {/* Top/bottom vignette */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.5) 100%)",
+        }}
+      />
+
+      {/* Content — centered vertically */}
+      <div className="relative w-full max-w-7xl mx-auto px-5 sm:px-10 lg:px-14 flex items-center">
         <motion.div
-          className="flex-1 text-center lg:text-left z-10"
-          initial={{ opacity: 0, y: 20 }}
+          className="w-full max-w-2xl z-10 text-center lg:text-left"
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
         >
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight mb-4 sm:mb-6">
+          {/* Gold rule */}
+          <motion.div
+            className="h-px w-20 mb-8 mx-auto lg:mx-0"
+            style={{ background: "#C9A84C" }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
+
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-[1.1] mb-5 sm:mb-6">
             Premium Flower,{" "}
             <span className="block">Delivered.</span>
           </h1>
-          <p className="text-base sm:text-xl text-white/70 font-sans mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0">
+
+          <p
+            className="text-base sm:text-lg lg:text-xl text-white/60 font-sans font-light mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed"
+          >
             Curated luxury flower from top brands. Same-day delivery across the East Coast.
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
             <Link
               to="/shop"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 min-h-[48px] bg-white text-foreground font-semibold text-sm rounded-full hover:bg-white/90 transition-all shadow-lg"
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 min-h-[48px] text-xs font-sans font-semibold uppercase transition-all duration-300"
+              style={{
+                letterSpacing: "0.15em",
+                background: "#C9A84C",
+                color: "#0a0a0a",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#b8932e";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#C9A84C";
+              }}
             >
               Shop Now
-              <ArrowRight size={16} />
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <Link
               to="/delivery"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 min-h-[48px] bg-white/15 text-white font-semibold text-sm rounded-full hover:bg-white/25 transition-all backdrop-blur-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 min-h-[48px] text-xs font-sans font-semibold uppercase transition-all duration-300"
+              style={{
+                letterSpacing: "0.15em",
+                border: "1px solid rgba(201,168,76,0.5)",
+                color: "#C9A84C",
+                background: "transparent",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(10,10,10,0.6)";
+                e.currentTarget.style.borderColor = "rgba(201,168,76,0.8)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)";
+              }}
             >
               Delivery Info
             </Link>
           </div>
-        </motion.div>
-
-        {/* Right — Logo */}
-        <motion.div
-          className="flex-1 relative hidden lg:flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <img src={heroLogo} alt="Luxury Smokers Club" className="w-[28rem] h-[28rem] xl:w-[36rem] xl:h-[36rem] object-contain opacity-80 drop-shadow-2xl" />
         </motion.div>
       </div>
     </section>
   );
 };
 
-// Extend window for hero element reference
 declare global {
   interface Window {
     __lccHeroEl?: HTMLElement;
