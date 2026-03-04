@@ -1,21 +1,47 @@
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import heroLogo from "@/assets/hero-logo.png";
 
+const FALLBACK_IMAGE = "https://res.cloudinary.com/ddfe8uqth/image/upload/q_auto,f_auto/cannabis-hero-fallback_placeholder.jpg";
+
 const HeroSection = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Expose hero ref for navbar IntersectionObserver
+  useEffect(() => {
+    if (heroRef.current) {
+      window.__lccHeroEl = heroRef.current;
+      window.dispatchEvent(new Event("lcc-hero-mounted"));
+    }
+    return () => { delete window.__lccHeroEl; };
+  }, []);
+
   return (
-    <section className="relative w-full overflow-hidden bg-black min-h-[85svh] sm:min-h-[80svh] flex items-center">
+    <section ref={heroRef} className="relative w-full overflow-hidden bg-black min-h-[85svh] sm:min-h-[80svh] flex items-center">
+      {/* Static fallback image */}
+      <img
+        src={FALLBACK_IMAGE}
+        alt=""
+        aria-hidden="true"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-50'}`}
+      />
       {/* Video background */}
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-50"
+        onCanPlayThrough={() => setVideoLoaded(true)}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoLoaded ? 'opacity-50' : 'opacity-0'}`}
       >
         <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/medium-vecteezy_camera-moves-along-medical-cannabis-plants-grown-under_7386213_medium_tgvc7r.mp4" type="video/mp4" />
       </video>
+      {/* Overlay */}
+      <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.5)" }} />
+
       <div className="relative w-full max-w-7xl mx-auto px-5 sm:px-10 lg:px-14 py-12 sm:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
         {/* Left content */}
         <motion.div
@@ -61,5 +87,12 @@ const HeroSection = () => {
     </section>
   );
 };
+
+// Extend window for hero element reference
+declare global {
+  interface Window {
+    __lccHeroEl?: HTMLElement;
+  }
+}
 
 export default HeroSection;

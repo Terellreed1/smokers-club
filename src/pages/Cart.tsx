@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, Loader2, Truck } from "lucide-react";
 import { toast } from "sonner";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal from "@/components/home/ScrollReveal";
 import RunningCart from "@/components/RunningCart";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Progress } from "@/components/ui/progress";
+
+const FREE_DELIVERY_THRESHOLD = 150;
 
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, totalItems } = useCart();
@@ -42,6 +45,9 @@ const Cart = () => {
     return sum + price * item.quantity;
   }, 0);
 
+  const deliveryProgress = Math.min((totalPrice / FREE_DELIVERY_THRESHOLD) * 100, 100);
+  const amountToFree = FREE_DELIVERY_THRESHOLD - totalPrice;
+
   return (
     <PageLayout>
       <div className="py-16 md:py-24 px-6">
@@ -70,6 +76,19 @@ const Cart = () => {
           ) : (
             <ScrollReveal delay={0.1}>
               <div className="space-y-6">
+                {/* Free delivery progress */}
+                <div className="bg-muted/30 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Truck size={16} className="text-muted-foreground" />
+                    <p className="text-xs font-sans text-muted-foreground">
+                      {amountToFree > 0
+                        ? `Add $${amountToFree.toFixed(2)} more for free delivery!`
+                        : "🎉 You've unlocked free delivery!"}
+                    </p>
+                  </div>
+                  <Progress value={deliveryProgress} className="h-2" />
+                </div>
+
                 {items.map((item) => (
                   <motion.div
                     key={item.id}
