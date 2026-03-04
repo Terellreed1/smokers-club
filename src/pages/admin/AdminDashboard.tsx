@@ -127,6 +127,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
   const [form, setForm] = useState({ name: "", brand: "Luxury Courier Club", price: "$65", image_url: "", description: "", strain: "None", product_type: "Flower", sold_out: false, active: true });
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [customBrand, setCustomBrand] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
