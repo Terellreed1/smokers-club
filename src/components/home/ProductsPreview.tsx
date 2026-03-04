@@ -21,7 +21,6 @@ const ProductsPreview = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [quickViewId, setQuickViewId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState("All Flower");
-  const { addToCart } = useCart();
 
   useEffect(() => {
     supabase
