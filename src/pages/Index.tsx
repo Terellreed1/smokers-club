@@ -14,7 +14,7 @@ const Index = () => {
   useEffect(() => {
     const dismissed = sessionStorage.getItem("lsc-popup-dismissed");
     if (dismissed) return;
-    const timer = setTimeout(() => setPopupOpen(true), 5000);
+    const timer = setTimeout(() => setPopupOpen(true), 8000);
     return () => clearTimeout(timer);
   }, []);
 

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ImageOff, Eye } from "lucide-react";
+import { ImageOff, Eye, Clock } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal, { StaggerContainer } from "@/components/home/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
@@ -20,55 +20,59 @@ interface Product {
   strain: string | null;
   product_type: string;
   active: boolean;
+  sold_out: boolean;
 }
 
-const comingSoonCategories = ["vapes", "edibles", "concentrates", "pre-rolls", "accessories"];
-const categoryLabels: Record<string, string> = {
-  vapes: "Vapes", edibles: "Edibles", concentrates: "Concentrates", "pre-rolls": "Pre-Rolls", accessories: "Accessories",
-};
 const strainOptions = ["All", "Indica", "Sativa", "Hybrid"];
-const categoryOptions = ["All", "Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls", "Accessories"];
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [quickViewId, setQuickViewId] = useState<string | null>(null);
   const urlStrain = searchParams.get("strain");
   const saleFilter = searchParams.get("sale") === "true";
-  const urlCategory = searchParams.get("category");
-  const isComingSoon = urlCategory && comingSoonCategories.includes(urlCategory);
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [brand, setBrand] = useState("All");
   const [maxPrice, setMaxPrice] = useState(200);
   const [strain, setStrain] = useState(urlStrain || "All");
-  const [category, setCategory] = useState(urlCategory ? categoryLabels[urlCategory] || "All" : "All");
+  const [category, setCategory] = useState("All");
 
   useEffect(() => {
     supabase.from("products").select("*").eq("active", true).order("sort_order").then(({ data }) => {
-      setAllProducts(data || []);
+      setAllProducts((data as Product[]) || []);
       setLoading(false);
     });
   }, []);
+
+  // Only show categories that have at least one active product
+  const availableCategories = useMemo(() => {
+    const types = new Set(allProducts.map((p) => p.product_type));
+    const all = ["All", "Flower"];
+    // Only add other categories if products exist in them
+    ["Vapes", "Edibles", "Concentrates", "Pre-Rolls", "Accessories"].forEach((cat) => {
+      if (types.has(cat)) all.push(cat);
+    });
+    return all;
+  }, [allProducts]);
 
   const brandOptions = ["All", ...Array.from(new Set(allProducts.map((p) => p.brand).filter(Boolean))).sort()];
 
   const handleStrainChange = (v: string) => {
     setStrain(v);
     if (v === "All") searchParams.delete("strain"); else searchParams.set("strain", v);
-    searchParams.delete("category"); searchParams.delete("sale");
+    searchParams.delete("sale");
     setSearchParams(searchParams);
   };
 
   const handleCategoryChange = (v: string) => {
     setCategory(v);
-    const key = v.toLowerCase().replace(" ", "-");
-    if (v === "All" || v === "Flower") searchParams.delete("category"); else searchParams.set("category", key);
     searchParams.delete("strain"); searchParams.delete("sale");
     setSearchParams(searchParams);
   };
 
   const filtered = allProducts.filter((p) => {
+    if (p.sold_out) return false;
     if (brand !== "All" && p.brand !== brand) return false;
     const priceNum = parseInt(p.price.replace(/[^0-9]/g, "")) || 0;
     if (priceNum > maxPrice) return false;
@@ -102,60 +106,64 @@ const Shop = () => {
             </div>
           </ScrollReveal>
 
-          {isComingSoon ? (
-            <motion.div className="text-center py-24 sm:py-32" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <p className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Coming Soon</p>
-              <h2 className="font-serif text-3xl sm:text-5xl text-foreground mb-4">{urlCategory ? (categoryLabels[urlCategory] || urlCategory) : ""}</h2>
-              <p className="text-muted-foreground max-w-md mx-auto mb-8">We're curating the finest selection for you. Stay tuned — something special is on the way.</p>
-              <Link to="/shop" className="inline-flex items-center gap-2 px-8 py-3 bg-foreground text-background font-semibold text-sm rounded-full hover:opacity-90 transition-opacity">Browse Flower</Link>
-            </motion.div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
-              <ScrollReveal delay={0.1} direction="left">
-                <aside>
-                 <FilterGroup label="Category" options={categoryOptions} value={category} onChange={handleCategoryChange} />
-                  <FilterGroup label="Strain" options={strainOptions} value={strain} onChange={handleStrainChange} />
-                  <FilterGroup label="Brand" options={brandOptions} value={brand} onChange={setBrand} />
-                  <div className="mb-8">
-                    <h4 className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Max Price</h4>
-                    <div className="space-y-2">
-                      <input
-                        type="range"
-                        min={10}
-                        max={200}
-                        step={5}
-                        value={maxPrice}
-                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                        className="w-full accent-foreground"
-                      />
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>$10</span>
-                        <span className="text-foreground font-medium">${maxPrice}</span>
-                        <span>$200</span>
-                      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
+            <ScrollReveal delay={0.1} direction="left">
+              <aside>
+                <FilterGroup label="Category" options={availableCategories} value={category} onChange={handleCategoryChange} />
+                <FilterGroup label="Strain" options={strainOptions} value={strain} onChange={handleStrainChange} />
+                <FilterGroup label="Brand" options={brandOptions} value={brand} onChange={setBrand} />
+                <div className="mb-8">
+                  <h4 className="text-xs font-sans uppercase editorial-spacing text-muted-foreground mb-4">Max Price</h4>
+                  <div className="space-y-2">
+                    <input
+                      type="range"
+                      min={10}
+                      max={200}
+                      step={5}
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                      className="w-full accent-foreground"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>$10</span>
+                      <span className="text-foreground font-medium">${maxPrice}</span>
+                      <span>$200</span>
                     </div>
                   </div>
-                </aside>
-              </ScrollReveal>
+                </div>
+              </aside>
+            </ScrollReveal>
 
-              <StaggerContainer className="grid grid-cols-2 gap-4 sm:gap-6" staggerDelay={0.08}>
-                {loading ? (
-                  Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="aspect-[3/4] bg-muted/20 animate-pulse rounded" />
-                  ))
-                ) : (
-                  <>
-                    {filtered.map((product) => <ProductCard key={product.id} product={product} onQuickView={setQuickViewId} />)}
-                    {filtered.length === 0 && (
-                      <div className="col-span-full text-center py-20">
-                        <p className="font-serif text-2xl text-muted-foreground">No products match your filters</p>
-                      </div>
-                    )}
-                  </>
-                )}
-              </StaggerContainer>
-            </div>
-          )}
+            <StaggerContainer className="grid grid-cols-2 gap-4 sm:gap-6" staggerDelay={0.08}>
+              {loading ? (
+                Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="aspect-[3/4] bg-muted/20 animate-pulse rounded" />
+                ))
+              ) : (
+                <>
+                  {filtered.map((product) => <ProductCard key={product.id} product={product} onQuickView={setQuickViewId} />)}
+                  {/* More Coming Soon card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="aspect-[3/4] border border-dashed border-border/50 rounded-lg flex flex-col items-center justify-center text-center p-6"
+                  >
+                    <Clock size={32} strokeWidth={1} className="text-muted-foreground/40 mb-3" />
+                    <p className="font-serif text-lg text-foreground mb-1">More Coming Soon</p>
+                    <p className="text-xs text-muted-foreground/60 max-w-[200px]">
+                      New strains, vapes, edibles & more dropping soon.
+                    </p>
+                  </motion.div>
+                  {filtered.length === 0 && (
+                    <div className="col-span-full text-center py-20">
+                      <p className="font-serif text-2xl text-muted-foreground">No products match your filters</p>
+                    </div>
+                  )}
+                </>
+              )}
+            </StaggerContainer>
+          </div>
         </div>
       </div>
       <QuickView productId={quickViewId} onClose={() => setQuickViewId(null)} />

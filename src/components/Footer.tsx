@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram } from "lucide-react";
+import { Instagram, Twitter } from "lucide-react";
 import logo from "@/assets/hero-logo.png";
 
 const Footer = () => {
@@ -15,6 +15,27 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground max-w-md">
             Premium flower delivered to your door.
           </p>
+          {/* Social icons */}
+          <div className="flex items-center gap-4 mt-4">
+            <a
+              href="https://instagram.com/luxurycourierclub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Instagram"
+            >
+              <Instagram size={20} />
+            </a>
+            <a
+              href="https://x.com/luxurycourier"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Twitter / X"
+            >
+              <Twitter size={20} />
+            </a>
+          </div>
         </div>
 
         {/* Links row */}
@@ -49,25 +70,14 @@ const Footer = () => {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Luxury Courier Club. All rights reserved.
+            © 2026 Luxury Courier Club. All rights reserved.
           </p>
-          <div className="flex items-center gap-5">
-            <a
-              href="https://instagram.com/luxurycourierclub"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Instagram"
-            >
-              <Instagram size={18} />
-            </a>
-            <a
-              href="mailto:admin@luxurycouriers.club"
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              admin@luxurycouriers.club
-            </a>
-          </div>
+          <a
+            href="mailto:admin@luxurycouriers.club"
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            admin@luxurycouriers.club
+          </a>
         </div>
       </div>
     </footer>

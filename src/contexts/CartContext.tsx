@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
 
 export interface CartItem {
@@ -17,6 +17,7 @@ interface CartContextType {
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
+  justAdded: boolean;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -27,8 +28,24 @@ export const useCart = () => {
   return context;
 };
 
+const CART_KEY = "lcc_cart";
+
+const loadCart = (): CartItem[] => {
+  try {
+    const stored = localStorage.getItem(CART_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadCart);
+  const [justAdded, setJustAdded] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addItem = useCallback((item: Omit<CartItem, "quantity">) => {
     setItems((prev) => {
@@ -40,6 +57,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       toast.success(`${item.name} added to cart`);
       return [...prev, { ...item, quantity: 1 }];
     });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 600);
   }, []);
 
   const removeItem = useCallback((id: number) => {
@@ -59,7 +78,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, justAdded }}>
       {children}
     </CartContext.Provider>
   );
