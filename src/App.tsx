@@ -62,7 +62,7 @@ const App = () => (
       <AgeGate>
         <CartProvider>
           <BrowserRouter>
-            <MusicPlayer />
+            
             <AnimatedRoutes />
           </BrowserRouter>
         </CartProvider>
