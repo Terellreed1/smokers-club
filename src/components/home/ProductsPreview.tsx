@@ -141,7 +141,7 @@ const ProductsPreview = () => {
               letterSpacing: "0.04em",
             }}
           >
-            Staff Picks
+            Featured
           </h3>
         </div>
 
