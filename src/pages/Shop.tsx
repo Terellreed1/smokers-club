@@ -565,13 +565,6 @@ const ProductListCard = ({ product, onQuickView }: { product: Product; onQuickVi
           </span>
         )}
       </div>
-      <button
-        onClick={handleAddToCart}
-        className="flex-shrink-0 text-[9px] uppercase tracking-[0.12em] px-4 py-2 transition-all duration-200 opacity-0 group-hover:opacity-100"
-        style={{ background: "#C9A84C", color: "#0D110E", fontFamily: "'Montserrat', sans-serif", fontWeight: 600 }}
-      >
-        Add to Cart
-      </button>
     </Link>
   );
 };
