@@ -103,7 +103,8 @@ const AccessDenied = () => (
 
 /* ── Main Age Gate ── */
 const AgeGate = ({ children }: { children: React.ReactNode }) => {
-  const [verified, setVerified] = useState<boolean | null>(null);
+  const isAdmin = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+  const [verified, setVerified] = useState<boolean | null>(isAdmin ? true : null);
   const [denied, setDenied] = useState(false);
   const [exiting, setExiting] = useState(false);
 
