@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { ExternalLink, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
-import { supabase } from "@/integrations/supabase/client";
+import MerchQuickView from "@/components/MerchQuickView";
 
 // Fallback images for local display
 import hatImg from "@/assets/merch/hat.png";
@@ -19,12 +19,19 @@ interface PrintifyProduct {
   id: string;
   title: string;
   description: string;
-  images: { src: string }[];
+  images: { src: string; variant_ids: number[]; is_default: boolean }[];
   variants: {
     id: number;
     title: string;
     price: number;
     is_enabled: boolean;
+    options: number[];
+  }[];
+  options: {
+    id: number;
+    title: string;
+    type: string;
+    values: { id: number; title: string; colors?: string[] }[];
   }[];
 }
 
