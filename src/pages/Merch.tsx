@@ -166,64 +166,47 @@ const Merch = () => {
               {products.map((product, i) => (
                 <motion.div
                   key={product.id}
-                  className="group"
+                  className="group cursor-pointer"
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ delay: i * 0.05, duration: 0.45 }}
+                  onClick={() => handleProductClick(product)}
                 >
-                  <a
-                    href="https://www.luxurysmokersclub.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <div
-                      className="relative aspect-square overflow-hidden mb-3 sm:mb-4 rounded-sm"
-                      style={{
-                        background: "radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.06) 40%, rgba(201,168,76,0.02) 70%, transparent 100%)",
-                      }}
-                    >
-                      {getProductImage(product) ? (
-                        <img
-                          src={getProductImage(product)!}
-                          alt={product.title}
-                          className="w-full h-full object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                          No image
-                        </div>
-                      )}
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          background: "radial-gradient(ellipse at center, transparent 30%, rgba(10,13,9,0.3) 100%)",
-                        }}
+                  <div className="relative aspect-square overflow-hidden mb-3 sm:mb-4">
+                    {getProductImage(product) ? (
+                      <img
+                        src={getProductImage(product)!}
+                        alt={product.title}
+                        className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                        loading="lazy"
                       />
-                    </div>
-
-                    {getProductPrice(product) && (
-                      <p
-                        className="text-xs sm:text-sm mb-1"
-                        style={{ color: "#C9A84C", fontFamily: "'Montserrat', sans-serif", fontWeight: 500 }}
-                      >
-                        {getProductPrice(product)}
-                      </p>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                        No image
+                      </div>
                     )}
-                    <h3
-                      className="text-sm sm:text-[15px] group-hover:text-gold transition-colors"
-                      style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontWeight: 500,
-                        color: "#F0EBE0",
-                        lineHeight: 1.3,
-                      }}
+                  </div>
+
+                  {getProductPrice(product) && (
+                    <p
+                      className="text-xs sm:text-sm mb-1"
+                      style={{ color: "#C9A84C", fontFamily: "'Montserrat', sans-serif", fontWeight: 500 }}
                     >
-                      {product.title}
-                    </h3>
-                  </a>
+                      {getProductPrice(product)}
+                    </p>
+                  )}
+                  <h3
+                    className="text-sm sm:text-[15px] group-hover:text-gold transition-colors"
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontWeight: 500,
+                      color: "#F0EBE0",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {product.title}
+                  </h3>
                 </motion.div>
               ))}
             </div>
