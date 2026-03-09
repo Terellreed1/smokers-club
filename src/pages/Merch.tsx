@@ -218,65 +218,43 @@ const Merch = () => {
               {fallbackItems.map((item, i) => (
                 <motion.div
                   key={item.name}
-                  className="group"
+                  className="group cursor-pointer"
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ delay: i * 0.05, duration: 0.45 }}
                 >
-                  <a
-                    href="https://www.luxurysmokersclub.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <div
-                      className="relative aspect-square overflow-hidden mb-3 sm:mb-4 rounded-sm"
-                      style={{
-                        background: "radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.06) 40%, rgba(201,168,76,0.02) 70%, transparent 100%)",
-                      }}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
-                        loading="lazy"
-                        style={{
-                          mixBlendMode: "multiply",
-                          filter: "contrast(1.02)",
-                        }}
-                      />
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          background: "radial-gradient(ellipse at center, transparent 30%, rgba(10,13,9,0.3) 100%)",
-                        }}
-                      />
-                    </div>
+                  <div className="relative aspect-square overflow-hidden mb-3 sm:mb-4">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
 
-                    <p
-                      className="text-[9px] uppercase mb-1"
-                      style={{
-                        letterSpacing: "0.12em",
-                        color: "rgba(160,144,112,0.4)",
-                        fontFamily: "'Montserrat', sans-serif",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {item.category}
-                    </p>
-                    <h3
-                      className="text-sm sm:text-[15px] group-hover:text-gold transition-colors"
-                      style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontWeight: 500,
-                        color: "#F0EBE0",
-                        lineHeight: 1.3,
-                      }}
-                    >
-                      {item.name}
-                    </h3>
-                  </a>
+                  <p
+                    className="text-[9px] uppercase mb-1"
+                    style={{
+                      letterSpacing: "0.12em",
+                      color: "rgba(160,144,112,0.4)",
+                      fontFamily: "'Montserrat', sans-serif",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {item.category}
+                  </p>
+                  <h3
+                    className="text-sm sm:text-[15px] group-hover:text-gold transition-colors"
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontWeight: 500,
+                      color: "#F0EBE0",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {item.name}
+                  </h3>
                 </motion.div>
               ))}
             </div>
