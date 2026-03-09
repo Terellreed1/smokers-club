@@ -50,7 +50,7 @@ const fallbackItems = [
 
 const Merch = () => {
   const [products, setProducts] = useState<PrintifyProduct[]>([]);
-  const [shopId, setShopId] = useState<string | null>(null);
+  const [shopId, setShopId] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<PrintifyProduct | null>(null);
