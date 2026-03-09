@@ -141,8 +141,13 @@ const ProductsPreview = () => {
               transition={{ delay: i * 0.04, duration: 0.45 }}
             >
               <Link to={`/shop/${product.id}`} className="block">
-                {/* Image — no container, blends with background */}
-                <div className="relative aspect-square overflow-hidden mb-3 sm:mb-4">
+                {/* Image with subtle gold gradient background */}
+                <div 
+                  className="relative aspect-square overflow-hidden mb-3 sm:mb-4 rounded-sm"
+                  style={{
+                    background: "radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.03) 50%, transparent 80%)",
+                  }}
+                >
                   {product.image_url ? (
                     <img
                       src={product.image_url}
