@@ -260,32 +260,17 @@ const Merch = () => {
             </div>
           )}
 
-          {/* Shop button */}
-          <div className="text-center">
-            <a
-              href="https://www.luxurysmokersclub.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[10px] uppercase px-10 py-3.5 font-sans font-medium transition-all duration-300"
-              style={{
-                letterSpacing: "0.2em",
-                border: "1px solid rgba(201,168,76,0.3)",
-                color: "#C9A84C",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#C9A84C";
-                e.currentTarget.style.color = "#0A0D09";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = "#C9A84C";
-              }}
-            >
-              Shop Full Collection <ExternalLink size={12} />
-            </a>
-          </div>
         </div>
       </div>
+
+      {/* Product Quick View Modal */}
+      {selectedProduct && shopId && (
+        <MerchQuickView
+          product={selectedProduct}
+          shopId={shopId}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </PageLayout>
   );
 };
