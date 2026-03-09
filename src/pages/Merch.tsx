@@ -53,6 +53,7 @@ const Merch = () => {
   const [shopId, setShopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<PrintifyProduct | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -60,12 +61,6 @@ const Merch = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('printify', {
-        body: null,
-        method: 'GET',
-      });
-
-      // Use URL params approach
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/printify?action=products`,
         {
@@ -92,6 +87,29 @@ const Merch = () => {
       setError('Unable to load products from store');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleProductClick = async (product: PrintifyProduct) => {
+    // Fetch full product details with variants
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/printify?action=product&shop_id=${shopId}&product_id=${product.id}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+        }
+      );
+      
+      if (response.ok) {
+        const fullProduct = await response.json();
+        setSelectedProduct(fullProduct);
+      } else {
+        setSelectedProduct(product);
+      }
+    } catch {
+      setSelectedProduct(product);
     }
   };
 
