@@ -197,7 +197,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 <motion.h1
                   className="text-3xl sm:text-4xl md:text-5xl uppercase mb-4"
                   style={{
-                    fontFamily: "'Cormorant Garamond', serif",
+                    fontFamily: "'Playfair Display', serif",
                     fontWeight: 300,
                     color: "#F0EBE0",
                     letterSpacing: "0.08em",
@@ -213,10 +213,10 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 <motion.p
                   className="text-xs sm:text-sm font-light mb-8"
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 300,
                     color: "rgba(160,144,112,0.5)",
-                    letterSpacing: "0.12em",
+                    letterSpacing: "0.06em",
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -284,8 +284,10 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
 
                   <button
                     onClick={handleSubmit}
-                    className="w-full py-4 text-xs font-sans font-semibold uppercase active:scale-[0.97]"
+                    className="w-full py-4 text-xs uppercase active:scale-[0.97]"
                     style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontWeight: 600,
                       letterSpacing: "0.2em",
                       background: "linear-gradient(135deg, #B8962E, #D4AF37)",
                       color: "#FFFFFF",
