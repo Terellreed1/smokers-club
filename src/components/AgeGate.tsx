@@ -32,9 +32,9 @@ const DarkShell = ({ children }: { children: React.ReactNode }) => (
 
 const selectStyle: React.CSSProperties = {
   appearance: "none",
-  background: "rgba(201,168,76,0.04)",
-  border: "1px solid rgba(201,168,76,0.25)",
-  color: "#F0EBE0",
+  background: "#141414",
+  border: "1px solid rgba(197,163,85,0.4)",
+  color: "#E8DCC8",
   fontFamily: "'DM Sans', sans-serif",
   fontSize: "12px",
   letterSpacing: "0.05em",
@@ -43,7 +43,7 @@ const selectStyle: React.CSSProperties = {
   outline: "none",
   cursor: "pointer",
   borderRadius: "2px",
-  transition: "border-color 0.3s ease, background 0.3s ease",
+  transition: "border-color 0.3s ease",
   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right 12px center",
