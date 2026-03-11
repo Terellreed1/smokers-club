@@ -197,11 +197,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                     fontFamily: "'Cormorant Garamond', serif",
                     fontWeight: 300,
                     color: "#F0EBE0",
-                    letterSpacing: "0.15em",
+                    letterSpacing: "0.08em",
                   }}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.6 }}
+                  transition={{ duration: 0.7, delay: 0.8 }}
                 >
                   Enter Your Date of Birth
                 </motion.h1>
@@ -210,13 +210,14 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 <motion.p
                   className="text-xs sm:text-sm font-light mb-8"
                   style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    color: "rgba(160,144,112,0.6)",
-                    letterSpacing: "0.1em",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 300,
+                    color: "rgba(160,144,112,0.5)",
+                    letterSpacing: "0.12em",
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.9 }}
+                  transition={{ duration: 0.6, delay: 1.1 }}
                 >
                   YOU MUST BE 21 OR OLDER TO ENTER
                 </motion.p>
