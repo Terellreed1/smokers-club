@@ -225,9 +225,9 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 {/* DOB Dropdowns */}
                 <motion.div
                   className="w-full max-w-sm mx-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.0 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.4 }}
                 >
                   <div className="grid grid-cols-3 gap-3 mb-5">
                     <select
