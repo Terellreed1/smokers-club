@@ -77,7 +77,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logo} alt="Luxury Courier Club" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transition-all duration-300" />
+            <img src={logo} alt="Luxury Courier Club" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transition-all duration-300" width="80" height="80" />
             <span className="hidden sm:inline font-serif text-lg font-bold transition-colors duration-300" style={{ color: "#e8dcc8" }}>
               Luxury Courier Club
             </span>
