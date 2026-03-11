@@ -32,9 +32,9 @@ const DarkShell = ({ children }: { children: React.ReactNode }) => (
 
 const selectStyle: React.CSSProperties = {
   appearance: "none",
-  background: "rgba(201,168,76,0.04)",
-  border: "1px solid rgba(201,168,76,0.25)",
-  color: "#F0EBE0",
+  background: "#141414",
+  border: "1px solid rgba(197,163,85,0.4)",
+  color: "#E8DCC8",
   fontFamily: "'DM Sans', sans-serif",
   fontSize: "12px",
   letterSpacing: "0.05em",
@@ -43,7 +43,7 @@ const selectStyle: React.CSSProperties = {
   outline: "none",
   cursor: "pointer",
   borderRadius: "2px",
-  transition: "border-color 0.3s ease, background 0.3s ease",
+  transition: "border-color 0.3s ease",
   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right 12px center",
@@ -238,6 +238,8 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                       onChange={(e) => setMonth(e.target.value)}
                       style={selectStyle}
                       aria-label="Month"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
                     >
                       <option value="" style={optionStyle}>Month</option>
                       {MONTHS.map((m, i) => (
@@ -250,6 +252,8 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                       onChange={(e) => setDay(e.target.value)}
                       style={selectStyle}
                       aria-label="Day"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
                     >
                       <option value="" style={optionStyle}>Day</option>
                       {dayOptions.map((d) => (
@@ -262,6 +266,8 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                       onChange={(e) => setYear(e.target.value)}
                       style={selectStyle}
                       aria-label="Year"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
                     >
                       <option value="" style={optionStyle}>Year</option>
                       {years.map((y) => (
@@ -281,22 +287,19 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                     className="w-full py-4 text-xs font-sans font-semibold uppercase active:scale-[0.97]"
                     style={{
                       letterSpacing: "0.2em",
-                      background: "linear-gradient(135deg, #C5A355, #D4AF37)",
-                      color: "#0D110E",
-                      border: "1px solid rgba(212,175,55,0.4)",
+                      background: "linear-gradient(135deg, #B8962E, #D4AF37)",
+                      color: "#FFFFFF",
+                      border: "none",
                       borderRadius: "2px",
-                      boxShadow: "0 0 20px rgba(201,168,76,0.08)",
-                      transition: "all 0.4s ease",
+                      transition: "all 0.3s ease",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "linear-gradient(135deg, #D4AF37, #E8C84A)";
-                      e.currentTarget.style.boxShadow = "0 0 30px rgba(201,168,76,0.2)";
-                      e.currentTarget.style.borderColor = "rgba(232,200,74,0.5)";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #C9A84C, #E0C04A)";
+                      e.currentTarget.style.boxShadow = "0 0 20px rgba(212,175,55,0.3)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "linear-gradient(135deg, #C5A355, #D4AF37)";
-                      e.currentTarget.style.boxShadow = "0 0 20px rgba(201,168,76,0.08)";
-                      e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #B8962E, #D4AF37)";
+                      e.currentTarget.style.boxShadow = "none";
                     }}
                   >
                     Enter Site
