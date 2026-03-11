@@ -197,7 +197,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 <motion.h1
                   className="text-3xl sm:text-4xl md:text-5xl uppercase mb-4"
                   style={{
-                    fontFamily: "'Cormorant Garamond', serif",
+                    fontFamily: "'Playfair Display', serif",
                     fontWeight: 300,
                     color: "#F0EBE0",
                     letterSpacing: "0.08em",
