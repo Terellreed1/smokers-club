@@ -34,7 +34,7 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
         {/* Brand */}
         <div className="md:col-span-1">
-          <img src={logo} alt="Luxury Courier Club" className="h-20 w-20 object-contain mb-4 opacity-60" />
+          <img src={logo} alt="Luxury Courier Club" className="h-20 w-20 object-contain mb-4 opacity-60" loading="lazy" width="80" height="80" />
           <p
             className="text-lg mb-1"
             style={{ fontFamily: "'Cormorant Garamond', serif", color: "#e8dcc8", fontWeight: 400 }}

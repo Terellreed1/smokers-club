@@ -53,6 +53,8 @@ const BrandCarousel = () => (
                 alt={b.alt}
                 className="h-24 sm:h-40 lg:h-56 w-auto object-contain transition-opacity duration-300 opacity-50 hover:opacity-90"
                 loading="lazy"
+                width="200"
+                height="200"
               />
             </div>
           ))}

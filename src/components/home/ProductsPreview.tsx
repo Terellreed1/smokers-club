@@ -154,6 +154,8 @@ const ProductsPreview = () => {
                       alt={product.name}
                       className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                       loading="lazy"
+                      width="400"
+                      height="400"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
