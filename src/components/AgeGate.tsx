@@ -275,20 +275,25 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
 
                   <button
                     onClick={handleSubmit}
-                    className="w-full py-4 text-xs font-sans font-semibold uppercase transition-all duration-300 active:scale-95"
+                    className="w-full py-4 text-xs font-sans font-semibold uppercase active:scale-[0.97]"
                     style={{
                       letterSpacing: "0.2em",
-                      background: "#C9A84C",
+                      background: "linear-gradient(135deg, #C5A355, #D4AF37)",
                       color: "#0D110E",
-                      border: "1px solid #C9A84C",
+                      border: "1px solid rgba(212,175,55,0.4)",
+                      borderRadius: "2px",
+                      boxShadow: "0 0 20px rgba(201,168,76,0.08)",
+                      transition: "all 0.4s ease",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "#E8D08A";
-                      e.currentTarget.style.borderColor = "#E8D08A";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #D4AF37, #E8C84A)";
+                      e.currentTarget.style.boxShadow = "0 0 30px rgba(201,168,76,0.2)";
+                      e.currentTarget.style.borderColor = "rgba(232,200,74,0.5)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "#C9A84C";
-                      e.currentTarget.style.borderColor = "#C9A84C";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #C5A355, #D4AF37)";
+                      e.currentTarget.style.boxShadow = "0 0 20px rgba(201,168,76,0.08)";
+                      e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
                     }}
                   >
                     Enter Site
