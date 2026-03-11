@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
 const DarkShell = ({ children }: { children: React.ReactNode }) => (
-  <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden" style={{ background: "#090C09" }}>
+  <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse at center top, rgba(180,150,60,0.06) 0%, transparent 55%), linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)" }}>
     <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: NOISE_BG, backgroundSize: "256px" }} />
     {children}
   </div>
@@ -31,16 +31,18 @@ const DarkShell = ({ children }: { children: React.ReactNode }) => (
 
 const selectStyle: React.CSSProperties = {
   appearance: "none",
-  background: "rgba(201,168,76,0.06)",
-  border: "1px solid rgba(201,168,76,0.2)",
+  background: "rgba(201,168,76,0.04)",
+  border: "1px solid rgba(201,168,76,0.25)",
   color: "#F0EBE0",
-  fontFamily: "'Montserrat', sans-serif",
+  fontFamily: "'DM Sans', sans-serif",
   fontSize: "12px",
   letterSpacing: "0.05em",
   padding: "12px 32px 12px 14px",
   width: "100%",
   outline: "none",
   cursor: "pointer",
+  borderRadius: "2px",
+  transition: "border-color 0.3s ease, background 0.3s ease",
   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right 12px center",
@@ -172,11 +174,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
               <div className="relative z-10 w-[92vw] max-w-lg text-center px-6 flex-1 flex flex-col items-center justify-center">
                 {/* Logo */}
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <img src={heroLogo} alt="Luxury Courier Club" className="w-24 h-24 sm:w-28 sm:h-28 object-contain" />
+                  <img src={heroLogo} alt="Luxury Courier Club" className="w-24 h-24 sm:w-28 sm:h-28 object-contain" style={{ filter: "drop-shadow(0 0 40px rgba(201,168,76,0.12))" }} />
                 </motion.div>
 
                 {/* Gold rule */}
@@ -195,11 +197,11 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                     fontFamily: "'Cormorant Garamond', serif",
                     fontWeight: 300,
                     color: "#F0EBE0",
-                    letterSpacing: "0.15em",
+                    letterSpacing: "0.08em",
                   }}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.6 }}
+                  transition={{ duration: 0.7, delay: 0.8 }}
                 >
                   Enter Your Date of Birth
                 </motion.h1>
@@ -208,13 +210,14 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 <motion.p
                   className="text-xs sm:text-sm font-light mb-8"
                   style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    color: "rgba(160,144,112,0.6)",
-                    letterSpacing: "0.1em",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 300,
+                    color: "rgba(160,144,112,0.5)",
+                    letterSpacing: "0.12em",
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.9 }}
+                  transition={{ duration: 0.6, delay: 1.1 }}
                 >
                   YOU MUST BE 21 OR OLDER TO ENTER
                 </motion.p>
@@ -222,9 +225,9 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
                 {/* DOB Dropdowns */}
                 <motion.div
                   className="w-full max-w-sm mx-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.0 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.4 }}
                 >
                   <div className="grid grid-cols-3 gap-3 mb-5">
                     <select
@@ -272,20 +275,25 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
 
                   <button
                     onClick={handleSubmit}
-                    className="w-full py-4 text-xs font-sans font-semibold uppercase transition-all duration-300 active:scale-95"
+                    className="w-full py-4 text-xs font-sans font-semibold uppercase active:scale-[0.97]"
                     style={{
                       letterSpacing: "0.2em",
-                      background: "#C9A84C",
+                      background: "linear-gradient(135deg, #C5A355, #D4AF37)",
                       color: "#0D110E",
-                      border: "1px solid #C9A84C",
+                      border: "1px solid rgba(212,175,55,0.4)",
+                      borderRadius: "2px",
+                      boxShadow: "0 0 20px rgba(201,168,76,0.08)",
+                      transition: "all 0.4s ease",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "#E8D08A";
-                      e.currentTarget.style.borderColor = "#E8D08A";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #D4AF37, #E8C84A)";
+                      e.currentTarget.style.boxShadow = "0 0 30px rgba(201,168,76,0.2)";
+                      e.currentTarget.style.borderColor = "rgba(232,200,74,0.5)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "#C9A84C";
-                      e.currentTarget.style.borderColor = "#C9A84C";
+                      e.currentTarget.style.background = "linear-gradient(135deg, #C5A355, #D4AF37)";
+                      e.currentTarget.style.boxShadow = "0 0 20px rgba(201,168,76,0.08)";
+                      e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
                     }}
                   >
                     Enter Site
