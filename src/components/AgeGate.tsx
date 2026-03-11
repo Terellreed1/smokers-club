@@ -284,7 +284,7 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
 
                   <button
                     onClick={handleSubmit}
-                    className="w-full py-4 text-xs font-sans font-semibold uppercase active:scale-[0.97]"
+                    className="w-full py-4 text-xs uppercase active:scale-[0.97]"
                     style={{
                       letterSpacing: "0.2em",
                       background: "linear-gradient(135deg, #B8962E, #D4AF37)",
