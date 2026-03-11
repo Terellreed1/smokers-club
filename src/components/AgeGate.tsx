@@ -171,143 +171,141 @@ const AgeGate = ({ children }: { children: React.ReactNode }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <DarkShell>
-              <div className="relative z-10 w-[92vw] max-w-lg text-center px-6 flex-1 flex flex-col items-center justify-center">
-                {/* Logo */}
-                <motion.div
-                  className="relative"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                  <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: "0 0 150px 80px rgba(197,163,85,0.10)", borderRadius: "50%" }} />
-                  <img src={heroLogo} alt="Luxury Courier Club" className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 object-contain" style={{ filter: "drop-shadow(0 0 40px rgba(201,168,76,0.12))" }} />
-                </motion.div>
-
-                {/* Gold rule */}
-                <motion.div
-                  className="mx-auto my-8 h-px w-16"
-                  style={{ background: "#C9A84C" }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                />
-
-                {/* Headline */}
-                <motion.h1
-                  className="text-3xl sm:text-4xl md:text-5xl uppercase mb-4"
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 300,
-                    color: "#F0EBE0",
-                    letterSpacing: "0.08em",
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.8 }}
-                >
-                  Enter Your Date of Birth
-                </motion.h1>
-
-                {/* Subtitle */}
-                <motion.p
-                  className="text-xs sm:text-sm font-light mb-8"
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: 300,
-                    color: "rgba(160,144,112,0.5)",
-                    letterSpacing: "0.06em",
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.1 }}
-                >
-                  YOU MUST BE 21 OR OLDER TO ENTER
-                </motion.p>
-
-                {/* DOB Dropdowns */}
-                <motion.div
-                  className="w-full max-w-sm mx-auto"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.4 }}
-                >
-                  <div className="grid grid-cols-3 gap-3 mb-5">
-                    <select
-                      value={month}
-                      onChange={(e) => setMonth(e.target.value)}
-                      style={selectStyle}
-                      aria-label="Month"
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
-                    >
-                      <option value="" style={optionStyle}>Month</option>
-                      {MONTHS.map((m, i) => (
-                        <option key={m} value={String(i + 1)} style={optionStyle}>{m}</option>
-                      ))}
-                    </select>
-
-                    <select
-                      value={day}
-                      onChange={(e) => setDay(e.target.value)}
-                      style={selectStyle}
-                      aria-label="Day"
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
-                    >
-                      <option value="" style={optionStyle}>Day</option>
-                      {dayOptions.map((d) => (
-                        <option key={d} value={String(d)} style={optionStyle}>{d}</option>
-                      ))}
-                    </select>
-
-                    <select
-                      value={year}
-                      onChange={(e) => setYear(e.target.value)}
-                      style={selectStyle}
-                      aria-label="Year"
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
-                    >
-                      <option value="" style={optionStyle}>Year</option>
-                      {years.map((y) => (
-                        <option key={y} value={String(y)} style={optionStyle}>{y}</option>
-                      ))}
-                    </select>
+              <DarkShell>
+                <style>{`
+                  @keyframes ageFadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                  }
+                  @keyframes ageLogoIn {
+                    from { opacity: 0; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1); }
+                  }
+                  .age-stagger { opacity: 0; animation-fill-mode: forwards; animation-timing-function: ease; }
+                  .age-logo { animation: ageLogoIn 0.5s ease 0s forwards; }
+                  .age-rule { animation: ageFadeIn 0.4s ease 0.3s forwards; }
+                  .age-heading { animation: ageFadeIn 0.4s ease 0.6s forwards; }
+                  .age-subtext { animation: ageFadeIn 0.4s ease 0.8s forwards; }
+                  .age-dropdowns { animation: ageFadeIn 0.4s ease 1.0s forwards; }
+                  .age-button { animation: ageFadeIn 0.4s ease 1.2s forwards; }
+                `}</style>
+                <div className="relative z-10 w-[92vw] max-w-lg text-center px-6 flex-1 flex flex-col items-center justify-center">
+                  {/* Logo */}
+                  <div className="relative age-stagger age-logo">
+                    <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: "0 0 150px 80px rgba(197,163,85,0.10)", borderRadius: "50%" }} />
+                    <img src={heroLogo} alt="Luxury Courier Club" className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 object-contain" style={{ filter: "drop-shadow(0 0 40px rgba(201,168,76,0.12))" }} />
                   </div>
 
-                  {error && (
-                    <p className="text-[11px] mb-4" style={{ color: "#e55", fontFamily: "'Montserrat', sans-serif" }}>
-                      {error}
-                    </p>
-                  )}
+                  {/* Gold rule */}
+                  <div
+                    className="mx-auto my-8 h-px w-16 age-stagger age-rule"
+                    style={{ background: "#C9A84C" }}
+                  />
 
-                  <button
-                    onClick={handleSubmit}
-                    className="w-full py-4 text-xs uppercase active:scale-[0.97]"
+                  {/* Headline */}
+                  <h1
+                    className="text-3xl sm:text-4xl md:text-5xl uppercase mb-4 age-stagger age-heading"
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontWeight: 600,
-                      letterSpacing: "0.2em",
-                      background: "linear-gradient(135deg, #B8962E, #D4AF37)",
-                      color: "#FFFFFF",
-                      border: "none",
-                      borderRadius: "2px",
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "linear-gradient(135deg, #C9A84C, #E0C04A)";
-                      e.currentTarget.style.boxShadow = "0 0 20px rgba(212,175,55,0.3)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "linear-gradient(135deg, #B8962E, #D4AF37)";
-                      e.currentTarget.style.boxShadow = "none";
+                      fontFamily: "'Playfair Display', serif",
+                      fontWeight: 300,
+                      color: "#F0EBE0",
+                      letterSpacing: "0.08em",
                     }}
                   >
-                    Enter Site
-                  </button>
-                </motion.div>
-              </div>
+                    Enter Your Date of Birth
+                  </h1>
+
+                  {/* Subtitle */}
+                  <p
+                    className="text-xs sm:text-sm font-light mb-8 age-stagger age-subtext"
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontWeight: 300,
+                      color: "rgba(160,144,112,0.5)",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    YOU MUST BE 21 OR OLDER TO ENTER
+                  </p>
+
+                  {/* DOB Dropdowns */}
+                  <div className="w-full max-w-sm mx-auto">
+                    <div className="grid grid-cols-3 gap-3 mb-5 age-stagger age-dropdowns">
+                      <select
+                        value={month}
+                        onChange={(e) => setMonth(e.target.value)}
+                        style={selectStyle}
+                        aria-label="Month"
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
+                      >
+                        <option value="" style={optionStyle}>Month</option>
+                        {MONTHS.map((m, i) => (
+                          <option key={m} value={String(i + 1)} style={optionStyle}>{m}</option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={day}
+                        onChange={(e) => setDay(e.target.value)}
+                        style={selectStyle}
+                        aria-label="Day"
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
+                      >
+                        <option value="" style={optionStyle}>Day</option>
+                        {dayOptions.map((d) => (
+                          <option key={d} value={String(d)} style={optionStyle}>{d}</option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={year}
+                        onChange={(e) => setYear(e.target.value)}
+                        style={selectStyle}
+                        aria-label="Year"
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(197,163,85,0.4)"; }}
+                      >
+                        <option value="" style={optionStyle}>Year</option>
+                        {years.map((y) => (
+                          <option key={y} value={String(y)} style={optionStyle}>{y}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {error && (
+                      <p className="text-[11px] mb-4" style={{ color: "#e55", fontFamily: "'Montserrat', sans-serif" }}>
+                        {error}
+                      </p>
+                    )}
+
+                    <button
+                      onClick={handleSubmit}
+                      className="w-full py-4 text-xs uppercase active:scale-[0.97] age-stagger age-button"
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 600,
+                        letterSpacing: "0.2em",
+                        background: "linear-gradient(135deg, #B8962E, #D4AF37)",
+                        color: "#FFFFFF",
+                        border: "none",
+                        borderRadius: "2px",
+                        transition: "all 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "linear-gradient(135deg, #C9A84C, #E0C04A)";
+                        e.currentTarget.style.boxShadow = "0 0 20px rgba(212,175,55,0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "linear-gradient(135deg, #B8962E, #D4AF37)";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      Enter Site
+                    </button>
+                  </div>
+                </div>
 
               {/* Footer */}
               <div className="relative z-10 w-full max-w-2xl mx-auto px-8 pb-8">
