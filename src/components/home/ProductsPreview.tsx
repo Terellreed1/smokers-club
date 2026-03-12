@@ -15,11 +15,11 @@ interface Product {
 }
 
 const categories = [
-  { name: "Flower", emoji: "🌿", to: "/shop?category=Flower" },
-  { name: "Pre-Rolls", emoji: "🔥", to: "/shop?category=Pre-Roll" },
-  { name: "Vapes", emoji: "💨", to: "/shop?category=Vape" },
-  { name: "Edibles", emoji: "🍬", to: "/shop?category=Edible" },
-  { name: "Concentrates", emoji: "💎", to: "/shop?category=Concentrate" },
+  { name: "Flower", to: "/shop?category=Flower" },
+  { name: "Pre-Rolls", to: "/shop?category=Pre-Roll" },
+  { name: "Vapes", to: "/shop?category=Vape" },
+  { name: "Edibles", to: "/shop?category=Edible" },
+  { name: "Concentrates", to: "/shop?category=Concentrate" },
 ];
 
 const ProductsPreview = () => {
@@ -66,7 +66,7 @@ const ProductsPreview = () => {
           </p>
         </div>
 
-        {/* Category cards */}
+        {/* Category cards — typography only */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 mb-10">
           {categories.map((cat, i) => (
             <motion.div
@@ -78,27 +78,29 @@ const ProductsPreview = () => {
             >
               <Link
                 to={cat.to}
-                className="flex flex-col items-center justify-center rounded-xl transition-all duration-300"
+                className="flex items-center justify-center transition-all duration-300"
                 style={{
+                  height: 140,
                   backgroundColor: "#141414",
                   border: "1px solid rgba(197, 163, 85, 0.15)",
-                  padding: 30,
+                  borderRadius: 12,
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#D4AF37";
+                  e.currentTarget.style.backgroundColor = "rgba(197, 163, 85, 0.05)";
                   e.currentTarget.style.transform = "translateY(-4px)";
                   e.currentTarget.style.boxShadow = "0 4px 20px rgba(212, 175, 55, 0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = "rgba(197, 163, 85, 0.15)";
+                  e.currentTarget.style.backgroundColor = "#141414";
                   e.currentTarget.style.transform = "translateY(0)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                <span style={{ fontSize: 40, lineHeight: 1 }} className="mb-3">{cat.emoji}</span>
                 <span
                   className="uppercase font-sans"
-                  style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.1em", color: "#FFFFFF" }}
+                  style={{ fontSize: 14, fontWeight: 500, letterSpacing: "0.15em", color: "#FFFFFF" }}
                 >
                   {cat.name}
                 </span>
