@@ -27,7 +27,7 @@ const brands = [
 ];
 
 const BrandCarousel = () => (
-  <section className="relative bg-white py-[60px]">
+  <section className="relative bg-white py-[60px] overflow-hidden">
     {/* Gold divider line */}
     <div className="flex justify-center mb-6">
       <div style={{ width: 100, height: 1, backgroundColor: "rgba(197, 163, 85, 0.3)" }} />
@@ -47,25 +47,45 @@ const BrandCarousel = () => (
       Our Brands
     </p>
 
-    {/* Logos row */}
-    <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14 lg:gap-16 px-4 sm:px-8">
-      {brands.map((b, i) => (
-        <div
-          key={i}
-          className="flex-shrink-0 transition-transform duration-300 hover:scale-105"
-        >
-          <img
-            src={b.src}
-            alt={b.alt}
-            className="object-contain"
-            style={{ height: 60, width: "auto", maxWidth: 140 }}
-            loading="lazy"
-            width="140"
-            height="60"
-          />
-        </div>
-      ))}
+    {/* Marquee container */}
+    <div className="relative group">
+      <div
+        className="flex items-center scrollbar-hide"
+        style={{
+          width: "max-content",
+          gap: 40,
+          animation: "marquee-scroll 30s linear infinite",
+          animationPlayState: "running",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = "paused"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = "running"; }}
+      >
+        {[...brands, ...brands].map((b, i) => (
+          <div key={i} className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
+            <img
+              src={b.src}
+              alt={b.alt}
+              className="object-contain"
+              style={{ height: 60, width: "auto", maxWidth: 140 }}
+              loading="lazy"
+              width="140"
+              height="60"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Edge fades */}
+      <div className="absolute inset-y-0 left-0 w-24 pointer-events-none" style={{ background: "linear-gradient(90deg, #FFFFFF 0%, transparent 100%)" }} />
+      <div className="absolute inset-y-0 right-0 w-24 pointer-events-none" style={{ background: "linear-gradient(270deg, #FFFFFF 0%, transparent 100%)" }} />
     </div>
+
+    <style>{`
+      @keyframes marquee-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+    `}</style>
   </section>
 );
 
