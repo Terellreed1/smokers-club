@@ -257,7 +257,10 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
 
               <button
                 onClick={onClose}
-                className="w-full py-3 text-[10px] font-sans uppercase tracking-[0.15em] text-muted-foreground/50 hover:text-foreground transition-colors border-t border-border"
+                className="w-full py-3 text-[10px] font-sans uppercase tracking-[0.15em] transition-colors duration-300 hover:text-[#D4AF37]"
+                style={{ color: "rgba(197, 163, 85, 0.6)", borderTop: "1px solid rgba(197, 163, 85, 0.15)" }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "#D4AF37"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "rgba(197, 163, 85, 0.6)"}
               >
                 Skip
               </button>
