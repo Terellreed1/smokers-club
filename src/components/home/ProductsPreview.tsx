@@ -15,11 +15,11 @@ interface Product {
 }
 
 const categories = [
-  { name: "Flower", to: "/shop?category=Flower" },
-  { name: "Pre-Rolls", to: "/shop?category=Pre-Roll" },
-  { name: "Vapes", to: "/shop?category=Vape" },
-  { name: "Edibles", to: "/shop?category=Edible" },
-  { name: "Concentrates", to: "/shop?category=Concentrate" },
+  { name: "Flower", emoji: "🌿", to: "/shop?category=Flower" },
+  { name: "Pre-Rolls", emoji: "🔥", to: "/shop?category=Pre-Roll" },
+  { name: "Vapes", emoji: "💨", to: "/shop?category=Vape" },
+  { name: "Edibles", emoji: "🍬", to: "/shop?category=Edible" },
+  { name: "Concentrates", emoji: "💎", to: "/shop?category=Concentrate" },
 ];
 
 const ProductsPreview = () => {
