@@ -1078,8 +1078,8 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
           <Modal title="Delete State" onClose={() => setDeleteId(null)}>
             <p className="text-sm text-muted-foreground mb-4">Remove this state from the list?</p>
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setDeleteId(null)} className="px-4 py-2 text-sm border border-black/10 rounded-xl hover:bg-black/5 transition-all">Cancel</button>
-              <button onClick={() => remove(deleteId)} className="px-4 py-2 text-sm bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all">Delete</button>
+              <button onClick={() => setDeleteId(null)} className="px-4 py-2 text-sm border border-black/10 hover:bg-black/5 transition-all">Cancel</button>
+              <button onClick={() => remove(deleteId)} className="px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600 transition-all">Delete</button>
             </div>
           </Modal>
         )}
