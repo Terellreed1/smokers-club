@@ -109,6 +109,27 @@ const SectionHeader = ({ title, subtitle, actions }: { title: string; subtitle: 
   </div>
 );
 
+// ─── Sortable Product Row ─────────────────────────────────────────
+const SortableProductRow = ({ product, index }: { product: Product; index: number }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: product.id });
+  const style = { transform: CSS.Transform.toString(transform), transition, zIndex: isDragging ? 50 : undefined, opacity: isDragging ? 0.5 : 1 };
+  return (
+    <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-3 sm:p-4 border border-black/[0.06] bg-white ${isDragging ? "shadow-lg" : ""}`}>
+      <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-black/30 hover:text-black/60 touch-none">
+        <GripVertical size={16} />
+      </button>
+      <span className="text-black/25 text-xs font-mono w-6 text-center">{index + 1}</span>
+      <div className="w-10 h-10 bg-black/[0.03] border border-black/[0.06] overflow-hidden flex-shrink-0">
+        {product.image_url ? <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-black/15"><ImageIcon size={14} /></div>}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-black text-sm font-medium truncate">{product.name}</p>
+        <p className="text-black/40 text-xs truncate">{product.brand} · {product.price}</p>
+      </div>
+    </div>
+  );
+};
+
 // ─── Products Section ─────────────────────────────────────────────
 const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | "PUT" | "DELETE", b?: object) => Promise<unknown> }) => {
   const [products, setProducts] = useState<Product[]>([]);
