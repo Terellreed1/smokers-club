@@ -1206,7 +1206,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
   return (
     <div>
       <SectionHeader title="Orders" subtitle="Paid orders from customers" actions={
-        <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
+        <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
       } />
 
       <div className="flex gap-2 mb-6 flex-wrap">
