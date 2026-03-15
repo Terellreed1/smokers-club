@@ -1016,7 +1016,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
           { label: "Can Ship", value: shipCount, color: "text-emerald-600" },
           { label: "Can Deliver", value: deliverCount, color: "text-blue-600" },
         ].map(({ label, value, color }) => (
-          <div key={label} className="border border-black/[0.06] rounded-2xl p-4">
+          <div key={label} className="border border-black/[0.06] p-4">
             <p className={`text-2xl font-light ${color}`}>{value}</p>
             <p className="text-muted-foreground text-[10px] mt-1 uppercase tracking-wider">{label}</p>
           </div>
