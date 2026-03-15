@@ -38,6 +38,7 @@ const TYPE_OPTIONS = ["Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls",
 const DEFAULT_BRAND_OPTIONS = ["Luxury Courier Club", "The Candy Shop", "Pain Network", "Grumpus", "Cupz Strainz", "Julato NYC", "High Mart", "Highflix", "High Monkey", "Mameys", "ESPN", "MB", "Fumi", "Frutaz LA", "Don Merfos", "Kandy Depo", "Always Faded", "FS", "Super Candy Bros", "Backpack Boyz", "Kush Factory", "Friday", "High Tolerance", "Cali Clouds Club"];
 
 const navItems = [
+  { id: "orders", label: "Orders", icon: ShoppingBag },
   { id: "products", label: "Products", icon: Package },
   { id: "brands", label: "Brands", icon: ImageIcon },
   { id: "state_laws", label: "State Laws", icon: MapPin },
