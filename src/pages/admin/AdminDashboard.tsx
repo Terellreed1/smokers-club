@@ -135,7 +135,7 @@ const SortableProductRow = ({ product, index }: { product: Product; index: numbe
 const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | "PUT" | "DELETE", b?: object) => Promise<unknown> }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState<"add" | "edit" | null>(null);
+  const [modal, setModal] = useState<"add" | "edit" | "bulk" | null>(null);
   const [editing, setEditing] = useState<Product | null>(null);
   const [form, setForm] = useState({ name: "", brand: "Luxury Courier Club", price: "$65", image_url: "", description: "", strain: "None", product_type: "Flower", sold_out: false, active: true });
   const [saving, setSaving] = useState(false);
@@ -143,6 +143,14 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
   const [customBrand, setCustomBrand] = useState("");
   const [reorderMode, setReorderMode] = useState(false);
   const [reordering, setReordering] = useState(false);
+  
+  // Bulk import state
+  const [bulkUrls, setBulkUrls] = useState("");
+  const [bulkItems, setBulkItems] = useState<{ image_url: string; name: string; brand: string; product_type: string; description: string; price: string; selected: boolean }[]>([]);
+  const [bulkStep, setBulkStep] = useState<"paste" | "review">("paste");
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [bulkSaving, setBulkSaving] = useState(false);
+  const [aiNaming, setAiNaming] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
