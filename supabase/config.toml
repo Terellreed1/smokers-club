@@ -17,6 +17,3 @@ verify_jwt = false
 
 [functions.stripe-webhook]
 verify_jwt = false
-
-[functions.ai-product-namer]
-verify_jwt = false
