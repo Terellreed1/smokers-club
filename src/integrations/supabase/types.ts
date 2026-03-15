@@ -344,6 +344,48 @@ export type Database = {
           },
         ]
       }
+      state_laws: {
+        Row: {
+          active: boolean
+          can_deliver: boolean
+          can_ship: boolean
+          created_at: string
+          id: string
+          legal_status: string
+          notes: string | null
+          sort_order: number
+          state_code: string
+          state_name: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          can_deliver?: boolean
+          can_ship?: boolean
+          created_at?: string
+          id?: string
+          legal_status?: string
+          notes?: string | null
+          sort_order?: number
+          state_code: string
+          state_name: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          can_deliver?: boolean
+          can_ship?: boolean
+          created_at?: string
+          id?: string
+          legal_status?: string
+          notes?: string | null
+          sort_order?: number
+          state_code?: string
+          state_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       wholesale_inquiries: {
         Row: {
           company_address: string
