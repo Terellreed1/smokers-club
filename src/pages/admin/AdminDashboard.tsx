@@ -1231,7 +1231,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
         <div className="space-y-3">
           {filtered.map(order => (
             <div key={order.id} onClick={() => setSelected(order)}
-              className="border border-black/[0.06] rounded-xl p-4 hover:border-black/15 transition-all cursor-pointer bg-white">
+              className="border border-black/[0.06] p-4 hover:border-black/15 transition-all cursor-pointer bg-white">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border font-medium ${METHOD_COLORS[order.delivery_method] || "bg-gray-50 text-gray-700"}`}>
