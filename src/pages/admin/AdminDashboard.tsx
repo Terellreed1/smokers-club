@@ -468,7 +468,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                   <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-black/40 border border-black/10">Cancel</button>
                   <button onClick={saveBulkProducts} disabled={bulkSaving || bulkItems.filter(i => i.selected).length === 0}
                     className="flex-1 py-2.5 text-sm bg-black text-white font-semibold disabled:opacity-30 flex items-center justify-center gap-2">
-                    {bulkSaving ? <><Loader2 size={13} className="animate-spin" /> Saving...</> : <><Check size={13} /> Import {bulkItems.filter(i => i.selected).length} Products</>}
+                    {bulkSaving ? "Saving..." : `Import ${bulkItems.filter(i => i.selected).length} Products`}
                   </button>
                 </div>
               </div>
