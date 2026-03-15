@@ -761,7 +761,7 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
               <Field label="Logo URL" hint="Upload to imgbb.com → copy Direct Link → paste here">
                 <div className="space-y-2">
                   <input className={inputCls} value={form.logo_url} onChange={(e) => setForm(prev => ({ ...prev, logo_url: e.target.value }))} placeholder="https://i.ibb.co/..." />
-                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-black/30 hover:text-black/60 transition-colors"><ExternalLink size={10} /> Open imgbb.com</a>
+                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-black/30 hover:text-black/60 transition-colors">Open imgbb.com →</a>
                   {form.logo_url && <img src={form.logo_url} alt="Preview" className="h-16 object-contain border border-black/10 p-2 mt-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />}
                 </div>
               </Field>
