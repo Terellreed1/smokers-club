@@ -20,7 +20,7 @@ const terpenes = [
     effect: "Mood elevation, stress relief",
     found: "Citrus rinds, Juniper",
     color: "#facc15",
-    icon: "🍋",
+    icon: "L",
     unlocked: true,
   },
   {
