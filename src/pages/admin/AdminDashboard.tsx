@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  LogOut, Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
-  ExternalLink, Image as ImageIcon, Users, Menu,
-  ShoppingBag, MessageSquare, FileQuestion, GripVertical,
-  Upload, Check, Loader2, MapPin, Truck, Send,
+  X, ChevronDown,
+  GripVertical,
+  Loader2,
 } from "lucide-react";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -59,18 +58,15 @@ const StarRating = ({ rating, onChange }: { rating: number; onChange?: (r: numbe
 );
 
 // ─── Empty State ──────────────────────────────────────────────────
-const EmptyState = ({ icon: Icon, title, description, actionLabel, onAction }: {
-  icon: React.ElementType; title: string; description: string; actionLabel?: string; onAction?: () => void;
+const EmptyState = ({ title, description, actionLabel, onAction }: {
+  title: string; description: string; actionLabel?: string; onAction?: () => void;
 }) => (
   <div className="flex flex-col items-center justify-center py-20 px-4">
-    <div className="w-16 h-16 bg-black/[0.03] border border-black/[0.06] flex items-center justify-center mb-5">
-      <Icon size={24} className="text-black/20" />
-    </div>
     <h3 className="text-foreground text-base font-medium mb-1">{title}</h3>
     <p className="text-muted-foreground text-sm text-center max-w-xs mb-6">{description}</p>
     {actionLabel && onAction && (
-      <button onClick={onAction} className="flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-5 py-2.5 hover:opacity-80 transition-opacity">
-        <Plus size={14} /> {actionLabel}
+      <button onClick={onAction} className="bg-foreground text-background text-sm font-semibold px-5 py-2.5 hover:opacity-80 transition-opacity">
+        {actionLabel}
       </button>
     )}
   </div>
@@ -122,11 +118,11 @@ const SortableProductRow = ({ product, index }: { product: Product; index: numbe
   return (
     <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-3 sm:p-4 border border-black/[0.06] bg-white ${isDragging ? "shadow-lg" : ""}`}>
       <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-black/30 hover:text-black/60 touch-none">
-        <GripVertical size={16} />
+        <GripVertical size={16} className="text-black/30" />
       </button>
       <span className="text-black/25 text-xs font-mono w-6 text-center">{index + 1}</span>
       <div className="w-10 h-10 bg-black/[0.03] border border-black/[0.06] overflow-hidden flex-shrink-0">
-        {product.image_url ? <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-black/15"><ImageIcon size={14} /></div>}
+        {product.image_url ? <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-black/15 text-[10px]">—</div>}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-black text-sm font-medium truncate">{product.name}</p>
@@ -285,10 +281,10 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
         actions={<>
           {!reorderMode ? (
             <>
-              <button onClick={() => setReorderMode(true)} className={btnSecondary + " text-xs flex items-center gap-1.5"}><GripVertical size={14} /> <span className="hidden sm:inline">Reorder</span></button>
-              <button onClick={openBulkImport} className={btnSecondary + " text-xs flex items-center gap-1.5"}><Upload size={14} /> <span className="hidden sm:inline">Bulk Import</span><span className="sm:hidden">Bulk</span></button>
-              <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
-              <button onClick={openAdd} className={btnPrimary}><Plus size={14} /> <span className="hidden sm:inline">Add Product</span><span className="sm:hidden">Add</span></button>
+              <button onClick={() => setReorderMode(true)} className={btnSecondary + " text-xs"}>Reorder</button>
+              <button onClick={openBulkImport} className={btnSecondary + " text-xs"}>Bulk Import</button>
+              <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
+              <button onClick={openAdd} className={btnPrimary}>Add Product</button>
             </>
           ) : (
             <>
@@ -301,7 +297,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : products.length === 0 ? (
-        <EmptyState icon={ShoppingBag} title="No products yet" description="Add your first product to get started with your catalog." actionLabel="Add Product" onAction={openAdd} />
+        <EmptyState title="No products yet" description="Add your first product to get started with your catalog." actionLabel="Add Product" onAction={openAdd} />
       ) : reorderMode ? (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={products.map(p => p.id)} strategy={verticalListSortingStrategy}>
@@ -318,7 +314,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
             <motion.div key={p.id} layout
               className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 border transition-all ${p.active ? "border-black/[0.06] hover:border-black/10 hover:shadow-sm" : "border-black/[0.04] opacity-40"}`}>
               <div className="w-11 h-11 sm:w-12 sm:h-12 bg-black/[0.03] border border-black/[0.06] overflow-hidden flex-shrink-0">
-                {p.image_url ? <img src={p.image_url} alt={p.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-black/15"><ImageIcon size={16} /></div>}
+                {p.image_url ? <img src={p.image_url} alt={p.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-black/15 text-[10px]">—</div>}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
@@ -332,8 +328,8 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                 <p className="text-foreground text-sm font-medium">{p.price}</p>
               </div>
               <div className="flex gap-0.5 flex-shrink-0">
-                <button onClick={() => openEdit(p)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Pencil size={13} /></button>
-                <button onClick={() => setDeleteId(p.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Trash2 size={13} /></button>
+                <button onClick={() => openEdit(p)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Edit</button>
+                <button onClick={() => setDeleteId(p.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Del</button>
               </div>
             </motion.div>
           ))}
@@ -355,7 +351,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                         {DEFAULT_BRAND_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
                         <option value="__custom__">+ Custom Brand</option>
                       </select>
-                      <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                      <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-black/30 pointer-events-none" />
                     </div>
                     {(!DEFAULT_BRAND_OPTIONS.includes(form.brand) || form.brand === "") && (
                       <input className={inputCls} value={form.brand} onChange={(e) => f("brand", e.target.value)} placeholder="Enter custom brand name" />
@@ -381,7 +377,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
               <Field label="Image URL" hint="Upload to imgbb.com → copy Direct Link → paste here">
                 <div className="space-y-2">
                   <input className={inputCls} value={form.image_url} onChange={(e) => f("image_url", e.target.value)} placeholder="https://i.ibb.co/..." />
-                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors"><ExternalLink size={10} /> Open imgbb.com</a>
+                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors">Open imgbb.com →</a>
                   {form.image_url && <img src={form.image_url} alt="Preview" className="w-16 h-16 object-cover border border-black/10 mt-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />}
                 </div>
               </Field>
@@ -472,7 +468,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
                   <button onClick={() => setModal(null)} className="flex-1 py-2.5 text-sm text-black/40 border border-black/10">Cancel</button>
                   <button onClick={saveBulkProducts} disabled={bulkSaving || bulkItems.filter(i => i.selected).length === 0}
                     className="flex-1 py-2.5 text-sm bg-black text-white font-semibold disabled:opacity-30 flex items-center justify-center gap-2">
-                    {bulkSaving ? <><Loader2 size={13} className="animate-spin" /> Saving...</> : <><Check size={13} /> Import {bulkItems.filter(i => i.selected).length} Products</>}
+                    {bulkSaving ? "Saving..." : `Import ${bulkItems.filter(i => i.selected).length} Products`}
                   </button>
                 </div>
               </div>
@@ -522,14 +518,14 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
     <div>
       <SectionHeader title="FAQ" subtitle={`${items.length} questions`}
         actions={<>
-          <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className={btnPrimary}><Plus size={14} /> <span className="hidden sm:inline">Add Question</span><span className="sm:hidden">Add</span></button>
+          <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
+          <button onClick={openAdd} className={btnPrimary}>Add Question</button>
         </>}
       />
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : items.length === 0 ? (
-        <EmptyState icon={FileQuestion} title="No FAQ items" description="Add frequently asked questions to help your customers." actionLabel="Add Question" onAction={openAdd} />
+        <EmptyState title="No FAQ items" description="Add frequently asked questions to help your customers." actionLabel="Add Question" onAction={openAdd} />
       ) : (
         <div className="space-y-1.5">
           {items.map((item) => (
@@ -539,8 +535,8 @@ const FaqSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST" | 
                 <p className="text-muted-foreground text-xs mt-1 line-clamp-2">{item.answer}</p>
               </div>
               <div className="flex gap-0.5 flex-shrink-0">
-                <button onClick={() => openEdit(item)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Pencil size={13} /></button>
-                <button onClick={() => setDeleteId(item.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Trash2 size={13} /></button>
+                <button onClick={() => openEdit(item)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Edit</button>
+                <button onClick={() => setDeleteId(item.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Del</button>
               </div>
             </div>
           ))}
@@ -623,14 +619,14 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
     <div>
       <SectionHeader title="Homepage Reviews" subtitle={`${reviews.length} testimonials`}
         actions={<>
-          <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className={btnPrimary}><Plus size={14} /> <span className="hidden sm:inline">Add Review</span><span className="sm:hidden">Add</span></button>
+          <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
+          <button onClick={openAdd} className={btnPrimary}>Add Review</button>
         </>}
       />
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : reviews.length === 0 ? (
-        <EmptyState icon={MessageSquare} title="No reviews yet" description="Add customer testimonials to display on your homepage." actionLabel="Add Review" onAction={openAdd} />
+        <EmptyState title="No reviews yet" description="Add customer testimonials to display on your homepage." actionLabel="Add Review" onAction={openAdd} />
       ) : (
         <div className="space-y-1.5">
           {reviews.map((r) => (
@@ -648,8 +644,8 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
                   className={`p-2 text-xs font-medium transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center ${r.active ? "text-emerald-600 bg-emerald-50 hover:bg-emerald-100" : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"}`}>
                   {r.active ? "On" : "Off"}
                 </button>
-                <button onClick={() => openEdit(r)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Pencil size={13} /></button>
-                <button onClick={() => setDeleteId(r.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"><Trash2 size={13} /></button>
+                <button onClick={() => openEdit(r)} className="p-2 text-muted-foreground hover:text-foreground hover:bg-black/[0.04] transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Edit</button>
+                <button onClick={() => setDeleteId(r.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50/60 transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center text-xs">Del</button>
               </div>
             </div>
           ))}
@@ -731,26 +727,26 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
     <div>
       <SectionHeader title="Brands" subtitle={`${brands.length} brands`}
         actions={<>
-          <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className={btnPrimary}><Plus size={14} /> <span className="hidden sm:inline">Add Brand</span><span className="sm:hidden">Add</span></button>
+          <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
+          <button onClick={openAdd} className={btnPrimary}>Add Brand</button>
         </>}
       />
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : brands.length === 0 ? (
-        <EmptyState icon={ImageIcon} title="No brands yet" description="Add your first brand to display on the website." actionLabel="Add Brand" onAction={openAdd} />
+        <EmptyState title="No brands yet" description="Add your first brand to display on the website." actionLabel="Add Brand" onAction={openAdd} />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {brands.map((b) => (
             <div key={b.id} className={`border p-4 transition-all group relative ${b.active ? "border-black/[0.06] hover:border-black/10 hover:shadow-sm" : "border-black/[0.04] opacity-40"}`}>
               <div className="h-24 flex items-center justify-center mb-3">
-                {b.logo_url ? <img src={b.logo_url} alt={b.name} className="max-h-full max-w-full object-contain" /> : <ImageIcon size={32} className="text-black/10" />}
+                {b.logo_url ? <img src={b.logo_url} alt={b.name} className="max-h-full max-w-full object-contain" /> : <span className="text-black/10 text-sm">No Logo</span>}
               </div>
               <p className="text-black text-xs font-medium text-center truncate">{b.name}</p>
               {!b.active && <span className="absolute top-2 right-2 text-[8px] bg-black/5 text-black/40 px-1.5 py-0.5 font-medium">HIDDEN</span>}
               <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => openEdit(b)} className="p-1.5 bg-white border border-black/10 text-black/40 hover:text-black"><Pencil size={11} /></button>
-                <button onClick={() => setDeleteId(b.id)} className="p-1.5 bg-white border border-black/10 text-black/40 hover:text-red-500"><Trash2 size={11} /></button>
+                <button onClick={() => openEdit(b)} className="p-1.5 bg-white border border-black/10 text-black/40 hover:text-black text-[10px]">Edit</button>
+                <button onClick={() => setDeleteId(b.id)} className="p-1.5 bg-white border border-black/10 text-black/40 hover:text-red-500 text-[10px]">Del</button>
               </div>
             </div>
           ))}
@@ -765,7 +761,7 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
               <Field label="Logo URL" hint="Upload to imgbb.com → copy Direct Link → paste here">
                 <div className="space-y-2">
                   <input className={inputCls} value={form.logo_url} onChange={(e) => setForm(prev => ({ ...prev, logo_url: e.target.value }))} placeholder="https://i.ibb.co/..." />
-                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-black/30 hover:text-black/60 transition-colors"><ExternalLink size={10} /> Open imgbb.com</a>
+                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-black/30 hover:text-black/60 transition-colors">Open imgbb.com →</a>
                   {form.logo_url && <img src={form.logo_url} alt="Preview" className="h-16 object-contain border border-black/10 p-2 mt-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />}
                 </div>
               </Field>
@@ -818,7 +814,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
   return (
     <div>
       <SectionHeader title="Referrals" subtitle="Track referral codes and signups"
-        actions={<button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>}
+        actions={<button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>}
       />
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
@@ -837,7 +833,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
             ))}
           </div>
           {data.codes.length === 0 ? (
-            <EmptyState icon={Users} title="No referral codes" description="Referral codes will appear here when customers create them." />
+            <EmptyState title="No referral codes" description="Referral codes will appear here when customers create them." />
           ) : (
             <div className="space-y-1.5">
               {data.codes.map((rc) => (
@@ -899,9 +895,9 @@ const US_STATES = [
   { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" }, { code: "DC", name: "Washington D.C." },
 ];
 
-const LEGAL_STATUS_OPTIONS = ["legal", "medical_only", "decriminalized", "illegal"];
-const LEGAL_STATUS_LABELS: Record<string, string> = { legal: "Fully Legal", medical_only: "Medical Only", decriminalized: "Decriminalized", illegal: "Illegal" };
-const LEGAL_STATUS_COLORS: Record<string, string> = { legal: "bg-emerald-100 text-emerald-700", medical_only: "bg-amber-100 text-amber-700", decriminalized: "bg-blue-100 text-blue-700", illegal: "bg-red-100 text-red-700" };
+const LEGAL_STATUS_OPTIONS = ["legal", "decriminalized", "illegal"];
+const LEGAL_STATUS_LABELS: Record<string, string> = { legal: "Fully Legal", decriminalized: "Decriminalized", illegal: "Illegal" };
+const LEGAL_STATUS_COLORS: Record<string, string> = { legal: "bg-emerald-100 text-emerald-700", decriminalized: "bg-blue-100 text-blue-700", illegal: "bg-red-100 text-red-700" };
 
 interface StateLaw {
   id: string; state_name: string; state_code: string; can_ship: boolean; can_deliver: boolean;
@@ -998,11 +994,11 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
           <>
             {states.length < 51 && (
               <button onClick={() => setModal("seed")} className={btnSecondary + " text-xs px-3"}>
-                <Plus size={14} /> Seed All States
+                Seed All States
               </button>
             )}
             <button onClick={openAdd} className={btnPrimary}>
-              <Plus size={14} /> Add State
+              Add State
             </button>
           </>
         }
@@ -1035,7 +1031,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
       {loading ? (
         <div className="flex items-center justify-center py-20"><Loader2 className="animate-spin text-muted-foreground" size={20} /></div>
       ) : filtered.length === 0 ? (
-        <EmptyState icon={MapPin} title="No states configured" description="Add states to manage cannabis shipping and delivery laws." actionLabel="Add State" onAction={openAdd} />
+        <EmptyState title="No states configured" description="Add states to manage cannabis shipping and delivery laws." actionLabel="Add State" onAction={openAdd} />
       ) : (
         <div className="space-y-1.5">
           {filtered.map((state) => (
@@ -1054,17 +1050,17 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button onClick={() => toggleField(state, "can_ship")}
-                  className={`flex items-center gap-1 px-2 py-1 text-[10px] font-medium transition-all ${state.can_ship ? "bg-emerald-100 text-emerald-700" : "bg-black/[0.04] text-black/30"}`}
+                  className={`px-2 py-1 text-[10px] font-medium transition-all ${state.can_ship ? "bg-emerald-100 text-emerald-700" : "bg-black/[0.04] text-black/30"}`}
                   title={state.can_ship ? "Can ship – click to disable" : "Cannot ship – click to enable"}>
-                  <Send size={10} /> Ship
+                  Ship
                 </button>
                 <button onClick={() => toggleField(state, "can_deliver")}
-                  className={`flex items-center gap-1 px-2 py-1 text-[10px] font-medium transition-all ${state.can_deliver ? "bg-blue-100 text-blue-700" : "bg-black/[0.04] text-black/30"}`}
+                  className={`px-2 py-1 text-[10px] font-medium transition-all ${state.can_deliver ? "bg-blue-100 text-blue-700" : "bg-black/[0.04] text-black/30"}`}
                   title={state.can_deliver ? "Can deliver – click to disable" : "Cannot deliver – click to enable"}>
-                  <Truck size={10} /> Deliver
+                  Deliver
                 </button>
-                <button onClick={() => openEdit(state)} className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-foreground transition-all"><Pencil size={12} /></button>
-                <button onClick={() => setDeleteId(state.id)} className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-red-500 transition-all"><Trash2 size={12} /></button>
+                <button onClick={() => openEdit(state)} className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-foreground transition-all text-[10px]">Edit</button>
+                <button onClick={() => setDeleteId(state.id)} className="opacity-0 group-hover:opacity-100 p-1.5 text-muted-foreground hover:text-red-500 transition-all text-[10px]">Del</button>
               </div>
             </div>
           ))}
@@ -1094,7 +1090,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
             <div className="flex gap-2 justify-end">
               <button onClick={() => setModal(null)} className="px-4 py-2 text-sm border border-black/10 hover:bg-black/5 transition-all">Cancel</button>
               <button onClick={seedAllStates} disabled={saving} className={btnPrimary}>
-                {saving ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />} Add All States
+                {saving ? "Adding..." : "Add All States"}
               </button>
             </div>
           </Modal>
@@ -1135,14 +1131,14 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Can Ship">
                   <button type="button" onClick={() => setForm(f => ({ ...f, can_ship: !f.can_ship }))}
-                    className={`w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium border transition-all ${form.can_ship ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-black/10 text-black/40"}`}>
-                    <Send size={14} /> {form.can_ship ? "Yes" : "No"}
+                    className={`w-full flex items-center justify-center py-2.5 text-sm font-medium border transition-all ${form.can_ship ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-black/10 text-black/40"}`}>
+                    {form.can_ship ? "Yes" : "No"}
                   </button>
                 </Field>
                 <Field label="Can Deliver">
                   <button type="button" onClick={() => setForm(f => ({ ...f, can_deliver: !f.can_deliver }))}
-                    className={`w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium border transition-all ${form.can_deliver ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-black/10 text-black/40"}`}>
-                    <Truck size={14} /> {form.can_deliver ? "Yes" : "No"}
+                    className={`w-full flex items-center justify-center py-2.5 text-sm font-medium border transition-all ${form.can_deliver ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-black/10 text-black/40"}`}>
+                    {form.can_deliver ? "Yes" : "No"}
                   </button>
                 </Field>
               </div>
@@ -1152,7 +1148,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               <div className="flex gap-2 justify-end pt-2">
                 <button onClick={() => setModal(null)} className="px-4 py-2.5 text-sm border border-black/10 hover:bg-black/5 transition-all">Cancel</button>
                 <button onClick={save} disabled={saving || !form.state_code} className={btnPrimary + " disabled:opacity-40"}>
-                  {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />} {modal === "add" ? "Add" : "Save"}
+                  {saving ? "Saving..." : modal === "add" ? "Add" : "Save"}
                 </button>
               </div>
             </div>
@@ -1210,7 +1206,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
   return (
     <div>
       <SectionHeader title="Orders" subtitle="Paid orders from customers" actions={
-        <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
+        <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
       } />
 
       <div className="flex gap-2 mb-6 flex-wrap">
@@ -1225,7 +1221,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
       {loading ? (
         <div className="flex justify-center py-20"><Loader2 size={20} className="animate-spin text-black/20" /></div>
       ) : filtered.length === 0 ? (
-        <EmptyState icon={ShoppingBag} title="No orders yet" description="Paid orders will appear here automatically." />
+        <EmptyState title="No orders yet" description="Paid orders will appear here automatically." />
       ) : (
         <div className="space-y-3">
           {filtered.map(order => (
@@ -1236,9 +1232,11 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                   <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${METHOD_COLORS[order.delivery_method] || "bg-gray-50 text-gray-700"}`}>
                     {order.delivery_method}
                   </span>
-                  <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${order.status === "paid" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : order.status === "fulfilled" ? "bg-green-50 text-green-700 border-green-200" : "bg-gray-50 text-gray-600 border-gray-200"}`}>
-                    {order.status}
-                  </span>
+                  {order.status !== "paid" && (
+                    <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${order.status === "fulfilled" ? "bg-green-50 text-green-700 border-green-200" : "bg-gray-50 text-gray-600 border-gray-200"}`}>
+                      {order.status}
+                    </span>
+                  )}
                 </div>
                 <span className="text-xs text-black/40">{new Date(order.created_at).toLocaleDateString()}</span>
               </div>
@@ -1250,9 +1248,9 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                 <p className="text-lg font-light text-black">${order.total.toFixed(2)}</p>
               </div>
               {order.delivery_method === "pickup" && order.pickup_location && (
-                <p className="text-[10px] text-black/40 mt-1">📍 {PICKUP_LABELS[order.pickup_location] || order.pickup_location}</p>
+                <p className="text-[10px] text-black/40 mt-1">{PICKUP_LABELS[order.pickup_location] || order.pickup_location}</p>
               )}
-              {order.time_slot && <p className="text-[10px] text-black/40 mt-0.5">🕐 {order.time_slot}</p>}
+              {order.time_slot && <p className="text-[10px] text-black/40 mt-0.5">{order.time_slot}</p>}
             </div>
           ))}
         </div>
@@ -1266,9 +1264,11 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                 <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${METHOD_COLORS[selected.delivery_method] || ""}`}>
                   {selected.delivery_method}
                 </span>
-                <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${selected.status === "paid" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-gray-50 text-gray-600"}`}>
-                  {selected.status}
-                </span>
+                {selected.status !== "paid" && (
+                  <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 border font-medium ${selected.status === "fulfilled" ? "bg-green-50 text-green-700 border-green-200" : "bg-gray-50 text-gray-600"}`}>
+                    {selected.status}
+                  </span>
+                )}
               </div>
 
               <div className="border border-black/[0.06] p-4 space-y-1">
@@ -1328,7 +1328,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                 {selected.status === "paid" && (
                   <button onClick={() => { updateStatus(selected.id, "fulfilled"); setSelected(null); }}
                     className={btnPrimary + " flex-1 justify-center"}>
-                    <Check size={14} /> Mark Fulfilled
+                    Mark Fulfilled
                   </button>
                 )}
                 <button onClick={() => setSelected(null)} className="px-4 py-2.5 text-sm border border-black/10 hover:bg-black/5 transition-all flex-1 text-center">
@@ -1376,9 +1376,9 @@ const AnalyticsSection = () => {
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Stripe</p>
         <h3 className="text-foreground font-semibold mb-1">Payment Dashboard</h3>
         <p className="text-muted-foreground text-sm leading-relaxed mb-4">View revenue, transactions, and customer data directly in Stripe.</p>
-        <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer"
+          <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-xs border border-foreground text-foreground px-4 py-2.5 font-medium hover:bg-foreground hover:text-background transition-all">
-          Open Stripe Dashboard <ExternalLink size={11} />
+          Open Stripe Dashboard →
         </a>
       </div>
     </div>
@@ -1398,11 +1398,11 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-3 border-b border-black/[0.06] bg-white sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <button onClick={() => setMobileNavOpen(!mobileNavOpen)} className="p-2 text-foreground hover:bg-black/5 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"><Menu size={20} /></button>
+          <button onClick={() => setMobileNavOpen(!mobileNavOpen)} className="p-2 text-foreground hover:bg-black/5 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center text-sm font-medium">Menu</button>
           <img src={logoImg} alt="Logo" className="h-8" />
         </div>
         <button onClick={onLogout} className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-red-500 border border-red-100 hover:bg-red-50 transition-all min-h-[44px]">
-          <LogOut size={14} /> Log Out
+          Log Out
         </button>
       </div>
 
@@ -1448,7 +1448,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
         </nav>
         <div className="p-4 border-t border-black/[0.06]">
           <button onClick={onLogout} className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-red-500 border border-red-100 hover:bg-red-50 transition-all">
-            <LogOut size={14} /> Log Out
+            Log Out
           </button>
         </div>
       </aside>
