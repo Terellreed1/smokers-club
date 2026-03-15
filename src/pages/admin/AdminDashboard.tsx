@@ -626,7 +626,7 @@ const ReviewsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : reviews.length === 0 ? (
-        <EmptyState icon={MessageSquare} title="No reviews yet" description="Add customer testimonials to display on your homepage." actionLabel="Add Review" onAction={openAdd} />
+        <EmptyState title="No reviews yet" description="Add customer testimonials to display on your homepage." actionLabel="Add Review" onAction={openAdd} />
       ) : (
         <div className="space-y-1.5">
           {reviews.map((r) => (
