@@ -297,7 +297,7 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
       ) : products.length === 0 ? (
-        <EmptyState icon={ShoppingBag} title="No products yet" description="Add your first product to get started with your catalog." actionLabel="Add Product" onAction={openAdd} />
+        <EmptyState title="No products yet" description="Add your first product to get started with your catalog." actionLabel="Add Product" onAction={openAdd} />
       ) : reorderMode ? (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={products.map(p => p.id)} strategy={verticalListSortingStrategy}>
