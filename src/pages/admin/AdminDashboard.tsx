@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Package, HelpCircle, Star, BarChart3, LogOut,
-  Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
+  LogOut, Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
   ExternalLink, Image as ImageIcon, Users, Menu,
   ShoppingBag, MessageSquare, FileQuestion, GripVertical,
   Upload, Check, Loader2, MapPin, Truck, Send,
@@ -38,14 +37,14 @@ const TYPE_OPTIONS = ["Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls",
 const DEFAULT_BRAND_OPTIONS = ["Luxury Courier Club", "The Candy Shop", "Pain Network", "Grumpus", "Cupz Strainz", "Julato NYC", "High Mart", "Highflix", "High Monkey", "Mameys", "ESPN", "MB", "Fumi", "Frutaz LA", "Don Merfos", "Kandy Depo", "Always Faded", "FS", "Super Candy Bros", "Backpack Boyz", "Kush Factory", "Friday", "High Tolerance", "Cali Clouds Club"];
 
 const navItems = [
-  { id: "orders", label: "Orders", icon: ShoppingBag },
-  { id: "products", label: "Products", icon: Package },
-  { id: "brands", label: "Brands", icon: ImageIcon },
-  { id: "state_laws", label: "State Laws", icon: MapPin },
-  { id: "faq", label: "FAQ", icon: HelpCircle },
-  { id: "reviews", label: "Reviews", icon: Star },
-  { id: "referrals", label: "Referrals", icon: Users },
-  { id: "analytics", label: "Analytics", icon: BarChart3 },
+  { id: "orders", label: "Orders" },
+  { id: "products", label: "Products" },
+  { id: "brands", label: "Brands" },
+  { id: "state_laws", label: "State Laws" },
+  { id: "faq", label: "FAQ" },
+  { id: "reviews", label: "Reviews" },
+  { id: "referrals", label: "Referrals" },
+  { id: "analytics", label: "Analytics" },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────
@@ -1419,10 +1418,10 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
                 <button onClick={() => setMobileNavOpen(false)} className="p-2 text-muted-foreground min-w-[44px] min-h-[44px] flex items-center justify-center"><X size={18} /></button>
               </div>
               <nav className="flex-1 p-3">
-                {navItems.map(({ id, label, icon: Icon }) => (
+                {navItems.map(({ id, label }) => (
                   <button key={id} onClick={() => handleNavClick(id)}
                     className={`w-full flex items-center gap-3 px-3 py-3 text-sm mb-1 transition-all min-h-[48px] ${section === id ? "bg-black/[0.06] text-foreground font-medium" : "text-muted-foreground hover:text-foreground hover:bg-black/[0.03]"}`}>
-                    <Icon size={16} /> {label}
+                    {label}
                     {section === id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-foreground/30" />}
                   </button>
                 ))}
@@ -1439,10 +1438,10 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
           <p className="text-black/25 text-[10px] uppercase tracking-[0.2em] font-medium">Admin Panel</p>
         </div>
         <nav className="flex-1 p-3">
-          {navItems.map(({ id, label, icon: Icon }) => (
+          {navItems.map(({ id, label }) => (
             <button key={id} onClick={() => setSection(id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm mb-1 transition-all ${section === id ? "bg-black/[0.06] text-foreground font-medium" : "text-muted-foreground hover:text-foreground hover:bg-black/[0.03]"}`}>
-              <Icon size={15} /> {label}
+              {label}
               {section === id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-foreground/30" />}
             </button>
           ))}
