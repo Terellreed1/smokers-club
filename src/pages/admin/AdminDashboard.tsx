@@ -118,7 +118,7 @@ const SortableProductRow = ({ product, index }: { product: Product; index: numbe
   return (
     <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-3 sm:p-4 border border-black/[0.06] bg-white ${isDragging ? "shadow-lg" : ""}`}>
       <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-black/30 hover:text-black/60 touch-none">
-        <GripVertical size={16} />
+        <GripVertical size={16} className="text-black/30" />
       </button>
       <span className="text-black/25 text-xs font-mono w-6 text-center">{index + 1}</span>
       <div className="w-10 h-10 bg-black/[0.03] border border-black/[0.06] overflow-hidden flex-shrink-0">
