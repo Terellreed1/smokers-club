@@ -5,7 +5,7 @@ import {
   Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
   ExternalLink, Image as ImageIcon, Users, Menu,
   ShoppingBag, MessageSquare, FileQuestion, GripVertical,
-  Upload, Sparkles, Check, Loader2,
+  Upload, Check, Loader2,
 } from "lucide-react";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
