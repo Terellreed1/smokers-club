@@ -11,31 +11,6 @@ const FREE_DELIVERY_THRESHOLD = 150;
 
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, totalItems } = useCart();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-
-  const handleCheckout = async () => {
-    setIsCheckingOut(true);
-    try {
-      const checkoutItems = items.map((item) => ({
-        name: item.name,
-        price: parseFloat(item.price.replace("$", "")),
-        quantity: item.quantity,
-      }));
-
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { items: checkoutItems },
-      });
-
-      if (error) throw error;
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (err: any) {
-      toast.error("Checkout failed", { description: err.message || "Please try again." });
-    } finally {
-      setIsCheckingOut(false);
-    }
-  };
 
   const totalPrice = items.reduce((sum, item) => {
     const price = parseFloat(item.price.replace("$", ""));
