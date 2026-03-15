@@ -844,7 +844,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               {data.codes.map((rc) => (
                 <div key={rc.id}>
                   <button onClick={() => setExpanded(expanded === rc.id ? null : rc.id)}
-                    className="w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-black/[0.06] hover:border-black/10 hover:shadow-sm transition-all text-left">
+                    className="w-full flex items-center gap-3 p-3 sm:p-4 border border-black/[0.06] hover:border-black/10 hover:shadow-sm transition-all text-left">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-mono text-sm font-bold text-foreground tracking-wider">{rc.code}</span>
