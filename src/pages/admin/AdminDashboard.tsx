@@ -831,7 +831,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               { label: "Total Signups", value: data.stats.totalSignups },
               { label: "Conversion", value: data.stats.totalCodes > 0 ? ((data.stats.totalSignups / data.stats.totalCodes) * 100).toFixed(1) + "%" : "0%" },
             ].map(({ label, value }) => (
-              <div key={label} className="border border-black/[0.06] rounded-2xl p-5">
+              <div key={label} className="border border-black/[0.06] p-5">
                 <p className="text-foreground text-2xl font-light">{value}</p>
                 <p className="text-muted-foreground text-[10px] mt-1 uppercase tracking-wider">{label}</p>
               </div>
