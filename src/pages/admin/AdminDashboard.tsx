@@ -850,6 +850,8 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
   const [form, setForm] = useState({ name: "", logo_url: "", active: true });
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [logoUploading, setLogoUploading] = useState(false);
+  const logoFileRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -861,6 +863,16 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
 
   const openAdd = () => { setForm({ name: "", logo_url: "", active: true }); setModal("add"); };
   const openEdit = (b: Brand) => { setEditing(b); setForm({ name: b.name, logo_url: b.logo_url || "", active: b.active }); setModal("edit"); };
+
+  const handleLogoUpload = async (files: FileList) => {
+    const file = files[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) { alert("File exceeds 10MB limit"); return; }
+    setLogoUploading(true);
+    const url = await uploadToStorage(file, "brands");
+    if (url) setForm(prev => ({ ...prev, logo_url: url }));
+    setLogoUploading(false);
+  };
 
   const save = async () => {
     setSaving(true);
@@ -913,11 +925,35 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
           <Modal title={modal === "add" ? "Add Brand" : "Edit Brand"} onClose={() => setModal(null)}>
             <div className="space-y-4">
               <Field label="Brand Name"><input className={inputCls} value={form.name} onChange={(e) => setForm(prev => ({ ...prev, name: e.target.value }))} placeholder="Brand name" /></Field>
-              <Field label="Logo URL" hint="Upload to imgbb.com → copy Direct Link → paste here">
+              <Field label="Brand Logo" hint="Drag & drop or click to upload a logo image">
                 <div className="space-y-2">
-                  <input className={inputCls} value={form.logo_url} onChange={(e) => setForm(prev => ({ ...prev, logo_url: e.target.value }))} placeholder="https://i.ibb.co/..." />
-                  <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] text-black/30 hover:text-black/60 transition-colors">Open imgbb.com →</a>
-                  {form.logo_url && <img src={form.logo_url} alt="Preview" className="h-16 object-contain border border-black/10 p-2 mt-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                  <input ref={logoFileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { if (e.target.files) handleLogoUpload(e.target.files); e.target.value = ""; }} />
+                  <div
+                    className={`border-2 border-dashed p-4 transition-all text-center cursor-pointer ${form.logo_url ? "border-black/10" : "border-black/10 hover:border-black/20"}`}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => { e.preventDefault(); if (e.dataTransfer.files.length > 0) handleLogoUpload(e.dataTransfer.files); }}
+                    onClick={() => logoFileRef.current?.click()}
+                  >
+                    {logoUploading ? (
+                      <div className="flex items-center justify-center gap-2 py-3">
+                        <Loader2 size={16} className="animate-spin text-black/40" />
+                        <span className="text-xs text-black/40">Uploading...</span>
+                      </div>
+                    ) : form.logo_url ? (
+                      <div className="py-2">
+                        <img src={form.logo_url} alt="Logo preview" className="h-20 object-contain mx-auto mb-2" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                        <p className="text-[10px] text-black/30">Click or drop to replace</p>
+                      </div>
+                    ) : (
+                      <div className="py-3">
+                        <p className="text-xs text-black/40">Drag & drop logo here or click to browse</p>
+                        <p className="text-[10px] text-black/20 mt-1">JPG, PNG, WEBP, SVG</p>
+                      </div>
+                    )}
+                  </div>
+                  {form.logo_url && (
+                    <button onClick={(e) => { e.stopPropagation(); setForm(prev => ({ ...prev, logo_url: "" })); }} className="text-[10px] text-red-400 hover:text-red-500">Remove logo</button>
+                  )}
                 </div>
               </Field>
               <label className="flex items-center gap-2 cursor-pointer min-h-[44px]">
