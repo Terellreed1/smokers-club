@@ -82,7 +82,7 @@ const Modal = ({ title, onClose, children }: { title: string; onClose: () => voi
   <motion.div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/20 backdrop-blur-sm"
     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
     onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-    <motion.div className="bg-white border border-black/10 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl"
+    <motion.div className="bg-white border border-black/10 w-full sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl"
       initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 10 }}>
       <div className="flex items-center justify-between p-5 border-b border-black/[0.06] sticky top-0 bg-white z-10">
         <h3 className="text-foreground font-semibold text-sm">{title}</h3>
