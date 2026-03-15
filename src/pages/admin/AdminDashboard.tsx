@@ -1297,7 +1297,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
               )}
 
               {selected.time_slot && (
-                <div className="border border-black/[0.06] rounded-xl p-4">
+                <div className="border border-black/[0.06] p-4">
                   <p className="text-[10px] uppercase tracking-widest text-black/30 mb-2">Time Slot</p>
                   <p className="text-sm">{selected.time_slot}</p>
                 </div>
