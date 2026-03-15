@@ -1279,6 +1279,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
         <div className="p-4 sm:p-6 md:p-8 max-w-4xl">
           <AnimatePresence mode="wait">
             <motion.div key={section} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+              {section === "orders" && <OrdersSection callAdmin={callAdmin} />}
               {section === "products" && <ProductsSection callAdmin={callAdmin} />}
               {section === "brands" && <BrandsSection callAdmin={callAdmin} />}
               {section === "state_laws" && <StateLawsSection callAdmin={callAdmin} />}
