@@ -1402,7 +1402,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
           <button onClick={() => setMobileNavOpen(!mobileNavOpen)} className="p-2 text-foreground hover:bg-black/5 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"><Menu size={20} /></button>
           <img src={logoImg} alt="Logo" className="h-8" />
         </div>
-        <button onClick={onLogout} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-red-500 border border-red-100 hover:bg-red-50 transition-all min-h-[44px]">
+        <button onClick={onLogout} className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-red-500 border border-red-100 hover:bg-red-50 transition-all min-h-[44px]">
           <LogOut size={14} /> Log Out
         </button>
       </div>
