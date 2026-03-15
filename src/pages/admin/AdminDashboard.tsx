@@ -1109,7 +1109,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
             <div className="space-y-4">
               {modal === "add" && (
                 <Field label="State">
-                  <select className={selectCls + " rounded-xl"} value={form.state_code}
+                  <select className={selectCls} value={form.state_code}
                     onChange={(e) => {
                       const st = US_STATES.find(s => s.code === e.target.value);
                       if (st) setForm(f => ({ ...f, state_code: st.code, state_name: st.name }));
