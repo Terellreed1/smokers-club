@@ -46,67 +46,61 @@ const brands = [
 ];
 
 const Brands = () => (
-  <PageLayout>
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      {/* Gold divider */}
-      <div className="flex justify-center mb-8">
-        <div style={{ width: 100, height: 1, backgroundColor: "rgba(197, 163, 85, 0.3)" }} />
-      </div>
+  <div className="min-h-screen" style={{ background: "#FFFFFF" }}>
+    {/* We still use PageLayout's Navbar/Footer but override bg */}
+    <PageLayout>
+      <div
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
+        style={{ background: "#FFFFFF" }}
+      >
+        {/* Gold divider */}
+        <div className="flex justify-center mb-8">
+          <div style={{ width: 100, height: 1, backgroundColor: "rgba(197, 163, 85, 0.3)" }} />
+        </div>
 
-      <div className="text-center mb-14">
-        <h1
-          className="text-3xl sm:text-4xl lg:text-5xl uppercase mb-3"
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontWeight: 500,
-            color: "#F0EBE0",
-            letterSpacing: "0.06em",
-          }}
-        >
-          Our Brands
-        </h1>
-        <p
-          className="text-sm font-sans font-light max-w-lg mx-auto"
-          style={{ color: "rgba(160,144,112,0.5)", letterSpacing: "0.04em" }}
-        >
-          We partner with the best names in the industry to bring you premium quality.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-        {brands.map((brand, i) => (
-          <motion.div
-            key={brand.alt}
-            className="flex items-center justify-center transition-all duration-300"
+        <div className="text-center mb-14">
+          <h1
+            className="text-3xl sm:text-4xl lg:text-5xl uppercase mb-3"
             style={{
-              height: 140,
-              backgroundColor: "#141414",
-              border: "1px solid rgba(197, 163, 85, 0.15)",
-              borderRadius: 12,
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.04, duration: 0.4 }}
-            whileHover={{
-              borderColor: "#D4AF37",
-              backgroundColor: "rgba(197, 163, 85, 0.05)",
-              y: -4,
-              boxShadow: "0 4px 20px rgba(212, 175, 55, 0.15)",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 500,
+              color: "#1a1a1a",
+              letterSpacing: "0.06em",
             }}
           >
-            <img
-              src={brand.src}
-              alt={brand.alt}
-              className="object-contain"
-              style={{ height: 50, width: "auto", maxWidth: 120 }}
-              loading="lazy"
-            />
-          </motion.div>
-        ))}
+            Our Brands
+          </h1>
+          <p
+            className="text-sm font-sans font-light max-w-lg mx-auto"
+            style={{ color: "rgba(0,0,0,0.4)", letterSpacing: "0.04em" }}
+          >
+            We partner with the best names in the industry to bring you premium quality.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-10">
+          {brands.map((brand, i) => (
+            <motion.div
+              key={brand.alt}
+              className="flex items-center justify-center py-8"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.03, duration: 0.4 }}
+            >
+              <img
+                src={brand.src}
+                alt={brand.alt}
+                className="object-contain transition-transform duration-300 hover:scale-110"
+                style={{ height: 80, width: "auto", maxWidth: 180 }}
+                loading="lazy"
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
-  </PageLayout>
+    </PageLayout>
+  </div>
 );
 
 export default Brands;

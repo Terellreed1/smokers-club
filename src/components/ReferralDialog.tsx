@@ -110,18 +110,17 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Tab switcher with close */}
-              <div className="flex relative" style={{ borderBottom: "1px solid rgba(197, 163, 85, 0.15)" }}>
+              <div className="flex relative gap-2 p-3" style={{ borderBottom: "1px solid rgba(197, 163, 85, 0.15)" }}>
                 {(["join", "share"] as const).map((t) => (
                   <button
                     key={t}
                     onClick={() => setTab(t)}
-                    className={cn(
-                      "flex-1 py-3.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-all duration-300 pr-2",
+                    className="flex-1 py-2.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-all duration-300"
+                    style={
                       tab === t
-                        ? "text-[#D4AF37] border-b-2 border-[#D4AF37]"
-                        : "text-gray-500 hover:text-gray-400"
-                    )}
+                        ? { background: "linear-gradient(135deg, #B8962E 0%, #D4AF37 100%)", color: "#FFFFFF" }
+                        : { color: "rgba(160,144,112,0.5)", border: "1px solid rgba(197, 163, 85, 0.15)" }
+                    }
                   >
                     {t === "join" ? "Join the Club" : "Share the Club"}
                   </button>
