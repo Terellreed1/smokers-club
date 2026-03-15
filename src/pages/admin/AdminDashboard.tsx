@@ -814,7 +814,7 @@ const ReferralsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
   return (
     <div>
       <SectionHeader title="Referrals" subtitle="Track referral codes and signups"
-        actions={<button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>}
+        actions={<button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>}
       />
       {loading ? (
         <div className="flex items-center justify-center py-20"><div className="w-5 h-5 border-2 border-black/10 border-t-black rounded-full animate-spin" /></div>
