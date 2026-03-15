@@ -153,9 +153,9 @@ const Checkout = () => {
             <h2 className="font-serif text-xl text-foreground mb-6">Delivery Method</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { id: "delivery" as const, icon: Truck, label: "Delivery", desc: "We drive to you", sub: "DMV & Baltimore only" },
-                { id: "pickup" as const, icon: MapPin, label: "Pickup", desc: "Pick up from a location", sub: "DMV & Baltimore only" },
-                { id: "postal" as const, icon: Mail, label: "Postal", desc: "Mailed to you", sub: "Available everywhere" },
+                { id: "delivery" as const, label: "Delivery", desc: "We drive to you", sub: "DMV & Baltimore only" },
+                { id: "pickup" as const, label: "Pickup", desc: "Pick up from a location", sub: "DMV & Baltimore only" },
+                { id: "postal" as const, label: "Postal", desc: "Mailed to you", sub: "Available everywhere" },
               ].map((opt) => (
                 <motion.button
                   key={opt.id}
@@ -167,8 +167,7 @@ const Checkout = () => {
                   }`}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <opt.icon size={20} className={method === opt.id ? "text-gold" : "text-muted-foreground"} />
-                  <p className="font-serif text-lg text-foreground mt-3">{opt.label}</p>
+                  <p className="font-serif text-lg text-foreground">{opt.label}</p>
                   <p className="text-xs text-muted-foreground/60 font-sans mt-1">{opt.desc}</p>
                   <p className="text-[10px] text-muted-foreground/40 font-sans mt-1">{opt.sub}</p>
                 </motion.button>
