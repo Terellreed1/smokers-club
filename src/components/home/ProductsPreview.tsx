@@ -83,7 +83,7 @@ const ProductsPreview = () => {
                   height: 140,
                   backgroundColor: "#141414",
                   border: "1px solid rgba(197, 163, 85, 0.15)",
-                  borderRadius: 12,
+                  borderRadius: 0,
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#D4AF37";
