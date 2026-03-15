@@ -1221,7 +1221,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
       {loading ? (
         <div className="flex justify-center py-20"><Loader2 size={20} className="animate-spin text-black/20" /></div>
       ) : filtered.length === 0 ? (
-        <EmptyState icon={ShoppingBag} title="No orders yet" description="Paid orders will appear here automatically." />
+        <EmptyState title="No orders yet" description="Paid orders will appear here automatically." />
       ) : (
         <div className="space-y-3">
           {filtered.map(order => (
