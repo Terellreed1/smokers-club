@@ -1328,7 +1328,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                 {selected.status === "paid" && (
                   <button onClick={() => { updateStatus(selected.id, "fulfilled"); setSelected(null); }}
                     className={btnPrimary + " flex-1 justify-center"}>
-                    <Check size={14} /> Mark Fulfilled
+                    Mark Fulfilled
                   </button>
                 )}
                 <button onClick={() => setSelected(null)} className="px-4 py-2.5 text-sm border border-black/10 hover:bg-black/5 transition-all flex-1 text-center">
