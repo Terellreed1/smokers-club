@@ -1031,7 +1031,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
       {loading ? (
         <div className="flex items-center justify-center py-20"><Loader2 className="animate-spin text-muted-foreground" size={20} /></div>
       ) : filtered.length === 0 ? (
-        <EmptyState icon={MapPin} title="No states configured" description="Add states to manage cannabis shipping and delivery laws." actionLabel="Add State" onAction={openAdd} />
+        <EmptyState title="No states configured" description="Add states to manage cannabis shipping and delivery laws." actionLabel="Add State" onAction={openAdd} />
       ) : (
         <div className="space-y-1.5">
           {filtered.map((state) => (
