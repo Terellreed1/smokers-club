@@ -1136,7 +1136,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Can Ship">
                   <button type="button" onClick={() => setForm(f => ({ ...f, can_ship: !f.can_ship }))}
-                    className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium border transition-all ${form.can_ship ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-black/10 text-black/40"}`}>
+                    className={`w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium border transition-all ${form.can_ship ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-white border-black/10 text-black/40"}`}>
                     <Send size={14} /> {form.can_ship ? "Yes" : "No"}
                   </button>
                 </Field>
