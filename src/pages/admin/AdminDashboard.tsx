@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LogOut, Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
-  ExternalLink, Menu, GripVertical, Upload, Check, Loader2,
-  Truck, Send,
+  ExternalLink, Image as ImageIcon, Users, Menu,
+  ShoppingBag, MessageSquare, FileQuestion, GripVertical,
+  Upload, Check, Loader2, MapPin, Truck, Send,
 } from "lucide-react";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
