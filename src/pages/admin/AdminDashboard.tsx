@@ -1148,7 +1148,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                 </Field>
               </div>
               <Field label="Notes" hint="Optional – internal notes about this state's regulations">
-                <textarea className={inputCls + " rounded-xl h-20 resize-none"} value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="e.g. Recreational legal since 2018, license required..." />
+                <textarea className={inputCls + " h-20 resize-none"} value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="e.g. Recreational legal since 2018, license required..." />
               </Field>
               <div className="flex gap-2 justify-end pt-2">
                 <button onClick={() => setModal(null)} className="px-4 py-2.5 text-sm border border-black/10 rounded-xl hover:bg-black/5 transition-all">Cancel</button>
