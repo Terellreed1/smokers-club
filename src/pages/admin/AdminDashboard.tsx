@@ -1332,7 +1332,7 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                     <Check size={14} /> Mark Fulfilled
                   </button>
                 )}
-                <button onClick={() => setSelected(null)} className="px-4 py-2.5 text-sm border border-black/10 rounded-xl hover:bg-black/5 transition-all flex-1 text-center">
+                <button onClick={() => setSelected(null)} className="px-4 py-2.5 text-sm border border-black/10 hover:bg-black/5 transition-all flex-1 text-center">
                   Close
                 </button>
               </div>
