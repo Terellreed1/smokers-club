@@ -471,9 +471,32 @@ const DualRangeSlider = ({
         <input type="range" min={min} max={max} step={5} value={valueMin} onChange={(e) => { const v = parseInt(e.target.value); if (v <= valueMax - 5) onChangeMin(v); }} className="dual-range-input absolute inset-x-0" style={{ zIndex: valueMin > max - 20 ? 5 : 3 }} />
         <input type="range" min={min} max={max} step={5} value={valueMax} onChange={(e) => { const v = parseInt(e.target.value); if (v >= valueMin + 5) onChangeMax(v); }} className="dual-range-input absolute inset-x-0" style={{ zIndex: 4 }} />
       </div>
-      <div className="flex items-center justify-between">
-        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>${valueMin}</span>
-        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>${valueMax}</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1">
+          <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>$</span>
+          <input
+            type="number"
+            value={valueMin}
+            onChange={(e) => { const v = parseInt(e.target.value) || min; if (v >= min && v <= valueMax - 5) onChangeMin(v); }}
+            className="w-14 text-[10px] bg-transparent outline-none text-center"
+            style={{ color: "rgba(201,168,76,0.7)", fontFamily: "'Montserrat', sans-serif", border: "1px solid rgba(201,168,76,0.15)", padding: "2px 4px" }}
+            min={min}
+            max={valueMax - 5}
+          />
+        </div>
+        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.3)" }}>—</span>
+        <div className="flex items-center gap-1">
+          <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>$</span>
+          <input
+            type="number"
+            value={valueMax}
+            onChange={(e) => { const v = parseInt(e.target.value) || max; if (v <= max && v >= valueMin + 5) onChangeMax(v); }}
+            className="w-14 text-[10px] bg-transparent outline-none text-center"
+            style={{ color: "rgba(201,168,76,0.7)", fontFamily: "'Montserrat', sans-serif", border: "1px solid rgba(201,168,76,0.15)", padding: "2px 4px" }}
+            min={valueMin + 5}
+            max={max}
+          />
+        </div>
       </div>
     </div>
   );
@@ -492,8 +515,13 @@ const ProductCard = ({ product, onQuickView }: { product: Product; onQuickView: 
   return (
     <div className="group">
       <Link to={`/shop/${product.id}`} className="block">
-        {/* Image */}
-        <div className="relative aspect-square overflow-hidden mb-3 bg-[#131810]">
+        {/* Image with gold tint like homepage */}
+        <div 
+          className="relative aspect-square overflow-hidden mb-3"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(201,168,76,0.18) 0%, rgba(201,168,76,0.10) 40%, rgba(201,168,76,0.03) 70%, transparent 100%)",
+          }}
+        >
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -540,7 +568,7 @@ const ProductListCard = ({ product, onQuickView }: { product: Product; onQuickVi
 
   return (
     <Link to={`/shop/${product.id}`} className="group flex items-center gap-4 sm:gap-6 py-4 transition-colors" style={{ borderBottom: "1px solid rgba(201,168,76,0.06)" }}>
-      <div className="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden" style={{ background: "#131810" }}>
+      <div className="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden" style={{ background: "radial-gradient(ellipse at center, rgba(201,168,76,0.18) 0%, rgba(201,168,76,0.10) 40%, transparent 100%)" }}>
         {product.image_url ? (
           <img src={product.image_url} alt={product.name} className="w-full h-full object-contain" />
         ) : (

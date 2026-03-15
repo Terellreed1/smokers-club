@@ -103,7 +103,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
           />
           <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
-              className="relative w-full max-w-[400px] pointer-events-auto rounded-xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-[400px] pointer-events-auto overflow-hidden shadow-2xl"
               style={{ backgroundColor: "#0e0e0e", border: "1px solid rgba(197, 163, 85, 0.15)" }}
               initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
@@ -154,25 +154,25 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                     ) : (
                       <form onSubmit={handleSubmit} className="space-y-2.5">
                         <input type="text" placeholder="MM/DD/YYYY" value={birthday} onChange={(e) => setBirthday(e.target.value)}
-                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300 rounded-lg"
+                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300"
                           style={{ border: "1px solid rgba(197, 163, 85, 0.4)" }}
                           onFocus={(e) => e.target.style.borderColor = "#D4AF37"}
                           onBlur={(e) => e.target.style.borderColor = "rgba(197, 163, 85, 0.4)"}
                         />
                         <input type="text" placeholder="FIRST NAME (OPTIONAL)" value={firstName} onChange={(e) => setFirstName(e.target.value)}
-                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300 rounded-lg"
+                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300"
                           style={{ border: "1px solid rgba(197, 163, 85, 0.4)" }}
                           onFocus={(e) => e.target.style.borderColor = "#D4AF37"}
                           onBlur={(e) => e.target.style.borderColor = "rgba(197, 163, 85, 0.4)"}
                         />
                         <input type="email" placeholder="EMAIL ADDRESS" value={email} onChange={(e) => setEmail(e.target.value)} required
-                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300 rounded-lg"
+                          className="w-full bg-[#141414] px-4 py-2.5 text-xs font-sans text-white placeholder:text-white/40 uppercase tracking-wider focus:outline-none transition-all duration-300"
                           style={{ border: "1px solid rgba(197, 163, 85, 0.4)" }}
                           onFocus={(e) => e.target.style.borderColor = "#D4AF37"}
                           onBlur={(e) => e.target.style.borderColor = "rgba(197, 163, 85, 0.4)"}
                         />
                         <motion.button type="submit" disabled={submitting} whileTap={{ scale: 0.97 }}
-                          className="w-full h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold rounded-full transition-all duration-300 disabled:opacity-50"
+                          className="w-full h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold transition-all duration-300 disabled:opacity-50"
                           style={{
                             background: "linear-gradient(135deg, #B8962E 0%, #D4AF37 100%)",
                             boxShadow: "0 0 20px rgba(212, 175, 55, 0.3)"
@@ -197,8 +197,8 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                   >
                     <div className="px-5 pt-5 pb-4">
                       <img src={logo} alt="Luxury Courier Club" className="h-20 w-20 object-contain mx-auto mb-3" />
-                      <h2 className="font-serif text-xl text-foreground leading-tight">
-                        Share the<br /><span className="italic">Club.</span>
+                       <h2 className="font-serif text-xl leading-tight">
+                        <span className="text-white">Share the</span><br /><span className="italic text-[#D4AF37]">Club.</span>
                       </h2>
                       <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                         Both you and your friend receive waived fees on the next qualifying drop.
@@ -232,7 +232,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                       <p className="text-[11px] text-muted-foreground leading-relaxed mb-3 italic line-clamp-2">"{shareMessage}"</p>
                       <div className="flex items-center gap-2">
                         <motion.button onClick={handleNativeShare} whileTap={{ scale: 0.97 }}
-                          className="flex-1 h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold rounded-full transition-all duration-300"
+                          className="flex-1 h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold transition-all duration-300"
                           style={{
                             background: "linear-gradient(135deg, #B8962E 0%, #D4AF37 100%)",
                             boxShadow: "0 0 20px rgba(212, 175, 55, 0.3)"
@@ -245,7 +245,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                         </motion.button>
                         <motion.button
                           onClick={() => handleCopy(shareMessage, "message")}
-                          className="h-10 px-4 rounded-full font-sans text-[10px] uppercase tracking-[0.15em] transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
+                          className="h-10 px-4 font-sans text-[10px] uppercase tracking-[0.15em] transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
                           whileTap={{ scale: 0.97 }}
                         >
                           {copiedField === "message" ? "Copied" : "Copy"}
@@ -276,7 +276,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
 const CopyPill = ({ onClick, copied }: { onClick: () => void; copied: boolean }) => (
   <motion.button
     onClick={onClick}
-    className="shrink-0 h-8 px-4 rounded-full font-sans text-[11px] uppercase editorial-spacing transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
+    className="shrink-0 h-8 px-4 font-sans text-[11px] uppercase editorial-spacing transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
     whileTap={{ scale: 0.93 }}
   >
     {copied ? "Copied" : "Copy"}

@@ -52,7 +52,7 @@ const JoinClubPopup = () => {
             exit={{ opacity: 0, y: 20, scale: 0.97 }}
             transition={{ type: "spring", stiffness: 320, damping: 28, mass: 0.8 }}
           >
-            <div className="relative bg-background w-full max-w-md shadow-2xl rounded-2xl mx-4">
+            <div className="relative bg-background w-full max-w-md shadow-2xl mx-4">
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors z-10"
