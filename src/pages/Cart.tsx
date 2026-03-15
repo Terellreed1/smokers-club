@@ -1,13 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trash2, Plus, Minus, ShoppingBag, Loader2, Truck } from "lucide-react";
-import { toast } from "sonner";
+import { Trash2, Plus, Minus, Truck } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import ScrollReveal from "@/components/home/ScrollReveal";
 import RunningCart from "@/components/RunningCart";
 import { useCart } from "@/contexts/CartContext";
-import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 
 const FREE_DELIVERY_THRESHOLD = 150;

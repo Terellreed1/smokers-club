@@ -1389,7 +1389,7 @@ const AnalyticsSection = () => {
 // ─── Main Dashboard ───────────────────────────────────────────────
 const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
   const { callAdmin } = useAdmin();
-  const [section, setSection] = useState("products");
+  const [section, setSection] = useState("orders");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const handleNavClick = (id: string) => { setSection(id); setMobileNavOpen(false); };
