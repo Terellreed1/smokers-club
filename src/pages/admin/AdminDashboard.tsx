@@ -1248,9 +1248,9 @@ const OrdersSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
                 <p className="text-lg font-light text-black">${order.total.toFixed(2)}</p>
               </div>
               {order.delivery_method === "pickup" && order.pickup_location && (
-                <p className="text-[10px] text-black/40 mt-1">📍 {PICKUP_LABELS[order.pickup_location] || order.pickup_location}</p>
+                <p className="text-[10px] text-black/40 mt-1">{PICKUP_LABELS[order.pickup_location] || order.pickup_location}</p>
               )}
-              {order.time_slot && <p className="text-[10px] text-black/40 mt-0.5">🕐 {order.time_slot}</p>}
+              {order.time_slot && <p className="text-[10px] text-black/40 mt-0.5">{order.time_slot}</p>}
             </div>
           ))}
         </div>
