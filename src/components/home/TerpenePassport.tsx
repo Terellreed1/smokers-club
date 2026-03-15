@@ -10,7 +10,7 @@ const terpenes = [
     effect: "Deeply relaxing, sedative",
     found: "Mangoes, Lemongrass, Thyme",
     color: "#22c55e",
-    icon: "🌿",
+    icon: "M",
     unlocked: true,
   },
   {
@@ -20,7 +20,7 @@ const terpenes = [
     effect: "Mood elevation, stress relief",
     found: "Citrus rinds, Juniper",
     color: "#facc15",
-    icon: "🍋",
+    icon: "L",
     unlocked: true,
   },
   {
@@ -30,7 +30,7 @@ const terpenes = [
     effect: "Anti-inflammatory, calming",
     found: "Black Pepper, Cloves, Cinnamon",
     color: "#f97316",
-    icon: "🌶️",
+    icon: "C",
     unlocked: true,
   },
   {
@@ -40,7 +40,7 @@ const terpenes = [
     effect: "Anxiety relief, sedation",
     found: "Lavender, Coriander, Birch bark",
     color: "#a78bfa",
-    icon: "💜",
+    icon: "Li",
     unlocked: false,
   },
   {
@@ -50,7 +50,7 @@ const terpenes = [
     effect: "Alertness, memory retention",
     found: "Pine needles, Rosemary, Basil",
     color: "#10b981",
-    icon: "🌲",
+    icon: "P",
     unlocked: false,
   },
   {
@@ -60,7 +60,7 @@ const terpenes = [
     effect: "Uplifting, creative",
     found: "Lilacs, Nutmeg, Cumin",
     color: "#ec4899",
-    icon: "🌸",
+    icon: "T",
     unlocked: false,
   },
   {
@@ -70,7 +70,7 @@ const terpenes = [
     effect: "Appetite suppressant, anti-inflammatory",
     found: "Hops, Sage, Ginseng",
     color: "#78716c",
-    icon: "🍂",
+    icon: "H",
     unlocked: false,
   },
   {
@@ -80,7 +80,7 @@ const terpenes = [
     effect: "Energizing, decongestant",
     found: "Mint, Parsley, Orchids",
     color: "#06b6d4",
-    icon: "🌊",
+    icon: "O",
     unlocked: false,
   },
 ];
@@ -145,7 +145,7 @@ const TerpenePassport = () => {
                 {/* Lock overlay */}
                 {!terpene.unlocked && (
                   <div className="absolute inset-0 flex items-center justify-center bg-background/60 z-10">
-                    <span className="text-lg">🔒</span>
+                    <span className="text-lg font-bold">—</span>
                   </div>
                 )}
 
