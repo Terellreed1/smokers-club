@@ -10,7 +10,7 @@ const terpenes = [
     effect: "Deeply relaxing, sedative",
     found: "Mangoes, Lemongrass, Thyme",
     color: "#22c55e",
-    icon: "🌿",
+    icon: "M",
     unlocked: true,
   },
   {
