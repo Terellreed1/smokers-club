@@ -45,62 +45,89 @@ const brands = [
   { src: hb, alt: "HB" },
 ];
 
-const Brands = () => (
-  <div className="min-h-screen" style={{ background: "#FFFFFF" }}>
-    {/* We still use PageLayout's Navbar/Footer but override bg */}
-    <PageLayout>
-      <div
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
-        style={{ background: "#FFFFFF" }}
-      >
-        {/* Gold divider */}
-        <div className="flex justify-center mb-8">
-          <div style={{ width: 100, height: 1, backgroundColor: "rgba(197, 163, 85, 0.3)" }} />
-        </div>
+const Brands = () => {
+  const [viewImage, setViewImage] = useState<{ src: string; alt: string } | null>(null);
 
-        <div className="text-center mb-14">
-          <h1
-            className="text-3xl sm:text-4xl lg:text-5xl uppercase mb-3"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 500,
-              color: "#1a1a1a",
-              letterSpacing: "0.06em",
-            }}
-          >
-            Our Brands
-          </h1>
-          <p
-            className="text-sm font-sans font-light max-w-lg mx-auto"
-            style={{ color: "rgba(0,0,0,0.4)", letterSpacing: "0.04em" }}
-          >
-            We partner with the best names in the industry to bring you premium quality.
-          </p>
-        </div>
+  return (
+    <div className="min-h-screen" style={{ background: "#FFFFFF" }}>
+      <PageLayout>
+        <div
+          className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
+          style={{ background: "#FFFFFF" }}
+        >
+          <div className="flex justify-center mb-8">
+            <div style={{ width: 100, height: 1, backgroundColor: "rgba(197, 163, 85, 0.3)" }} />
+          </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-10">
-          {brands.map((brand, i) => (
+          <div className="text-center mb-14">
+            <h1
+              className="text-3xl sm:text-4xl lg:text-5xl uppercase mb-3"
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontWeight: 500,
+                color: "#1a1a1a",
+                letterSpacing: "0.06em",
+              }}
+            >
+              Our Brands
+            </h1>
+            <p
+              className="text-sm font-sans font-light max-w-lg mx-auto"
+              style={{ color: "rgba(0,0,0,0.4)", letterSpacing: "0.04em" }}
+            >
+              We partner with the best names in the industry to bring you premium quality.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-10">
+            {brands.map((brand, i) => (
+              <motion.div
+                key={brand.alt}
+                className="flex items-center justify-center py-8 cursor-pointer"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.03, duration: 0.4 }}
+                onClick={() => setViewImage(brand)}
+              >
+                <img
+                  src={brand.src}
+                  alt={brand.alt}
+                  className="object-contain transition-transform duration-300 hover:scale-110"
+                  style={{ height: 240, width: "auto", maxWidth: 320 }}
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </PageLayout>
+
+      {/* Full image lightbox */}
+      <AnimatePresence>
+        {viewImage && (
+          <>
             <motion.div
-              key={brand.alt}
-              className="flex items-center justify-center py-8"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.03, duration: 0.4 }}
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setViewImage(null)}
+            />
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-8"
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+              onClick={() => setViewImage(null)}
             >
               <img
-                src={brand.src}
-                alt={brand.alt}
-                className="object-contain transition-transform duration-300 hover:scale-110"
-                style={{ height: 80, width: "auto", maxWidth: 180 }}
-                loading="lazy"
+                src={viewImage.src}
+                alt={viewImage.alt}
+                className="max-w-full max-h-[80vh] object-contain"
               />
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </PageLayout>
-  </div>
-);
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default Brands;

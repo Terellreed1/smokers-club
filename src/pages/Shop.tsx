@@ -471,9 +471,32 @@ const DualRangeSlider = ({
         <input type="range" min={min} max={max} step={5} value={valueMin} onChange={(e) => { const v = parseInt(e.target.value); if (v <= valueMax - 5) onChangeMin(v); }} className="dual-range-input absolute inset-x-0" style={{ zIndex: valueMin > max - 20 ? 5 : 3 }} />
         <input type="range" min={min} max={max} step={5} value={valueMax} onChange={(e) => { const v = parseInt(e.target.value); if (v >= valueMin + 5) onChangeMax(v); }} className="dual-range-input absolute inset-x-0" style={{ zIndex: 4 }} />
       </div>
-      <div className="flex items-center justify-between">
-        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>${valueMin}</span>
-        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>${valueMax}</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1">
+          <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>$</span>
+          <input
+            type="number"
+            value={valueMin}
+            onChange={(e) => { const v = parseInt(e.target.value) || min; if (v >= min && v <= valueMax - 5) onChangeMin(v); }}
+            className="w-14 text-[10px] bg-transparent outline-none text-center"
+            style={{ color: "rgba(201,168,76,0.7)", fontFamily: "'Montserrat', sans-serif", border: "1px solid rgba(201,168,76,0.15)", padding: "2px 4px" }}
+            min={min}
+            max={valueMax - 5}
+          />
+        </div>
+        <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.3)" }}>—</span>
+        <div className="flex items-center gap-1">
+          <span className="text-[10px]" style={{ color: "rgba(201,168,76,0.5)", fontFamily: "'Montserrat', sans-serif" }}>$</span>
+          <input
+            type="number"
+            value={valueMax}
+            onChange={(e) => { const v = parseInt(e.target.value) || max; if (v <= max && v >= valueMin + 5) onChangeMax(v); }}
+            className="w-14 text-[10px] bg-transparent outline-none text-center"
+            style={{ color: "rgba(201,168,76,0.7)", fontFamily: "'Montserrat', sans-serif", border: "1px solid rgba(201,168,76,0.15)", padding: "2px 4px" }}
+            min={valueMin + 5}
+            max={max}
+          />
+        </div>
       </div>
     </div>
   );

@@ -276,7 +276,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
 const CopyPill = ({ onClick, copied }: { onClick: () => void; copied: boolean }) => (
   <motion.button
     onClick={onClick}
-    className="shrink-0 h-8 px-4 rounded-full font-sans text-[11px] uppercase editorial-spacing transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
+    className="shrink-0 h-8 px-4 font-sans text-[11px] uppercase editorial-spacing transition-all duration-300 border border-[rgba(197,163,85,0.4)] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0e0e0e]"
     whileTap={{ scale: 0.93 }}
   >
     {copied ? "Copied" : "Copy"}

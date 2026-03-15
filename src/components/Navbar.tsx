@@ -11,6 +11,7 @@ import logo from "@/assets/hero-logo.png";
 
 const navLinks = [
   { label: "Shop", to: "/shop" },
+  { label: "Brands", to: "/brands" },
   { label: "About", to: "/about" },
   { label: "Merch", to: "/merch" },
   { label: "Delivery", to: "/delivery" },
