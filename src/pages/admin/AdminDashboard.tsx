@@ -4,8 +4,11 @@ import {
   Package, HelpCircle, Star, BarChart3, LogOut,
   Plus, Pencil, Trash2, X, ChevronDown, RefreshCw,
   ExternalLink, Image as ImageIcon, Users, Menu,
-  ShoppingBag, MessageSquare, FileQuestion,
+  ShoppingBag, MessageSquare, FileQuestion, GripVertical,
 } from "lucide-react";
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useAdmin } from "@/hooks/useAdmin";
 import logoImg from "@/assets/logo.png";
 import { supabase } from "@/integrations/supabase/client";
