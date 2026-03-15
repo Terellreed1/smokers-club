@@ -90,17 +90,17 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    // Legacy support for PUT/DELETE methods
-    if (req.method === "PUT") {
-      const { id, ...rest } = body;
-      const { data, error } = await supabase.from("products").update(rest).eq("id", id as string).select().single();
-      return new Response(JSON.stringify(error ? { error } : data), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-    if (req.method === "DELETE") {
-      const { error } = await supabase.from("products").delete().eq("id", body.id as string);
-      return new Response(JSON.stringify(error ? { error } : { ok: true }), {
+    if (action === "reorder") {
+      const items = body.items as { id: string; sort_order: number }[];
+      if (!items?.length) {
+        return new Response(JSON.stringify({ error: "No items provided" }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      for (const item of items) {
+        await supabase.from("products").update({ sort_order: item.sort_order }).eq("id", item.id);
+      }
+      return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
