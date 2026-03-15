@@ -29,6 +29,9 @@ interface Review {
   product_id: string | null; show_on_homepage: boolean; active: boolean;
   products?: { name: string } | null;
 }
+interface Brand {
+  id: string; name: string; logo_url: string | null; sort_order: number; active: boolean; created_at: string;
+}
 
 const STRAIN_OPTIONS = ["None", "Indica", "Sativa", "Hybrid"];
 const TYPE_OPTIONS = ["Flower", "Vapes", "Edibles", "Concentrates", "Pre-Rolls", "Accessories", "Other"];
