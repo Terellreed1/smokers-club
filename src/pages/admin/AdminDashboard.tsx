@@ -727,8 +727,8 @@ const BrandsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POST"
     <div>
       <SectionHeader title="Brands" subtitle={`${brands.length} brands`}
         actions={<>
-          <button onClick={load} className={btnSecondary}><RefreshCw size={14} /></button>
-          <button onClick={openAdd} className={btnPrimary}><Plus size={14} /> <span className="hidden sm:inline">Add Brand</span><span className="sm:hidden">Add</span></button>
+          <button onClick={load} className={btnSecondary + " text-xs"}>Refresh</button>
+          <button onClick={openAdd} className={btnPrimary}>Add Brand</button>
         </>}
       />
       {loading ? (
