@@ -1060,7 +1060,7 @@ const StateLawsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "PO
                   <Send size={10} /> Ship
                 </button>
                 <button onClick={() => toggleField(state, "can_deliver")}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-all ${state.can_deliver ? "bg-blue-100 text-blue-700" : "bg-black/[0.04] text-black/30"}`}
+                  className={`flex items-center gap-1 px-2 py-1 text-[10px] font-medium transition-all ${state.can_deliver ? "bg-blue-100 text-blue-700" : "bg-black/[0.04] text-black/30"}`}
                   title={state.can_deliver ? "Can deliver – click to disable" : "Cannot deliver – click to enable"}>
                   <Truck size={10} /> Deliver
                 </button>
