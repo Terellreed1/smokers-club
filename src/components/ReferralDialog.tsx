@@ -232,7 +232,7 @@ const ReferralDialog = ({ open, onClose, initialTab = "join" }: ReferralDialogPr
                       <p className="text-[11px] text-muted-foreground leading-relaxed mb-3 italic line-clamp-2">"{shareMessage}"</p>
                       <div className="flex items-center gap-2">
                         <motion.button onClick={handleNativeShare} whileTap={{ scale: 0.97 }}
-                          className="flex-1 h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold rounded-full transition-all duration-300"
+                          className="flex-1 h-10 font-sans text-[10px] uppercase tracking-[0.2em] text-white font-semibold transition-all duration-300"
                           style={{
                             background: "linear-gradient(135deg, #B8962E 0%, #D4AF37 100%)",
                             boxShadow: "0 0 20px rgba(212, 175, 55, 0.3)"
