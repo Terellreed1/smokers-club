@@ -410,8 +410,8 @@ const ProductsSection = ({ callAdmin }: { callAdmin: (r: string, m: "GET" | "POS
           <Modal title="Delete Product" onClose={() => setDeleteId(null)}>
             <p className="text-muted-foreground text-sm mb-6">This will permanently remove the product. This cannot be undone.</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteId(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-black/10 rounded-xl">Cancel</button>
-              <button onClick={() => remove(deleteId)} className="flex-1 py-3 sm:py-2.5 text-sm bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition-colors">Delete</button>
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-3 sm:py-2.5 text-sm text-muted-foreground border border-black/10">Cancel</button>
+              <button onClick={() => remove(deleteId)} className="flex-1 py-3 sm:py-2.5 text-sm bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors">Delete</button>
             </div>
           </Modal>
         )}
