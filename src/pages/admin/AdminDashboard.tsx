@@ -1402,7 +1402,7 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
           <img src={logoImg} alt="Logo" className="h-8" />
         </div>
         <button onClick={onLogout} className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-red-500 border border-red-100 hover:bg-red-50 transition-all min-h-[44px]">
-          <LogOut size={14} /> Log Out
+          Log Out
         </button>
       </div>
 
