@@ -50,7 +50,7 @@ const terpenes = [
     effect: "Alertness, memory retention",
     found: "Pine needles, Rosemary, Basil",
     color: "#10b981",
-    icon: "🌲",
+    icon: "P",
     unlocked: false,
   },
   {
